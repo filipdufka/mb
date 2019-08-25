@@ -1,23 +1,23 @@
 class Guides{
     constructor(){
-        this.horizontals = [];
-        this.verticals = [];
+        this.hs = [];
+        this.vs = [];
     }
 
     addHorizontal(y){
-        this.horizontals.push(y);
+        this.hs.push(y);
     }
     
     addVertical(x){
-        this.verticals.push(x);
+        this.vs.push(x);
     }
 
     show(){
-        for(let g = 0; g < this.horizontals.length; g++){
-            line(0, this.horizontals[g], width, this.horizontals[g]);
+        for(let g = 0; g < this.hs.length; g++){
+            line(0, this.hs[g], width, this.hs[g]);
         }
-        for(let guide in this.verticals){
-            line(guide, 0, guide, height);
+        for(let g = 0; g < this.vs.length; g++){
+            line( this.vs[g],0, this.vs[g],height);
         }
     }
 }
