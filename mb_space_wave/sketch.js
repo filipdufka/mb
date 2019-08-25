@@ -1,7 +1,8 @@
 let points;
+let sinGraph;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(800, 600);
   points = [];
   for(let i = 0; i < 2000; i++){
     points[i] = createVector(random(width), random(height));   
