@@ -5,7 +5,7 @@ function generateSin(phase, periodsToShow = 1, resolution = 100){
         t *= 2 * PI;
         t *= periodsToShow;
         let angle = t - phase;
-        dataSin[i] =  norm(sin(angle),1,-1);
+        dataSin[i] =  norm(sin(angle),-1,1);
     }
     return dataSin;
 }

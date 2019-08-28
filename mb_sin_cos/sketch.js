@@ -19,7 +19,7 @@ function setup() {
   guides.addVertical(margin + graphHeight + margin);
   guides.addVertical(width - margin);
 
-  sinGraph = new Graph(new Rectangle(guides.vs[2],guides.hs[0],guides.vs[3],guides.hs[1]));
+  graphA = new Graph(new Rectangle(guides.vs[2],guides.hs[0],guides.vs[3],guides.hs[1]));
   cosGraph = new Graph(new Rectangle(guides.vs[2],guides.hs[2],guides.vs[3],guides.hs[3]));
 }
 
@@ -38,8 +38,8 @@ function draw() {
   guides.show();  
 
 // Graphs
-  sinGraph.setData(dataSin);
-  sinGraph.show();
+  graphA.setData(dataSin);
+  graphA.show();
   
   cosGraph.setData(dataCos);
   cosGraph.show();
