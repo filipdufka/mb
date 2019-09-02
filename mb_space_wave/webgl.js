@@ -28,7 +28,9 @@ window.onload = function() {
   var vsh = gl.createShader(gl.VERTEX_SHADER);
   var vertexShaderSource = `
     \nprecision mediump float;
-    attribute vec2 Vertex; varying vec2 V; uniform float T;
+    attribute vec2 Vertex; 
+    varying vec2 V; 
+    uniform float T;
     void main(void){
         gl_PointSize = 3.;
         V = Vertex;
@@ -40,10 +42,16 @@ window.onload = function() {
   gl.compileShader(vsh);
   
   var fsh = gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(fsh,
-  "\nprecision mediump float; varying vec2 V; uniform float T;"+
-  "void main(void) {"+
-  "gl_FragColor = vec4(.0,.0,.0,1);}");
+  var fragmentShaderSource = `
+  \nprecision mediump float; 
+  varying vec2 V; 
+  uniform float T;
+  
+  void main(void) {
+    gl_FragColor = vec4(.0,.0,.0,1);
+  }
+  `;
+  gl.shaderSource(fsh, fragmentShaderSource);
   
   gl.compileShader(fsh);
   
