@@ -28,6 +28,7 @@ function draw() {
   	graphA.setData(dataA);
 	stroke(0,0,255);
 	graphA.show(); 
+
 	  
 	dataB = generateSin(slider.value());  
 	graphB.setData(dataB);
@@ -42,6 +43,7 @@ function draw() {
 	graphSum.setData(dataSum);
 	stroke(10);
 	graphSum.show(); 
+	graphSum.showLabels();
   
 }
 

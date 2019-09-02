@@ -1,6 +1,7 @@
 class Graph {
     constructor(border) {
       this.data = null;
+      this.xdata = null;
       this.border = border;
       this.c1 = null;
       this.c2 = null;
@@ -12,6 +13,10 @@ class Graph {
       this.data = data;
     }
 
+    setXdata(data){
+      this.xdata = data;
+    }
+
     setYMinMax(ymin, ymax){
       this.ymin = ymin;
       this.ymax = ymax;
@@ -21,9 +26,33 @@ class Graph {
       for (let i = 1; i < this.data.length; i++) {
         let A = this.getPosition(i-1);
         let B = this.getPosition(i);
-        this.drawColor();        
+        let t = norm(this.data[i-1], this.ymin, this.ymax);
+        this.drawColor(t);        
         line(A.x, A.y, B.x, B.y);
       }
+    }
+
+    showLabels(){
+      this.showYLabels(8);
+      this.showXLabels(8);
+    }
+
+    showYLabels(steps){
+      let yrange = this.ymax - this.ymin;
+      let ystep = yrange/steps;
+
+      for(let i = 0; i <= steps; i++){
+        let yPos = map(i, 0, steps, this.border.bottom, this.border.top);
+        let yValue = map(i, 0,steps, this.ymin, this.ymax);
+        let xPosA = this.border.left;
+        let xPosB = this.border.left + 20;
+        line(xPosA, yPos, xPosB, yPos);
+        text(yValue.toFixed(1), xPosA - 30, yPos + 5);
+      }
+    }
+
+    showXLabels(steps){
+     
     }
 
     drawColor(t){
