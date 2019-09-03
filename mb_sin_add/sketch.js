@@ -35,10 +35,17 @@ function draw() {
 	xdataSum = [];
 	for(let i = 0; i < dataA.length; i++){
 		dataSum[i] = dataA[i] + dataB[i];
-		xdataSum[i] = map(i, 0, dataA.length, 0, 2 * PI);
+		xdataSum[i] = map(i, 0, dataA.length - 1, 0, 2 * PI);		
 	}
+
+	xlabels = [];
+	xlabels[0] = {x:0, label:"0"};
+	xlabels[1] = {x:PI, label:"π"};
+	xlabels[2] = {x:PI*2, label:"2π"};
 	
 	graphSum.setData(dataSum);
+	graphSum.setXData(xdataSum);
+	graphSum.setXLabels(xlabels);
 	stroke(10);
 	graphSum.show(); 
 	graphSum.showLabels();

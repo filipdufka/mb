@@ -2,6 +2,7 @@ class Graph {
     constructor(border) {
       this.data = null;
       this.xdata = null;
+      this.xlabels = null;
       this.border = border;
       this.c1 = null;
       this.c2 = null;
@@ -15,9 +16,13 @@ class Graph {
       this.data = data;
     }
 
-    setXdata(data){
+    setXData(data){
       this.xdata = data;
       this.getXMinMax();
+    }
+
+    setXLabels(xlabels){
+      this.xlabels = xlabels;
     }
 
     setYMinMax(ymin, ymax){
@@ -43,7 +48,7 @@ class Graph {
     showYLabels(steps){
       let yrange = this.ymax - this.ymin;
       let ystep = yrange/steps;
-
+      
       for(let i = 0; i <= steps; i++){
         let yPos = map(i, 0, steps, this.border.bottom, this.border.top);
         let yValue = map(i, 0,steps, this.ymin, this.ymax);
@@ -51,27 +56,47 @@ class Graph {
         let xPosB = this.border.left + 20;
         line(xPosA, yPos, xPosB, yPos);
         text(yValue.toFixed(1), xPosA - 30, yPos + 5);
-      }
+      }      
     }
 
     showXLabels(steps){
-      let zeroYpos = this.border.bottom;
-      if(this.ymax >= 0 && this.ymin <= 0){
-        zeroYpos = map(0, this.ymin, this.ymax, this.border.bottom, this.border.top);        
-      }
+      let zeroYpos = this.getZeroYPos();
       line(this.border.left, zeroYpos, this.border.right, zeroYpos);
-
-      for(let i = 0; i <= steps; i++){
-        let xPos = map(i, 0, steps, this.border.left, this.border.right);
-        line(xPos, zeroYpos + 10, xPos, zeroYpos - 10);
+      if(this.xlabels == null){
+        for(let i = 0; i <= steps; i++){
+          let xPos = map(i, 0, steps, this.border.left, this.border.right);
+          let xValue = map(i, 0, steps, this.xmin, this.xmax);
+          line(xPos, zeroYpos + 10, xPos, zeroYpos - 10);
+          textAlign(CENTER);
+          text(xValue.toFixed(2), xPos, zeroYpos + 25);
+        }
+      }else{
+        for(let i = 0; i < this.xlabels.length; i++){
+          let l = this.xlabels[i];
+          let xPos = map(l.x, this.xmin, this.xmax, this.border.left, this.border.right);
+          line(xPos, zeroYpos + 10,xPos, zeroYpos - 10);
+          textAlign(CENTER);
+          text(l.label, xPos, zeroYpos + 25);
+        }
       }
+    }
+
+
+    getZeroYPos(){
+      let zeroYPos = this.border.bottom;
+      if(Math.sign(this.ymax) != Math.sign(this.ymin)){
+        zeroYPos = map(0, this.ymin, this.ymax, this.border.bottom, this.border.top);        
+      }else if(this.ymax < 0){
+        zeroYPos = this.border.top;
+      }
+      return zeroYPos;
     }
 
     getXMinMax(){
       if(this.xdata != null){
         if(this.xdata.length > 0){
           this.xmin = this.xdata[0];
-          this.xmax = this.xdata[this.xdata.length];
+          this.xmax = this.xdata[this.xdata.length-1];          
         }
       }
     }
