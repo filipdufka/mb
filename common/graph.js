@@ -7,6 +7,8 @@ class Graph {
       this.c2 = null;
       this.ymin = 0;
       this.ymax = 1;
+      this.xmin = 0;
+      this.xmax = 1;
     }
   
     setData(data) {
@@ -15,6 +17,7 @@ class Graph {
 
     setXdata(data){
       this.xdata = data;
+      this.getXMinMax();
     }
 
     setYMinMax(ymin, ymax){
@@ -33,7 +36,7 @@ class Graph {
     }
 
     showLabels(){
-      this.showYLabels(8);
+      this.showYLabels(4);
       this.showXLabels(8);
     }
 
@@ -52,7 +55,25 @@ class Graph {
     }
 
     showXLabels(steps){
-     
+      let zeroYpos = this.border.bottom;
+      if(this.ymax >= 0 && this.ymin <= 0){
+        zeroYpos = map(0, this.ymin, this.ymax, this.border.bottom, this.border.top);        
+      }
+      line(this.border.left, zeroYpos, this.border.right, zeroYpos);
+
+      for(let i = 0; i <= steps; i++){
+        let xPos = map(i, 0, steps, this.border.left, this.border.right);
+        line(xPos, zeroYpos + 10, xPos, zeroYpos - 10);
+      }
+    }
+
+    getXMinMax(){
+      if(this.xdata != null){
+        if(this.xdata.length > 0){
+          this.xmin = this.xdata[0];
+          this.xmax = this.xdata[this.xdata.length];
+        }
+      }
     }
 
     drawColor(t){
@@ -67,7 +88,7 @@ class Graph {
     }
 
     getPosition(i){
-      let x = map(i, 0, this.data.length, this.border.left, this.border.right);
+      let x = map(i, 0, this.data.length - 1, this.border.left, this.border.right);
       let y = map(this.data[i], this.ymin, this.ymax,this.border.bottom, this.border.top);
       return {x: x, y: y};
     }

@@ -5,9 +5,6 @@ var slider;
 function setup() {
 	createCanvas(800, 550);
 
-	guides = new Guides();
-	guides.addHorizontal(height/2);
-
 	rect = new Rectangle(50,50 , width-50, height-50)
 	graphA = new Graph(rect);	
 	graphA.setYMinMax(-2,2);
@@ -22,7 +19,6 @@ function draw() {
 	clear();   	 
 
 	stroke(0,0,0,25);
-	guides.show();
 
 	dataA = generateSin(0);  
   	graphA.setData(dataA);
@@ -36,8 +32,10 @@ function draw() {
 	graphB.show(); 
 	  
 	dataSum = [];
+	xdataSum = [];
 	for(let i = 0; i < dataA.length; i++){
 		dataSum[i] = dataA[i] + dataB[i];
+		xdataSum[i] = map(i, 0, dataA.length, 0, 2 * PI);
 	}
 	
 	graphSum.setData(dataSum);
