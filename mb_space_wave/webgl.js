@@ -5,8 +5,7 @@ var nump;
 var canvasElement;
 var gl;
 window.onload = function() {
-  canvasElement = document.getElementById("glCanvas");
-  
+  canvasElement = document.getElementById("glCanvas");  
 
   gl = canvasElement.getContext("webgl");
   if (!gl) {

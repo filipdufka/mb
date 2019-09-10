@@ -1,6 +1,7 @@
 
-let graphA, graphB, graphSum, guides, degrees, animation, phase = 0, decibels, obstacle;
+let graphA, graphB, graphSum, guides, phase = 0, decibels, obstacle;
 var phaseSlider, periodsSlider, testSlider;
+var degreesCheckbox, decibelsCheckbox, animationCheckbox, obstacleCheckbox;
 
 function setup() {
 	createCanvas(800, 550);
@@ -22,7 +23,7 @@ function draw() {
 	clear();   	 
 
 	stroke(0,0,0,25);
-	if(animation){
+	if(animationCheckbox.getValue()){
 		phase += 0.01;
 	}
 
@@ -31,7 +32,7 @@ function draw() {
 	dataA = generateSin(phase, periodsSlider.getValue(),resolution); 
 	dataB = generateSin(phaseSlider.getValue() + phase, periodsSlider.getValue(),resolution);   
 
-	if(obstacle){
+	if(obstacleCheckbox.getValue()){
 		dataStandingWave = generateSin(phaseSlider.getValue() + phase, periodsSlider.getValue() * 2,resolution * 2);  
 		dataA = dataStandingWave.slice(0,resolution);
 		dataB = dataStandingWave.slice(resolution).reverse();
@@ -60,11 +61,17 @@ function draw() {
 	graphSum.setXData(xdataSum);
 	graphSum.setXLabels(xlabels);
 	graphSum.setYLabels(ylabels);
+
 	graphSum.show(); 
 	graphSum.showLabels();
-  
+
 	phaseSlider.show();
 	periodsSlider.show();
+
+	degreesCheckbox.show();
+	decibelsCheckbox.show();
+	animationCheckbox.show();
+	obstacleCheckbox.show();
 }
 
 function createSliders(){
@@ -72,62 +79,34 @@ function createSliders(){
 	phaseSlider.setRectangle(new Rectangle(100,15,180,35));
 	phaseSlider.setLabel("Phase: ");
 
-	// phaseSlider = createSlider(0,2*PI,0,0.0001);
-	// phaseSlider.position(150,10);
-	// phaseSlider.style('width', '80px');
-
-	// periodsSlider = createSlider(1,3,1,0.0001);
-	// periodsSlider.position(300,10);
-	// periodsSlider.style('width', '80px');
-
 	periodsSlider = new Slider(1, 3);
 	periodsSlider.setRectangle(new Rectangle(250,15,330,35));
 	periodsSlider.setLabel("Periods: ");
 }
 
 function createCheckBoxes(){
-	let newCheckbox;
-	newCheckbox = createCheckbox('Degrees', false);
-	newCheckbox.changed(degreesChange);
-	newCheckbox.position(400,10);
+	degreesCheckbox = new Checkbox();
+	degreesCheckbox.setRectangle(new Rectangle(358,16, 372, 30));
+	degreesCheckbox.setLabel('Degrees');
 
-	newCheckbox = createCheckbox('Decibels', false);
-	newCheckbox.changed(decibelsChange);
-	newCheckbox.position(500,10);
+	decibelsCheckbox = new Checkbox();
+	decibelsCheckbox.setRectangle(new Rectangle(458,16, 472, 30));
+	decibelsCheckbox.setLabel('Decibels');
 
-	newCheckbox = createCheckbox('Animation', false);
-	newCheckbox.changed(animationChange);
-	newCheckbox.position(600,10);
+	animationCheckbox= new Checkbox();
+	animationCheckbox.setRectangle(new Rectangle(558,16, 572, 30));
+	animationCheckbox.setLabel('Animation');
 
-	newCheckbox = createCheckbox('Obstacle', false);
-	newCheckbox.changed(standingWaveChange);
-	newCheckbox.position(700,10);
-}
-
-function degreesChange() {
-	degrees = this.checked();
-}
-
-function animationChange(){
-	animation = this.checked();
-	if (animation == false){
-		phase = 0;
-	}
-}
-
-function decibelsChange(){
-	decibels = this.checked();
-}
-
-function standingWaveChange(){
-	obstacle = this.checked();
+	obstacleCheckbox= new Checkbox();
+	obstacleCheckbox.setRectangle(new Rectangle(658,16, 672, 30));
+	obstacleCheckbox.setLabel('Obstacle');
 }
 
 function createXLabels(){
 	let xlabels = [];	
 	let pis = periodsSlider.getValue()*2;
 	for(let i = 0; i <= pis; i++){
-		if(degrees){
+		if(degreesCheckbox.getValue()){
 			xlabels[i] = {x:i * PI, label: 180 * i  + "°"};
 		}else{
 			let label;
@@ -146,7 +125,7 @@ function createXLabels(){
 
 function createYLabels(){
 	let ylabels = [];	
-	if(decibels){
+	if(decibelsCheckbox.getValue()){
 		ylabels[0] = {y:2, label:"6 dB"};
 		ylabels[1] = {y:1, label:"0 dB"};
 		ylabels[2] = {y:0, label:"-oo dB"};
