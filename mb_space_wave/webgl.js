@@ -33,7 +33,7 @@ window.onload = function() {
     void main(void){
         gl_PointSize = 3.;
         V = Vertex;
-        vec2 wave = vec2(0.05 * sin(-T * 32.0 + 10.0 * V.x),0);        
+        vec2 wave = vec2(0.05 * sin(-T * 80.0 + 10.0 * V.x),0);        
         gl_Position = vec4(V + wave,0.,1.);
     }
   `;
