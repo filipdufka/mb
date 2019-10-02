@@ -5,4 +5,12 @@ class Rectangle{
       this.top = top;
       this.bottom = bottom;
     }
+
+    getWidth(){
+      return this.right - this.left;
+    }
+    
+    getHeight(){
+      return this.bottom - this.top;
+    }
   }

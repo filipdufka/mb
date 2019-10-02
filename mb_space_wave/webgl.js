@@ -5,8 +5,7 @@ var nump;
 var canvasElement;
 var gl;
 window.onload = function() {
-  canvasElement = document.getElementById("glCanvas");
-  
+  canvasElement = document.getElementById("glCanvas");  
 
   gl = canvasElement.getContext("webgl");
   if (!gl) {
@@ -28,11 +27,13 @@ window.onload = function() {
   var vsh = gl.createShader(gl.VERTEX_SHADER);
   var vertexShaderSource = `
     \nprecision mediump float;
-    attribute vec2 Vertex; varying vec2 V; uniform float T;
+    attribute vec2 Vertex; 
+    varying vec2 V; 
+    uniform float T;
     void main(void){
         gl_PointSize = 3.;
         V = Vertex;
-        vec2 wave = vec2(0.05 * sin(-T * 32.0 + 10.0 * V.x),0);        
+        vec2 wave = vec2(0.05 * sin(-T * 80.0 + 10.0 * V.x),0);        
         gl_Position = vec4(V + wave,0.,1.);
     }
   `;
@@ -40,10 +41,16 @@ window.onload = function() {
   gl.compileShader(vsh);
   
   var fsh = gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(fsh,
-  "\nprecision mediump float; varying vec2 V; uniform float T;"+
-  "void main(void) {"+
-  "gl_FragColor = vec4(.0,.0,.0,1);}");
+  var fragmentShaderSource = `
+  \nprecision mediump float; 
+  varying vec2 V; 
+  uniform float T;
+  
+  void main(void) {
+    gl_FragColor = vec4(.0,.0,.0,1);
+  }
+  `;
+  gl.shaderSource(fsh, fragmentShaderSource);
   
   gl.compileShader(fsh);
   

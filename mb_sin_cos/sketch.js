@@ -19,8 +19,10 @@ function setup() {
   guides.addVertical(margin + graphHeight + margin);
   guides.addVertical(width - margin);
 
-  graphA = new Graph(new Rectangle(guides.vs[2],guides.hs[0],guides.vs[3],guides.hs[1]));
+  sinGraph = new Graph(new Rectangle(guides.vs[2],guides.hs[0],guides.vs[3],guides.hs[1]));
+  sinGraph.setYMinMax(-1,1);
   cosGraph = new Graph(new Rectangle(guides.vs[2],guides.hs[2],guides.vs[3],guides.hs[3]));
+  cosGraph.setYMinMax(-1,1);
 }
 
 function draw() {
@@ -31,6 +33,7 @@ function draw() {
   
 // Data
   t = millis() * speed;
+  //t = 0;
   dataSin = generateSin(t, periodsToShow );
   dataCos = generateSin(t + PI/2, periodsToShow );
   
@@ -38,8 +41,8 @@ function draw() {
   guides.show();  
 
 // Graphs
-  graphA.setData(dataSin);
-  graphA.show();
+  sinGraph.setData(dataSin);
+  sinGraph.show();
   
   cosGraph.setData(dataCos);
   cosGraph.show();
@@ -48,23 +51,24 @@ function draw() {
   circle(guides.vs[0] + graphHeight/2, margin + graphHeight/2,graphHeight);
 
   // Points
-  circle(guides.vs[2], lerp(guides.hs[0], guides.hs[1], dataSin[0]) , 20);
-  circle(guides.vs[2], lerp(guides.hs[2], guides.hs[3], dataCos[0]) , 20);
+  circle(guides.vs[2], sinGraph.getPosition(0).y , 20);
+  circle(guides.vs[2], cosGraph.getPosition(0).y , 20);
 
   // Circle Point
-  let cpx = lerp(guides.vs[0], guides.vs[1], 1-dataCos[0]); 
-  let cpy = lerp(guides.hs[0], guides.hs[1], dataSin[0]);
+  let cpx = map(dataCos[0],-1,1,guides.vs[0], guides.vs[1]);
+  let cpy = sinGraph.getPosition(0).y;
   circle( cpx, cpy, 20);
 
   // Line Guides
-  arc(guides.vs[1], guides.hs[2], 2 * graphHeight * dataCos[0], 2 * graphHeight *  dataCos[0], HALF_PI , PI);  
+  var arcR = (cosGraph.getPosition(0).y - guides.vs[2]) * 2;
+  arc(guides.vs[1], guides.hs[2], arcR, arcR, HALF_PI , PI);  
 
   // Connect Lines
   line(cpx, cpy, cpx, guides.hs[2]);
   line( guides.vs[1], 
-        lerp(guides.hs[2], guides.hs[3], dataCos[0]), 
+        cosGraph.getPosition(0).y,
         guides.vs[2], 
-        lerp(guides.hs[2], guides.hs[3], dataCos[0]));
+        cosGraph.getPosition(0).y);
   line( cpx, 
         cpy, 
         guides.vs[2], 
