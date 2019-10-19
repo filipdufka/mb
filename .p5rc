@@ -6,6 +6,7 @@
     "mb_sin_cos",
     "mb_space_wave",
     "mb_phasors",
-    "mb_wrapping_phase"
+    "mb_wrapping_phase",
+    "mb_head_distance"
   ]
 }
