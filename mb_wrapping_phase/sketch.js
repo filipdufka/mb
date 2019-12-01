@@ -101,7 +101,7 @@ function draw() {
 
 	stroke(30);
 	for(let i = 0; i < bezierAnchorPoints.length; i++){
-		bezierAnchorPoints[i].draw();
+		bezierAnchorPoints[i].show();
 	}
 
 	showUI();
