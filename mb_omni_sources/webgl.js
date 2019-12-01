@@ -1,7 +1,5 @@
 var vbuf;
 var pstart;
-var nump;
-
 var canvasElement;
 var gl;
 window.onload = function() {
@@ -13,8 +11,8 @@ window.onload = function() {
     if (!gl) alert("WebGL not supported!");
   }
   
-  nump = 4;
-  pstart = new Float32Array(nump*2);
+
+  pstart = new Float32Array(4*2);
   pstart[0] = -1;
   pstart[1] = 1;
   pstart[2] = -1;
@@ -50,8 +48,11 @@ window.onload = function() {
   var fsh = gl.createShader(gl.FRAGMENT_SHADER);
   var fragmentShaderSource = `
   \nprecision mediump float;
-  uniform vec2 iResolution;
-	#define PI  3.14159265359
+	  
+ 	 uniform vec2 iResolution;
+	uniform vec2 sourcesPos[2];	
+	
+	  #define PI  3.14159265359
 
 	vec2 cadd( vec2 a, float s ) { return vec2( a.x+s, a.y ); }
 	vec2 cmul( vec2 a, vec2 b )  { return vec2( a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x ); }
@@ -64,11 +65,14 @@ window.onload = function() {
   
   void main(void) {
 	vec2 j = vec2(0,1);
+
+
+
 	vec2 uv = gl_FragCoord.xy/iResolution.x;
 	uv *= 30.0;	
     
-    vec2 a = vec2(10, 10);
-    vec2 b = vec2(20, 20);
+    vec2 a = sourcesPos[0];
+    vec2 b = sourcesPos[1];
 	
     float refD = 100.0;
     float dvacet = 20.0;
@@ -111,6 +115,7 @@ window.onload = function() {
   gl.useProgram(program);
 
   uResolution = gl.getUniformLocation(program, "iResolution");
+  uSourcePos = gl.getUniformLocation(program, "sourcesPos");
 
   gl.bindBuffer(gl.ARRAY_BUFFER, vbuf);
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf);
@@ -134,11 +139,17 @@ window.onload = function() {
   render();
 }
                 
- var tuni,startTime, uResolution;      
+ var tuni,startTime, uResolution, uSourcePos;      
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.uniform2fv(uResolution,[1600,1600]);
+  var locations = [
+	10.0, 10.0,
+	20.0, 20.0
+	];
+	gl.uniform2fv(uSourcePos, locations); 
   gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+	
   
   window.requestAnimationFrame(render);
 }
