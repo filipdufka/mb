@@ -4,6 +4,25 @@ let unwrapTime;
 
 let maxWrapsSlider, unwrapCheckbox;
 
+// popisky
+// střed slideru - 5 wrapů, krokovej
+// osa  wrapu - +- 180
+// celá osa s popiskama po 180°
+// beziér vzhůru nohama
+
+// tlačítko semilog x -> linear
+
+// levý horní vždy 0°
+// krajní vždy lock x
+
+// popisky freq
+
+// beziér default: 
+//       0 - (-hromada) 1/log(x) [0-1], ( lineraní ramp do log) 
+
+// hightlight wrap rectangle
+// wrap vždy k nule
+
 function setup() {
 	createCanvas(900, 900);
 	createUI();
@@ -19,10 +38,11 @@ function setup() {
 	gs.addVertical(width - margin);
 
 	bezier = new BezierCurve();
-	bezier.createNewPoint(createVector(gs.vs[0], gs.hs[gs.hs.length - 1]));
-	bezier.createNewPoint(createVector(gs.vs[0], gs.hs[0]));	
+	bezier.createNewPoint(createVector(gs.vs[0], gs.hs[0]));
+	bezier.createNewPoint(createVector(gs.vs[gs.vs.length - 1] - 20, gs.hs[0]));
+	bezier.createNewPoint(createVector(gs.vs[gs.vs.length - 1], gs.hs[0] + 20));	
 	bezier.createNewPoint(createVector(gs.vs[gs.vs.length - 1], gs.hs[gs.hs.length - 1]));
-	bezier.createNewPoint(createVector(gs.vs[gs.vs.length - 1], gs.hs[0]));
+	
 
 }
 
@@ -51,7 +71,7 @@ function draw() {
 		line(gs.vs[0], A.y , gs.vs[gs.vs.length - 1], A.y);	
 	}	
 
-	stroke(30);
+	stroke(70);
 	let bezierDrawPoints = bezier.getDrawPoints();
 	let bezierAnchorPoints = bezier.getAnchorPoints();
 
@@ -62,6 +82,7 @@ function draw() {
 		line(A.x, A.y, B.x, B.y);	
 	}
 
+	stroke(230, 125, 45);
 	let lineSeq = splitSequence(bezierDrawPoints);
 	for (let i = 0; i < lineSeq.length; i++) {
 		let A = lineSeq[i].A;
@@ -76,6 +97,7 @@ function draw() {
 		line(A.x, A.y, B.x, B.y);
 	}
 
+	stroke(30);
 	for(let i = 0; i < bezierAnchorPoints.length; i++){
 		bezierAnchorPoints[i].draw();
 	}

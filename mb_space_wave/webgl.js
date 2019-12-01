@@ -2,6 +2,14 @@ var vbuf;
 var pstart;
 var nump;
 
+// slider na ticho
+// úprava barometrického tlaku - jen v tichu
+// sinusovka
+// barviška
+// stop
+
+
+
 var canvasElement;
 var gl;
 window.onload = function() {

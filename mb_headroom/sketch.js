@@ -1,14 +1,18 @@
 
 let graphA, graphB, graphSum, guides, phase = 0, decibels, obstacle;
-var phaseSlider, periodsSlider, testSlider;
-var degreesCheckbox, decibelsCheckbox, animationCheckbox, obstacleCheckbox;
+var phaseSlider, periodsSlider, volumeSlider ;
+var animationCheckbox;
 
-// volná konec, mělo by to být naopak
+// jeden signál - sinusovka (čísleně), šum
+// husoota šumu
+// výpočet rms
+// na druhou
+// průměr
+// odmocnina
+// bez animace
+// sinusovka vždy v celých násobcích
 
-// udělat další script pro stojaté vlnění (volná a pevná)
-// https://www.walter-fendt.de/html5/phen/standingwavereflection_en.htm + inversse square law
-// grid i 90°, pokud by šlo, tak i 45°
-// červená součet, o pixel tlustčí
+
 
 function setup() {
 	createCanvas(800, 550);
@@ -36,16 +40,8 @@ function draw() {
 
 	let resolution = 300;	
 
-	dataA = generateSin(phase, periodsSlider.getValue(),resolution); 
+	dataA = generateNoise(phase, periodsSlider.getValue(),resolution); 
 	dataB = generateSin(phaseSlider.getValue() + phase, periodsSlider.getValue(),resolution);   
-
-	if(obstacleCheckbox.getValue()){
-		dataStandingWave = generateSin(phaseSlider.getValue() + phase, periodsSlider.getValue() * 2,resolution * 2);  
-		dataA = dataStandingWave.slice(0,resolution);
-		dataB = dataStandingWave.slice(resolution).reverse();
-		strokeWeight(8);
-		line(graphSum.border.right,graphSum.border.top,graphSum.border.right,graphSum.border.bottom );
-	}
 	
   	graphA.setData(dataA);
 	graphA.show(); 	  
@@ -74,11 +70,9 @@ function draw() {
 
 	phaseSlider.show();
 	periodsSlider.show();
+	volumeSlider.show();
 
-	degreesCheckbox.show();
-	decibelsCheckbox.show();
 	animationCheckbox.show();
-	obstacleCheckbox.show();
 }
 
 function createSliders(){
@@ -89,17 +83,13 @@ function createSliders(){
 	periodsSlider = new Slider(1, 3);
 	periodsSlider.setRectangle(new Rectangle(250,15,330,35));
 	periodsSlider.setLabel("Periods: ");
+
+	volumeSlider = new Slider(1, 3);
+	volumeSlider.setRectangle(new Rectangle(400,15,480,35));
+	volumeSlider.setLabel("Volume: ");
 }
 
 function createCheckBoxes(){
-	degreesCheckbox = new Checkbox();
-	degreesCheckbox.setRectangle(new Rectangle(358,16, 372, 30));
-	degreesCheckbox.setLabel('Degrees');
-
-	decibelsCheckbox = new Checkbox();
-	decibelsCheckbox.setRectangle(new Rectangle(458,16, 472, 30));
-	decibelsCheckbox.setLabel('Decibels');
-
 	animationCheckbox= new Checkbox();
 	animationCheckbox.setRectangle(new Rectangle(558,16, 572, 30));
 	animationCheckbox.setLabel('Animation');
@@ -110,40 +100,20 @@ function createCheckBoxes(){
 }
 
 function createXLabels(){
-	let xlabels = [];	
-	let pis = periodsSlider.getValue()*2;
-	for(let i = 0; i <= pis; i++){
-		if(degreesCheckbox.getValue()){
-			xlabels[i] = {x:i * PI, label: 180 * i  + "°"};
-		}else{
-			let label;
-			if(i === 0){
-				label = "0";
-			}else if(i === 1){
-				label = "π";
-			}else{
-				label = i + "π";
-			}
-			xlabels[i] = {x:i * PI, label: label};
-		}
-	}
-	return xlabels;
+	// let xlabels = [];	
+	// let pis = periodsSlider.getValue()*2;
+	// for(let i = 0; i <= pis; i++){
+	// 	xlabels[i] = {x:i * PI, label: 180 * i  + "°"};		
+	// }
+	// return xlabels;
 }
 
 function createYLabels(){
 	let ylabels = [];	
-	if(decibelsCheckbox.getValue()){
-		ylabels[0] = {y:2, label:"6 dB"};
-		ylabels[1] = {y:1, label:"0 dB"};
-		ylabels[2] = {y:0, label:"-oo dB"};
-		ylabels[3] = {y:-1, label:"0"};
-		ylabels[4] = {y:-2, label:"6 dB"};
-	}else{	
-		ylabels[0] = {y:2, label:"2"};
-		ylabels[1] = {y:1, label:"1"};
-		ylabels[2] = {y:0, label:"0"};
-		ylabels[3] = {y:-1, label:"-1"};
-		ylabels[4] = {y:-2, label:"-2"};
-	}
+	ylabels[0] = {y:2, label:"6 dB"};
+	ylabels[1] = {y:1, label:"0 dB"};
+	ylabels[2] = {y:0, label:"-oo dB"};
+	ylabels[3] = {y:-1, label:"0"};
+	ylabels[4] = {y:-2, label:"6 dB"};	
 	return ylabels;
 }

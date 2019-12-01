@@ -3,8 +3,16 @@ let guides;
 let margin = 50, graphHeight;
 let speed = 0.0005, periodsToShow = 1.5;
 
+// čistý start
+// tlačítko reset
+// speed
+// vyznačená nulová fáze
+// popisky - stupně
+// popisky - sin cos
+// hide tlačítko na cos
+
 function setup() {
-  createCanvas(800, 550);
+  createCanvas(1600, 550);
 
   guides = new Guides();
   graphHeight = (height - 3 * margin) / 2;
