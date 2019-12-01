@@ -8,5 +8,6 @@
     "mb_phasors",
     "mb_wrapping_phase",
     "mb_headroom"
+    "mb_head_distance"
   ]
 }
