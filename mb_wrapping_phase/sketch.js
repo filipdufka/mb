@@ -23,6 +23,8 @@ let maxWrapsSlider, unwrapCheckbox;
 // hightlight wrap rectangle
 // wrap vždy k nule
 
+// preset buttons (3,4)
+
 function setup() {
 	createCanvas(900, 900);
 	createUI();
