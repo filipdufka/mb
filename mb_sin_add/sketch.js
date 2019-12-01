@@ -9,6 +9,7 @@ var degreesCheckbox, decibelsCheckbox, animationCheckbox, obstacleCheckbox;
 // https://www.walter-fendt.de/html5/phen/standingwavereflection_en.htm + inversse square law
 // grid i 90°, pokud by šlo, tak i 45°
 // červená součet, o pixel tlustčí
+// + vznik - inverse square law
 
 function setup() {
 	createCanvas(800, 550);

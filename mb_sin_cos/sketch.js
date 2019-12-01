@@ -8,6 +8,7 @@ let speed = 0.0005, periodsToShow = 1.5;
 // speed
 // vyznačená nulová fáze
 // popisky - stupně
+// výseč kruhu k nule
 // popisky - sin cos
 // hide tlačítko na cos
 
