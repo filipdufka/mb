@@ -50,53 +50,37 @@ window.onload = function() {
   \nprecision mediump float;
 	  
  	 uniform vec2 iResolution;
-	uniform vec2 sourcesPos[2];	
+	uniform vec2 sourcesPos[3];	
 	
 	  #define PI  3.14159265359
 
-	vec2 cadd( vec2 a, float s ) { return vec2( a.x+s, a.y ); }
 	vec2 cmul( vec2 a, vec2 b )  { return vec2( a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x ); }
 	vec2 cdiv( vec2 a, vec2 b )  { float d = dot(b,b); return vec2( dot(a,b), a.y*b.x - a.x*b.y ) / d; }
-	vec2 csqrt( vec2 z ) { float m = length(z); return sqrt( 0.5*vec2(m+z.x, m-z.x) ) * vec2( 1.0, sign(z.y) ); }
-	vec2 conj( vec2 z ) { return vec2(z.x,-z.y); }
-	vec2 cpow( vec2 z, float n ) { float r = length( z ); float a = atan( z.y, z.x ); return pow( r, n )*vec2( cos(a*n), sin(a*n) ); }
 	vec2 cexp( vec2 z ){ return vec2(cos(z.y), sin(z.y)) * exp(z.x); }
   
   
   void main(void) {
 	vec2 j = vec2(0,1);
 
-
-
 	vec2 uv = gl_FragCoord.xy/iResolution.x;
 	uv *= 30.0;	
+	float speed = 344.0;
+    float f = 50.0;
     
-    vec2 a = sourcesPos[0];
-    vec2 b = sourcesPos[1];
+	vec2 phis = vec2(0.0);
+    float volume = 0.1;
+	vec2 k = vec2(2.0 * PI * f / speed, 0);    
+    for(int i = 0; i < 3; i++){
+		float dist =  distance(sourcesPos[i], uv);
+    	vec2 insideExp = cmul(cmul(-j, vec2(dist, 0)), k);
+        
+        vec2 phi = cdiv(cmul(vec2(volume,0.0), cexp(insideExp)),vec2(dist,0.0));
+        phis = phi + phis;
+    }
+	    
+   	float magP = sqrt(pow(phis.x,2.0) + pow(phis.y,2.0));   
 	
-    float refD = 100.0;
-    float dvacet = 20.0;
-    float speed = 344.0;
-	float f = 420.0;
-	
-	float distA = distance(a, uv);
-    float distB = distance(b, uv);
-	
-	float deltaDist = distA - distB;
-	float phi = 0.0;
-    float pA = refD/distA;
-	float pB = refD/distB;
-	
-	phi = mod(deltaDist * f / speed,6.28);
-    
-    float powA = pow(pA, 2.0) ;
-   float powB = pow(pB, 2.0) ;
-    float AmulB = 2.0 * pA * pB * cos(phi);
-    
-    float pSum = sqrt(powA + powB + AmulB);
-    pSum = log(pSum);
-       
-    vec3 col = vec3(pSum/4.0);
+    vec3 col = vec3(15.0*magP);
 	
 
 	gl_FragColor = vec4(col,1);    
@@ -145,7 +129,8 @@ function render() {
   gl.uniform2fv(uResolution,[1600,1600]);
   var locations = [
 	10.0, 10.0,
-	20.0, 20.0
+	20.0, 20.0,
+	10.0, 20.0
 	];
 	gl.uniform2fv(uSourcePos, locations); 
   gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
