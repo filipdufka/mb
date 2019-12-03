@@ -1,6 +1,9 @@
 let soundSource, gs;
 let headPos, headRadius, earsPos ;
 
+// vzdálenosti
+// počítat s tím, že hlava je 17cm
+
 function setup() {
 	createCanvas(900, 900);
 

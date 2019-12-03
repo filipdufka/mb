@@ -1,7 +1,9 @@
 
-let graphA, graphB, graphSum, guides, phase = 0, decibels, obstacle;
-var phaseSlider, periodsSlider, volumeSlider ;
-var animationCheckbox;
+let graphA,graphCurrentOperation, guides, phase = 0, decibels, obstacle;
+var periodsSlider, volumeSlider ;
+var animationCheckbox, squaredCheckbox, meanCheckbox;
+var squareAnimationTime = 0, meanAnimationTime = 0, rootAnimationTime = 0;
+var squareTarget, meanTarget, rootTarget;
 
 // jeden signál - sinusovka (čísleně), šum
 // husoota šumu
@@ -18,14 +20,17 @@ function setup() {
 	createCanvas(800, 550);
 
 	rect = new Rectangle(50,50 , width-50, height-50)
+
+	Ymax = 2;
+	Ymin = -Ymax;
+
 	graphA = new Graph(rect);	
-	graphA.setYMinMax(-2,2);
-	graphA.setMainColor(color(255,0,0));
-	graphB = new Graph(rect);
-	graphB.setYMinMax(-2,2);	
-	graphB.setMainColor(color(0,0,255));
-	graphSum = new Graph(rect);	
-	graphSum.setYMinMax(-2,2);
+	graphA.setYMinMax(Ymin, Ymax);
+	graphA.setMainColor(color(0,0,0));
+	graphCurrentOperation = new Graph(rect);
+	graphCurrentOperation.setYMinMax(Ymin, Ymax);
+	graphCurrentOperation.setMainColor(color(255,0,0));
+
 	createSliders();
 	createCheckBoxes();
 }
@@ -38,65 +43,90 @@ function draw() {
 		phase += 0.01;
 	}
 
+	// get operation
+	squareTarget = squaredCheckbox.getValue() ? 1 : 0;
+	meanTarget = meanCheckbox.getValue() ? 1 : 0;
+	rootTarget = rootCheckbox.getValue() ? 1 : 0;
+
+	squareAnimationTime = lerp(squareAnimationTime, squareTarget, 0.05);
+	meanAnimationTime = lerp(meanAnimationTime, meanTarget, 0.05);
+	rootAnimationTime = lerp(rootAnimationTime, rootTarget, 0.05);
+
 	let resolution = 300;	
 
-	dataA = generateNoise(phase, periodsSlider.getValue(),resolution); 
-	dataB = generateSin(phaseSlider.getValue() + phase, periodsSlider.getValue(),resolution);   
-	
-  	graphA.setData(dataA);
-	graphA.show(); 	  
-	
-	graphB.setData(dataB);	
-	graphB.show(); 
+	dataA = generateNoise(phase, periodsSlider.getValue(),resolution, volumeSlider.getValue()); 	
+	let dataAedited = []; 
+	let editedSum = 0; 
+	for (let i = 0; i < dataA.length; i++) {
+		squared = dataA[i] * dataA[i];
+		squared = lerp(dataA[i], squared, squareAnimationTime);
+		editedSum += squared;
+		dataAedited[i] = squared;
+	}
+
+	mean = editedSum / dataA.length;
+	for (let i = 0; i < dataAedited.length; i++) {		
+		meaned = lerp(dataAedited[i], mean, meanAnimationTime);
+		root = rootAnimationTime > 0.0005 ? Math.sqrt(meaned) : meaned;
+		dataAedited[i] = lerp(meaned, root, rootAnimationTime);
+	}
+
+	  graphA.setData(dataA);
+	  graphCurrentOperation.setData(dataAedited);
 	  
-	//SUM
-	dataSum = [];
-	xdataSum = [];
+
+	xdataA = [];
 	for(let i = 0; i < dataA.length; i++){
-		dataSum[i] = dataA[i] + dataB[i];
-		xdataSum[i] = map(i, 0, dataA.length - 1, 0, periodsSlider.getValue() * 2 * PI);		
+		xdataA[i] = map(i, 0, dataA.length - 1, 0, periodsSlider.getValue() * 2 * PI);		
 	}
 
 	xlabels = createXLabels();
 	ylabels = createYLabels();
 	
-	graphSum.setData(dataSum);
-	graphSum.setXData(xdataSum);
-	graphSum.setXLabels(xlabels);
-	graphSum.setYLabels(ylabels);
+	graphA.setXData(xdataA);
+	graphA.setXLabels(xlabels);
+	graphA.setYLabels(ylabels);
 
-	graphSum.show(); 
-	graphSum.showLabels();
+	graphA.show(); 
+	graphCurrentOperation.show();
+	graphA.showLabels();
 
-	phaseSlider.show();
 	periodsSlider.show();
 	volumeSlider.show();
 
 	animationCheckbox.show();
+	squaredCheckbox.show();
+	meanCheckbox.show();
+	rootCheckbox.show();
 }
 
 function createSliders(){
-	phaseSlider = new Slider(0, 2*PI);
-	phaseSlider.setRectangle(new Rectangle(100,15,180,35));
-	phaseSlider.setLabel("Phase: ");
-
 	periodsSlider = new Slider(1, 3);
-	periodsSlider.setRectangle(new Rectangle(250,15,330,35));
+	periodsSlider.setRectangle(new Rectangle(150,15,230,35));
 	periodsSlider.setLabel("Periods: ");
 
-	volumeSlider = new Slider(1, 3);
-	volumeSlider.setRectangle(new Rectangle(400,15,480,35));
+	volumeSlider = new Slider(0.5, 5);
+	volumeSlider.setRectangle(new Rectangle(300,15,380,35));
 	volumeSlider.setLabel("Volume: ");
+	volumeSlider.setValue(1);
 }
 
 function createCheckBoxes(){
 	animationCheckbox= new Checkbox();
-	animationCheckbox.setRectangle(new Rectangle(558,16, 572, 30));
+	animationCheckbox.setRectangle(new Rectangle(400,16, 414, 30));
 	animationCheckbox.setLabel('Animation');
 
-	obstacleCheckbox= new Checkbox();
-	obstacleCheckbox.setRectangle(new Rectangle(658,16, 672, 30));
-	obstacleCheckbox.setLabel('Obstacle');
+	squaredCheckbox= new Checkbox();
+	squaredCheckbox.setRectangle(new Rectangle(500,16, 514, 30));
+	squaredCheckbox.setLabel('Square');
+
+	meanCheckbox= new Checkbox();
+	meanCheckbox.setRectangle(new Rectangle(600,16, 614, 30));
+	meanCheckbox.setLabel('Mean');
+
+	rootCheckbox= new Checkbox();
+	rootCheckbox.setRectangle(new Rectangle(700,16, 714, 30));
+	rootCheckbox.setLabel('Root');
 }
 
 function createXLabels(){

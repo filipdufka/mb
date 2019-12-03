@@ -22,6 +22,10 @@ class Slider{
             return lerp(this.minValue, this.maxValue, this.value);
       }
 
+      setValue(val){
+            this.value = map(val, this.minValue, this.maxValue, 0, 1);
+      }
+
       show(){
             this.getHover();
             this.showSlider();

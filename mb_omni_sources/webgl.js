@@ -62,7 +62,7 @@ window.onload = function() {
   void main(void) {
 	vec2 j = vec2(0,1);
 
-	vec2 uv = gl_FragCoord.xy/iResolution.x;
+	vec2 uv = gl_FragCoord.xy/iResolution.y;
 	uv *= 30.0;	
 	float speed = 344.0;
     float f = 50.0;

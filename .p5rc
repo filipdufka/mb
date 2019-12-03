@@ -2,13 +2,14 @@
   "name": "mb",
   "projects": [
     "mb_logo",
+    "mb_head_distance",
+    "mb_headroom",
+    "mb_omni_sources",
+    "mb_phasors",
     "mb_sin_add",
     "mb_sin_cos",
     "mb_space_wave",
-    "mb_phasors",
-    "mb_wrapping_phase",
-    "mb_omni_sources",
-    "mb_headroom",
-    "mb_head_distance"
+    "mb_standing_wave",
+    "mb_wrapping_phase"   
   ]
 }
