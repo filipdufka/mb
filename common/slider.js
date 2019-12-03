@@ -22,8 +22,14 @@ class Slider{
             return lerp(this.minValue, this.maxValue, this.value);
       }
 
+      setNormValue(val){
+            var steps = (this.maxValue - this.minValue) / this.step;
+            var normStep = 1 / steps;
+            this.value = Math.round(val / normStep) * normStep;
+      }
+
       setValue(val){
-            this.value = map(val, this.minValue, this.maxValue, 0, 1);
+            this.setNormValue(map(val, this.minValue, this.maxValue, 0, 1));
       }
 
       show(){
@@ -78,7 +84,8 @@ class Slider{
                   this.clicked = false;
             }
             if(this.clicked){
-                  this.value = constrain(norm(mouseX, this.border.left, this.border.right),0,1) ;
+                  
+                  this.setNormValue(constrain(norm(mouseX, this.border.left, this.border.right),0,1)) ;
             }
       }
       

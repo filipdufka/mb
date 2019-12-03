@@ -157,6 +157,10 @@ class Graph {
       return {x: x, y: y};
     }
 
+    getValue(i){
+      return this.data[i];
+    }
+
     lineSetting(){
       stroke(this.mainColor);
       noFill();
