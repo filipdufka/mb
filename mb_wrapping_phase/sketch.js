@@ -1,5 +1,5 @@
 let gs, bezier;
-let margin, maxAngle, maxWraps;
+let margin, minWraps, maxWraps;
 let unwrapTime;
 
 let maxWrapsSlider, unwrapCheckbox;
@@ -49,8 +49,8 @@ function setup() {
 }
 
 function calculateWraps(){
-	maxAngle = maxWrapsSlider.getValue() * PI;
-	maxWraps = maxAngle / (2 * PI);
+	maxWraps = maxWrapsSlider.getValue();
+	minWraps = -maxWraps;
 }
 
 function getWrapHeight(){
@@ -58,19 +58,24 @@ function getWrapHeight(){
 }
 
 function draw() {
+	// lock X axis to anchor points
+	bezier.getSegmentPoint(0,0).pos.x = gs.vs[0];
+	bezier.getSegmentPoint(0,3).pos.x = gs.vs[gs.vs.length - 1];
+
+	// calculating max wraps
 	calculateWraps();
 	clear();
-	//offsetSlider.show();
-
 
 	strokeWeight(1);
 	stroke(220);
+	// border guides
 	gs.show();
 
-	for (let i = 0; i < maxWraps; i++) {
-		let A = createVector(0,i * 2 * PI);
-		A = getCanvasPos(A);
-		line(gs.vs[0], A.y , gs.vs[gs.vs.length - 1], A.y);	
+	// wrap guides
+	for (let i = minWraps; i < maxWraps; i++) {
+		let hGuide = createVector(0,i * 2 * PI);
+		hGuide = getCanvasPos(hGuide);
+		line(gs.vs[0], hGuide.y , gs.vs[gs.vs.length - 1], hGuide.y);	
 	}	
 
 	stroke(70);
@@ -145,17 +150,17 @@ function splitSequence(seq){
 }
 
 function getPlotPos(canvasPos){
-	let plotY = map(canvasPos.y, gs.hs[gs.hs.length - 1], gs.hs[0], 0, maxAngle);
+	let plotY = map(canvasPos.y, gs.hs[gs.hs.length - 1], gs.hs[0], 0, maxWraps * 2 * PI);
 	return createVector(canvasPos.x, plotY);
 }
 
 function getCanvasPos(plotPos){
-	let canvasY = map(plotPos.y, 0, maxAngle, gs.hs[gs.hs.length - 1], gs.hs[0]);
+	let canvasY = map(plotPos.y, 0, maxWraps * 2 * PI, gs.hs[gs.hs.length - 1], gs.hs[0]);
 	return createVector(plotPos.x, canvasY);
 }
 
 function createUI(){
-	maxWrapsSlider = new Slider(2,80,4);
+	maxWrapsSlider = new Slider(3,11,2);
 	maxWrapsSlider.setRectangle(new Rectangle(200,15,280,35));
 	maxWrapsSlider.setLabel("Max Wraps: ");	
 	maxWrapsSlider.value = 0.5;

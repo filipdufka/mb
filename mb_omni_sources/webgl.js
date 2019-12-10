@@ -65,7 +65,7 @@ window.onload = function() {
 	vec2 uv = gl_FragCoord.xy/iResolution.y;
 	uv *= 30.0;	
 	float speed = 344.0;
-    float f = 50.0;
+    float f = 100.0;
     
 	vec2 phis = vec2(0.0);
     float volume = 0.1;
@@ -130,7 +130,7 @@ function render() {
   var locations = [
 	10.0, 10.0,
 	20.0, 20.0,
-	10.0, 20.0
+	15.0, 20.0
 	];
 	gl.uniform2fv(uSourcePos, locations); 
   gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
