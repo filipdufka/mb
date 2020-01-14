@@ -50,7 +50,8 @@ window.onload = function() {
   \nprecision mediump float;
 	  
  	 uniform vec2 iResolution;
-	uniform vec2 sourcesPos[3];	
+  uniform vec2 sourcesPos[3];	
+  uniform float scale;
 	
 	  #define PI  3.14159265359
 
@@ -60,10 +61,12 @@ window.onload = function() {
   
   
   void main(void) {
-	vec2 j = vec2(0,1);
+  vec2 j = vec2(0,1);
 
-	vec2 uv = gl_FragCoord.xy/iResolution.y;
-	uv *= 30.0;	
+  vec2 uv = gl_FragCoord.xy/iResolution.y;
+  uv = vec2(uv.x, 1.0 - uv.y);
+  uv *= scale;	
+
 	float speed = 344.0;
     float f = 100.0;
     
@@ -71,11 +74,14 @@ window.onload = function() {
     float volume = 0.1;
 	vec2 k = vec2(2.0 * PI * f / speed, 0);    
     for(int i = 0; i < 3; i++){
-		float dist =  distance(sourcesPos[i], uv);
-    	vec2 insideExp = cmul(cmul(-j, vec2(dist, 0)), k);
+        if(sourcesPos[i].x >= 0.0){
+		    float dist =  distance(scale * sourcesPos[i] / 800.0, uv);
+    	  vec2 insideExp = cmul(cmul(-j, vec2(dist, 0)), k);
         
         vec2 phi = cdiv(cmul(vec2(volume,0.0), cexp(insideExp)),vec2(dist,0.0));
         phis = phi + phis;
+        }
+      
     }
 	    
    	float magP = sqrt(pow(phis.x,2.0) + pow(phis.y,2.0));   
@@ -100,6 +106,7 @@ window.onload = function() {
 
   uResolution = gl.getUniformLocation(program, "iResolution");
   uSourcePos = gl.getUniformLocation(program, "sourcesPos");
+  uScale = gl.getUniformLocation(program, "scale");
 
   gl.bindBuffer(gl.ARRAY_BUFFER, vbuf);
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf);
@@ -123,16 +130,17 @@ window.onload = function() {
   render();
 }
                 
- var tuni,startTime, uResolution, uSourcePos;      
+ var tuni,startTime, uResolution, uSourcePos, uScale;      
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.uniform2fv(uResolution,[1600,1600]);
   var locations = [
-	10.0, 10.0,
-	20.0, 20.0,
-	15.0, 20.0
+  omniSourcePositions[0].pos.x,omniSourcePositions[0].pos.y,
+	300.0, 400.0,
+	-500.0, 400.0
 	];
-	gl.uniform2fv(uSourcePos, locations); 
+  gl.uniform2fv(uSourcePos, locations); 
+  gl.uniform1f(uScale, 30.0);
   gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 	
   
