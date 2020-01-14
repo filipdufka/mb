@@ -1,5 +1,7 @@
 var omniSourcePositions = [];
 
+
+
 //TODO:
 //převést do instance módu
 var sketch = function(p){
@@ -15,8 +17,9 @@ function setup() {
   cnvs.style('position', 'absolute');
   cnvs.style('left','0px');
 
-  let point = new DraggablePoint(createVector(400, 300));
-  omniSourcePositions.push(point);
+  omniSourcePositions.push(new DraggablePoint(createVector(400.0, 300.0)));
+  omniSourcePositions.push(new DraggablePoint(createVector(-300.0, 400.0)));
+  omniSourcePositions.push(new DraggablePoint(createVector(500.0, 400.0)));
 }
 
 function draw() {

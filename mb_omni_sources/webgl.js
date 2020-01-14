@@ -136,8 +136,8 @@ function render() {
   gl.uniform2fv(uResolution,[1600,1600]);
   var locations = [
   omniSourcePositions[0].pos.x,omniSourcePositions[0].pos.y,
-	300.0, 400.0,
-	-500.0, 400.0
+	omniSourcePositions[1].pos.x,omniSourcePositions[1].pos.y,
+	omniSourcePositions[2].pos.x,omniSourcePositions[2].pos.y
 	];
   gl.uniform2fv(uSourcePos, locations); 
   gl.uniform1f(uScale, 30.0);
