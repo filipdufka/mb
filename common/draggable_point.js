@@ -8,29 +8,29 @@ class DraggablePoint {
       this.drag = false;      
     }
 
-    show(){
-        this.getHover();
+    show(p){
+        this.getHover(p);
         if(this.hover){
-            strokeWeight(4);
+            p.strokeWeight(4);
         }else if(this.drag){
-            strokeWeight(8);
+            p.strokeWeight(8);
         }else{
-            strokeWeight(1);
+            p.strokeWeight(1);
         }
-        ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+        p.ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
     }
 
-    getHover(){
-        let m = createVector(mouseX, mouseY);
+    getHover(p){
+        let m = p.createVector(p.mouseX, p.mouseY);
         if(this.pos.dist(m) < this.r){
             this.hover = true;
-            if(mouseIsPressed){
+            if(p.mouseIsPressed){
                 this.drag = true;
             }
         }else{
             this.hover = false;
         }
-        if(mouseIsPressed == false){
+        if(p.mouseIsPressed == false){
             this.drag = false;
         }
 

@@ -32,60 +32,60 @@ class Slider{
             this.setNormValue(map(val, this.minValue, this.maxValue, 0, 1));
       }
 
-      show(){
-            this.getHover();
-            this.showSlider();
-            this.showHandle();  
-            this.showLabel();          
+      show(p){
+            this.getHover(p);
+            this.showSlider(p);
+            this.showHandle(p);  
+            this.showLabel(p);          
       }
 
-      showSlider(){       
-            stroke(0);
-            strokeWeight(1);
-            noFill();       
+      showSlider(p){       
+            p.stroke(0);
+            p.strokeWeight(1);
+            p.noFill();       
             let posY = this.border.top + this.border.getHeight()/2.0;
-            line(this.border.left, posY, this.border.right, posY);
+            p.line(this.border.left, posY, this.border.right, posY);
       }
 
-      showHandle(){            
+      showHandle(p){            
             if(this.hover || this.clicked){
-                  stroke(50,250,255);
+                  p.stroke(50,250,255);
             }else{
-                  stroke(0);
+                  p.stroke(0);
             }
-            strokeWeight(2);
-            noFill();            
-            let posX = lerp(this.border.left, this.border.right, this.value);
-            line(posX, this.border.top, posX, this.border.bottom);
+            p.strokeWeight(2);
+            p.noFill();            
+            let posX = p.lerp(this.border.left, this.border.right, this.value);
+            p.line(posX, this.border.top, posX, this.border.bottom);
       }
 
-      showLabel(){
-            fill(0);
-            noStroke();
-            textAlign(RIGHT);
-            text(this.label, this.border.left - 5, this.border.top + this.border.getHeight()/2.0 + 4);
+      showLabel(p){
+            p.fill(0);
+            p.noStroke();
+            p.textAlign(p.RIGHT);
+            p.text(this.label, this.border.left - 5, this.border.top + this.border.getHeight()/2.0 + 4);
       }
 
-      getHover(){
-            let m = createVector(mouseX, mouseY);
-            let posX = lerp(this.border.left, this.border.right, this.value);
-            let a = createVector(posX, this.border.top);
-            let b = createVector(posX, this.border.bottom);
+      getHover(p){
+            let m = p.createVector(p.mouseX, p.mouseY);
+            let posX = p.lerp(this.border.left, this.border.right, this.value);
+            let a = p.createVector(posX, this.border.top);
+            let b = p.createVector(posX, this.border.bottom);
             let dist = distToSegment(m,a,b);
             if(dist < 5 && this.hover == false){
                   this.hover = true;
-                  if(mouseIsPressed){
+                  if(p.mouseIsPressed){
                         this.clicked = true;                        
                   }
             }else{
                   this.hover = false;                  
             }
-            if(mouseIsPressed == false){
+            if(p.mouseIsPressed == false){
                   this.clicked = false;
             }
             if(this.clicked){
                   
-                  this.setNormValue(constrain(norm(mouseX, this.border.left, this.border.right),0,1)) ;
+                  this.setNormValue(p.constrain(p.norm(p.mouseX, this.border.left, this.border.right),0,1)) ;
             }
       }
       
