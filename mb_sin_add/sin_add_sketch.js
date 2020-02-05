@@ -59,7 +59,7 @@ var sin_add_sketch = function(p){
 		xdataSum = [];
 		for(let i = 0; i < dataA.length; i++){
 			dataSum[i] = dataA[i] + dataB[i];
-			xdataSum[i] = p.map(i, 0, dataA.length - 1, 0, periodsSlider.getValue() * 2 * PI);		
+			xdataSum[i] = p.map(i, 0, dataA.length - 1, 0, periodsSlider.getValue() * 2 * Math.PI);		
 		}
 	
 		xlabels = createXLabels();
@@ -83,29 +83,29 @@ var sin_add_sketch = function(p){
 	}
 	
 	function createSliders(){
-		phaseSlider = new Slider(0, 2*p.PI);
+		phaseSlider = new Slider(p, 0, 2*p.PI);
 		phaseSlider.setRectangle(new Rectangle(100,15,180,35));
 		phaseSlider.setLabel("Phase: ");
 	
-		periodsSlider = new Slider(1, 3);
+		periodsSlider = new Slider(p, 1, 3);
 		periodsSlider.setRectangle(new Rectangle(250,15,330,35));
 		periodsSlider.setLabel("Periods: ");
 	}
 	
 	function createCheckBoxes(){
-		degreesCheckbox = new Checkbox();
+		degreesCheckbox = new Checkbox(p);
 		degreesCheckbox.setRectangle(new Rectangle(358,16, 372, 30));
 		degreesCheckbox.setLabel('Degrees');
 	
-		decibelsCheckbox = new Checkbox();
+		decibelsCheckbox = new Checkbox(p);
 		decibelsCheckbox.setRectangle(new Rectangle(458,16, 472, 30));
 		decibelsCheckbox.setLabel('Decibels');
 	
-		animationCheckbox= new Checkbox();
+		animationCheckbox= new Checkbox(p);
 		animationCheckbox.setRectangle(new Rectangle(558,16, 572, 30));
 		animationCheckbox.setLabel('Animation');
 	
-		obstacleCheckbox= new Checkbox();
+		obstacleCheckbox= new Checkbox(p);
 		obstacleCheckbox.setRectangle(new Rectangle(658,16, 672, 30));
 		obstacleCheckbox.setLabel('Obstacle');
 	}
@@ -115,7 +115,7 @@ var sin_add_sketch = function(p){
 		let pis = periodsSlider.getValue()*2;
 		for(let i = 0; i <= pis; i++){
 			if(degreesCheckbox.getValue()){
-				xlabels[i] = {x:i * PI, label: 180 * i  + "°"};
+				xlabels[i] = {x:i * Math.PI, label: 180 * i  + "°"};
 			}else{
 				let label;
 				if(i === 0){
@@ -125,7 +125,7 @@ var sin_add_sketch = function(p){
 				}else{
 					label = i + "π";
 				}
-				xlabels[i] = {x:i * PI, label: label};
+				xlabels[i] = {x:i * Math.PI, label: label};
 			}
 		}
 		return xlabels;

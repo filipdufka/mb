@@ -33,7 +33,7 @@ class BezierCurve{
 
     getDrawPoints(){
         let pointsToReturn = [];        
-        let segments = floor((this.points.length - 1) / 3);
+        let segments = Math.floor((this.points.length - 1) / 3);
         for (let s = 0; s < segments; s++) {
             for (let f = 0; f < this.precision; f++) {
                 let E = this.getBezierPoint(f / this.precision, s);
