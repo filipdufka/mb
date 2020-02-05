@@ -1,5 +1,5 @@
 class Graph {
-    constructor(border) {
+    constructor(p, border) {
       this.data = null;
       this.xdata = null;
       this.xlabels = null;
@@ -7,12 +7,13 @@ class Graph {
       this.border = border;
       this.c1 = null;
       this.c2 = null;
-      this.mainColor = color(0,0,0);
+      this.mainColor = p.color(0,0,0);
       this.ymin = 0;
       this.ymax = 1;
       this.xmin = 0;
       this.xmax = 1;
       this.lineWeight = 0.5;
+      this.p = p;
     }
   
     setData(data) {
@@ -50,9 +51,9 @@ class Graph {
       for (let i = 1; i < this.data.length; i++) {
         let A = this.getPosition(i-1);
         let B = this.getPosition(i);
-        let t = norm(this.data[i-1], this.ymin, this.ymax);
+        let t = this.p.norm(this.data[i-1], this.ymin, this.ymax);
         this.drawColor(t);        
-        line(A.x, A.y, B.x, B.y);
+        this.p.line(A.x, A.y, B.x, B.y);
       }
     }
 
@@ -152,8 +153,9 @@ class Graph {
     }
 
     getPosition(i){
-      let x = map(i, 0, this.data.length - 1, this.border.left, this.border.right);
-      let y = map(this.data[i], this.ymin, this.ymax,this.border.bottom, this.border.top);
+      let p = this.p;
+      let x = p.map(i, 0, this.data.length - 1, this.border.left, this.border.right);
+      let y = p.map(this.data[i], this.ymin, this.ymax,this.border.bottom, this.border.top);
       return {x: x, y: y};
     }
 
@@ -162,8 +164,9 @@ class Graph {
     }
 
     lineSetting(){
-      stroke(this.mainColor);
-      noFill();
-      strokeWeight((this.lineWeight));
+      var p = this.p;
+      p.stroke(this.mainColor);
+      p.noFill();
+      p.strokeWeight((this.lineWeight));
     }
   }

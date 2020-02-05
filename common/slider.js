@@ -18,8 +18,8 @@ class Slider{
             this.label = label;
       }
 
-      getValue(){
-            return lerp(this.minValue, this.maxValue, this.value);
+      getValue(p){
+            return p.lerp(this.minValue, this.maxValue, this.value);
       }
 
       setNormValue(val){
