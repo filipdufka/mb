@@ -13,7 +13,7 @@ var omnni_sources_controller = function(p){
   }
 
   p.createSliders = function(){
-    p.phaseSlider = new Slider(1, 5, 1);
+    p.phaseSlider = new Slider(p, 1, 5, 1);
     p.phaseSlider.setRectangle(new Rectangle(100,15,180,35));
     p.phaseSlider.setLabel("N of Sources: ");
   }

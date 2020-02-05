@@ -63,5 +63,5 @@ function circlesIntersection(x0, y0, r0, x1, y1, r1) {
   var yi = y2 + ry;
   var yi_prime = y2 - ry;
 
-  return [createVector(xi,yi), createVector(xi_prime, yi_prime)];
+  return [new p5.Vector(xi,yi), new p5.Vector(xi_prime, yi_prime)];
 }

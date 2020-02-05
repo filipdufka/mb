@@ -1,5 +1,5 @@
 class Slider{
-      constructor(minValue, maxValue, step = 0.000001){
+      constructor(p, minValue, maxValue, step = 0.000001){
             this.minValue = minValue;
             this.maxValue = maxValue;
             this.step = step;
@@ -8,6 +8,7 @@ class Slider{
             this.hover = false;
             this.clicked = false;
             this.label = "";
+            this.p = p;
       }
 
       setRectangle(rect){
@@ -18,8 +19,8 @@ class Slider{
             this.label = label;
       }
 
-      getValue(p){
-            return p.lerp(this.minValue, this.maxValue, this.value);
+      getValue(){
+            return this.p.lerp(this.minValue, this.maxValue, this.value);
       }
 
       setNormValue(val){
@@ -29,14 +30,14 @@ class Slider{
       }
 
       setValue(val){
-            this.setNormValue(map(val, this.minValue, this.maxValue, 0, 1));
+            this.setNormValue(this.p.map(val, this.minValue, this.maxValue, 0, 1));
       }
 
-      show(p){
-            this.getHover(p);
-            this.showSlider(p);
-            this.showHandle(p);  
-            this.showLabel(p);          
+      show(){
+            this.getHover(this.p);
+            this.showSlider(this.p);
+            this.showHandle(this.p);  
+            this.showLabel(this.p);          
       }
 
       showSlider(p){       
@@ -66,7 +67,8 @@ class Slider{
             p.text(this.label, this.border.left - 5, this.border.top + this.border.getHeight()/2.0 + 4);
       }
 
-      getHover(p){
+      getHover(){
+            let p = this.p;
             let m = p.createVector(p.mouseX, p.mouseY);
             let posX = p.lerp(this.border.left, this.border.right, this.value);
             let a = p.createVector(posX, this.border.top);

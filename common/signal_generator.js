@@ -10,14 +10,14 @@ function generateSin(phase, periodsToShow = 1, resolution = 100){
     return dataSin;
 }
 
-function generateNoise(phase, horizontalScale, resolution = 100, volume = 1){
+function generateNoise(p, phase, horizontalScale, resolution = 100, volume = 1){
     let dataSin = [];    
     for(let i = 0; i < resolution; i++){    
         let t = i/(resolution - 1);
-        t *= 2 * PI;
+        t *= 2 * Math.PI;
         t *= horizontalScale;
         let angle = t - phase;
-        dataSin[i] = (noise(angle) - 0.5) * 2 * volume;
+        dataSin[i] = (p.noise(angle) - 0.5) * 2 * volume;
     }
     return dataSin;    
 }

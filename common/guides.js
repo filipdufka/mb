@@ -1,7 +1,8 @@
 class Guides{
-    constructor(){
+    constructor(p){
         this.hs = [];
         this.vs = [];
+        this.p = p;
     }
 
     addHorizontal(y){
@@ -14,10 +15,10 @@ class Guides{
 
     show(){
         for(let g = 0; g < this.hs.length; g++){
-            line(0, this.hs[g], width, this.hs[g]);
+            this.p.line(0, this.hs[g], this.p.width, this.hs[g]);
         }
         for(let g = 0; g < this.vs.length; g++){
-            line( this.vs[g],0, this.vs[g],height);
+            this.p.line( this.vs[g],0, this.vs[g],this.p.height);
         }
     }
 }

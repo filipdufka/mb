@@ -1,3 +1,4 @@
+var phasors_sketch = function(p){
 let phasorA, phasorB,phasorSum;
 let guides, mousePos;
 let selectedPhasor;
@@ -9,21 +10,21 @@ let selectedPhasor;
 // spojit s mb_sin_add
 
 
-function setup() {
-	createCanvas(900, 900);
-	guides = new Guides();
-	guides.addHorizontal(height/2);
-	guides.addVertical(width/2);
+p.setup = function() {
+	p.createCanvas(900, 900);
+	guides = new Guides(p);
+	guides.addHorizontal(p.height/2);
+	guides.addVertical(p.width/2);
 
-	phasorA = new Phasor(createVector(-100,-100), 'darkblue');
-	phasorB = new Phasor(createVector(200,-100), 'red');
-	phasorSum = new Phasor(createVector(0, 0), 'green');
+	phasorA = new Phasor(p, p.createVector(-100,-100), 'darkblue');
+	phasorB = new Phasor(p, p.createVector(200,-100), 'red');
+	phasorSum = new Phasor(p, p.createVector(0, 0), 'green');
 }
 
-function draw() {
-	clear();
-	mousePos = createVector(mouseX, mouseY);
-	strokeWeight(1);
+p.draw = function() {
+	p.clear();
+	mousePos = p.createVector(p.mouseX, p.mouseY);
+	p.strokeWeight(1);
 	guides.show();
 
 	phasorA.show();
@@ -36,17 +37,18 @@ function draw() {
 }
 
 class Phasor{	
-	constructor(v, col){
+	constructor(p, v, col){
 		this.v = v;
 		this.col = col;
-		this.center = createVector(guides.vs[0], guides.hs[0]);
+		this.center = new p5.Vector(guides.vs[0], guides.hs[0]);
 		this.hover = false;	
+		this.p = p;
 	}
 
 	show(){
 		this.getHover();
 		
-		drawArrow(this.center, this.getEnd(), this.hover?color(125,200,255):this.col);
+		drawArrow(p, this.center, this.getEnd(), this.hover?p.color(125,200,255):this.col);
 	}
 
 	getEnd(){
@@ -65,14 +67,17 @@ class Phasor{
 
 		if(dist < 5 && this.hover == false && selectedPhasor == null){
 			this.hover = true;
-			if(mouseIsPressed){
+			if(this.p.mouseIsPressed){
 				  selectedPhasor = this;                      
 			}
 		}else{
 				this.hover = false;                  
 		}
-		if(mouseIsPressed == false){
+		if(this.p.mouseIsPressed == false){
 				selectedPhasor = null;
 		}
 	}
 }
+}
+
+var p5canvas = new p5(phasors_sketch);

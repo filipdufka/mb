@@ -67,27 +67,27 @@ class Graph {
       let ystep = yrange/steps;
       if(this.ylabels == null){
         for(let i = 0; i <= steps; i++){
-          let yPos = map(i, 0, steps, this.border.bottom, this.border.top);
-          let yValue = map(i, 0,steps, this.ymin, this.ymax);
+          let yPos = this.p.map(i, 0, steps, this.border.bottom, this.border.top);
+          let yValue = this.p.map(i, 0,steps, this.ymin, this.ymax);
           let xPosA = this.border.left;
           let xPosB = this.border.left + 20;
           this.lineSetting();
-          line(xPosA, yPos, xPosB, yPos);
-          noStroke();
-          fill(this.mainColor);
-          text(yValue.toFixed(1), xPosA - 30, yPos + 5);
+          this.p.line(xPosA, yPos, xPosB, yPos);
+          this.p.noStroke();
+          this.p.fill(this.mainColor);
+          this.p.text(yValue.toFixed(1), xPosA - 30, yPos + 5);
         }  
       } else{
         for(let i = 0; i < this.ylabels.length; i++){
           let l = this.ylabels[i];
-          let yPos = map(l.y, this.ymin, this.ymax, this.border.bottom, this.border.top);
+          let yPos = this.p.map(l.y, this.ymin, this.ymax, this.border.bottom, this.border.top);
           let xPos = this.border.left;
           this.lineSetting();
-          line(xPos, yPos, xPos + 20, yPos);
-          noStroke();
-          fill(this.mainColor);
-          textAlign(RIGHT);
-          text(l.label, xPos - 5 , yPos + 5);
+          this.p.line(xPos, yPos, xPos + 20, yPos);
+          this.p.noStroke();
+          this.p.fill(this.mainColor);
+          this.p.textAlign(this.p.RIGHT);
+          this.p.text(l.label, xPos - 5 , yPos + 5);
         }
       }
     }
@@ -95,28 +95,28 @@ class Graph {
     showXLabels(steps){
       let zeroYpos = this.getZeroYPos();
       this.lineSetting();
-      line(this.border.left, zeroYpos, this.border.right, zeroYpos);
+      this.p.line(this.border.left, zeroYpos, this.border.right, zeroYpos);
       if(this.xlabels == null){
         for(let i = 0; i <= steps; i++){
-          let xPos = map(i, 0, steps, this.border.left, this.border.right);
-          let xValue = map(i, 0, steps, this.xmin, this.xmax);
+          let xPos = this.p.map(i, 0, steps, this.border.left, this.border.right);
+          let xValue = this.p.map(i, 0, steps, this.xmin, this.xmax);
           this.lineSetting();
-          line(xPos, zeroYpos + 10, xPos, zeroYpos - 10);
-          textAlign(CENTER);
-          noStroke();
-          fill(this.mainColor);
-          text(xValue.toFixed(2), xPos, zeroYpos + 25);
+          this.p.line(xPos, zeroYpos + 10, xPos, zeroYpos - 10);
+          this.p.textAlign(this.p.CENTER);
+          this.p.noStroke();
+          this.p.fill(this.mainColor);
+          this.p.text(xValue.toFixed(2), xPos, zeroYpos + 25);
         }
       }else{
         for(let i = 0; i < this.xlabels.length; i++){
           let l = this.xlabels[i];
-          let xPos = map(l.x, this.xmin, this.xmax, this.border.left, this.border.right);
+          let xPos = this.p.map(l.x, this.xmin, this.xmax, this.border.left, this.border.right);
           this.lineSetting();
-          line(xPos, zeroYpos + 10,xPos, zeroYpos - 10);
-          textAlign(CENTER);
-          noStroke();
-          fill(this.mainColor);
-          text(l.label, xPos, zeroYpos + 25);
+          this.p.line(xPos, zeroYpos + 10,xPos, zeroYpos - 10);
+          this.p.textAlign(this.p.CENTER);
+          this.p.noStroke();
+          this.p.fill(this.mainColor);
+          this.p.text(l.label, xPos, zeroYpos + 25);
         }
       }
     }
@@ -125,7 +125,7 @@ class Graph {
     getZeroYPos(){
       let zeroYPos = this.border.bottom;
       if(Math.sign(this.ymax) != Math.sign(this.ymin)){
-        zeroYPos = map(0, this.ymin, this.ymax, this.border.bottom, this.border.top);        
+        zeroYPos = this.p.map(0, this.ymin, this.ymax, this.border.bottom, this.border.top);        
       }else if(this.ymax < 0){
         zeroYPos = this.border.top;
       }

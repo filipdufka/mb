@@ -2,7 +2,7 @@ var omniSourcePositions = [];
 
 //TODO:
 //převést do instance módu
-var omnni_sources_sketch = function(p){
+var omni_sources_sketch = function(p){
   p.setup = function(){
     var cnvs = p.createCanvas(800, 800); 
     cnvs.parent('canvasParent');
@@ -23,4 +23,4 @@ var omnni_sources_sketch = function(p){
   }
 }
 
-var p5canvas = new p5(omnni_sources_sketch);
+var p5canvas = new p5(omni_sources_sketch);
