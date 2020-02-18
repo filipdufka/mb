@@ -65,3 +65,8 @@ function circlesIntersection(x0, y0, r0, x1, y1, r1) {
 
   return [new p5.Vector(xi,yi), new p5.Vector(xi_prime, yi_prime)];
 }
+
+function getNormal(pos0, pos1){
+  let dir = p5.Vector.sub(pos1, pos0).normalize();
+  return new p5.Vector(dir.y,-dir.x);
+}

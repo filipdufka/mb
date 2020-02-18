@@ -2,6 +2,7 @@ var vbuf;
 var pstart;
 var nump;
 
+// spojit oba grafy
 // slider na ticho
 // úprava barometrického tlaku - jen v tichu
 // sinusovka

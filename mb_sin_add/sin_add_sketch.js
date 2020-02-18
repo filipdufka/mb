@@ -3,7 +3,7 @@ var sin_add_sketch = function(p){
 	var phaseSlider, periodsSlider, testSlider;
 	var degreesCheckbox, decibelsCheckbox, animationCheckbox, obstacleCheckbox;
 	
-	// volná konec, mělo by to být naopak
+	// volný konec, mělo by to být naopak
 	
 	// udělat další script pro stojaté vlnění (volná a pevná)
 	// https://www.walter-fendt.de/html5/phen/standingwavereflection_en.htm + inversse square law
