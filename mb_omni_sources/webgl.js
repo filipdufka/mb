@@ -50,7 +50,7 @@ window.onload = function() {
   \nprecision mediump float;
 	  
  	 uniform vec2 iResolution;
-  uniform vec2 sourcesPos[3];	
+  uniform vec2 sourcesPos[5];	
   uniform float scale;
 	
 	  #define PI  3.14159265359
@@ -73,7 +73,7 @@ window.onload = function() {
 	vec2 phis = vec2(0.0);
     float volume = 0.1;
 	vec2 k = vec2(2.0 * PI * f / speed, 0);    
-    for(int i = 0; i < 3; i++){
+    for(int i = 0; i < 5; i++){
         if(sourcesPos[i].x >= 0.0){
 		    float dist =  distance(scale * sourcesPos[i] / 800.0, uv);
     	  vec2 insideExp = cmul(cmul(-j, vec2(dist, 0)), k);
@@ -137,7 +137,9 @@ function render() {
   var locations = [
   omniSourcePositions[0].pos.x,omniSourcePositions[0].pos.y,
 	omniSourcePositions[1].pos.x,omniSourcePositions[1].pos.y,
-	omniSourcePositions[2].pos.x,omniSourcePositions[2].pos.y
+  omniSourcePositions[2].pos.x,omniSourcePositions[2].pos.y,
+  omniSourcePositions[3].pos.x,omniSourcePositions[3].pos.y,
+  omniSourcePositions[4].pos.x,omniSourcePositions[4].pos.y
 	];
   gl.uniform2fv(uSourcePos, locations); 
   gl.uniform1f(uScale, 30.0);

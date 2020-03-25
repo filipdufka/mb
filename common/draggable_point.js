@@ -24,17 +24,18 @@ class DraggablePoint {
         let m = p.createVector(p.mouseX, p.mouseY);
         if(this.pos.dist(m) < this.r){
             this.hover = true;
+            DraggablePoint.hoverObject = this;
             if(p.mouseIsPressed){
                 this.drag = true;
             }
         }else{
-            this.hover = false;
+            this.hover = false;            
         }
         if(p.mouseIsPressed == false){
             this.drag = false;
         }
 
-        if(this.drag){
+        if(this.drag && DraggablePoint.hoverObject === this){
             this.pos = m;
         }
     }
