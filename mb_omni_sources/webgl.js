@@ -52,6 +52,8 @@ window.onload = function() {
  	 uniform vec2 iResolution;
   uniform vec2 sourcesPos[5];	
   uniform float scale;
+  uniform float volume;
+  uniform float frequency;
 	
 	  #define PI  3.14159265359
 
@@ -59,7 +61,8 @@ window.onload = function() {
 	vec2 cdiv( vec2 a, vec2 b )  { float d = dot(b,b); return vec2( dot(a,b), a.y*b.x - a.x*b.y ) / d; }
 	vec2 cexp( vec2 z ){ return vec2(cos(z.y), sin(z.y)) * exp(z.x); }
   
-  
+  float log10(float x) {return 0.43429448190325176 * log(x);}
+
   void main(void) {
   vec2 j = vec2(0,1);
 
@@ -68,11 +71,11 @@ window.onload = function() {
   uv *= scale;	
 
 	float speed = 344.0;
-    float f = 100.0;
     
 	vec2 phis = vec2(0.0);
-    float volume = 0.1;
-	vec2 k = vec2(2.0 * PI * f / speed, 0);    
+  vec2 k = vec2(2.0 * PI * frequency / speed, 0);    
+  
+
     for(int i = 0; i < 5; i++){
         if(sourcesPos[i].x >= 0.0){
 		    float dist =  distance(scale * sourcesPos[i] / 800.0, uv);
@@ -84,10 +87,40 @@ window.onload = function() {
       
     }
 	    
-   	float magP = sqrt(pow(phis.x,2.0) + pow(phis.y,2.0));   
-	
-    vec3 col = vec3(15.0*magP);
-	
+     float magP = sqrt(pow(phis.x,2.0) + pow(phis.y,2.0));   
+     
+    float decibels = 20.0 * log10(magP);
+    vec3 col = vec3(0.0);
+    if(decibels > -6.0){
+      col = vec3(0.0,0.066,1.0);
+    }	
+    if(decibels > -3.0){
+      col = vec3(0.0, 0.3, 1.0);
+    }	
+    if(decibels > 0.0){
+      col = vec3(0.0, 1.0, 1.0);
+    }	
+    if(decibels > 3.0){
+      col = vec3(0.0, 1.0, 0.5);
+    }	
+    if(decibels > 6.0){
+      col = vec3(0.3, 1.0, 0.15);
+    }	
+    if(decibels > 9.0){
+      col = vec3(0.7, 0.9, 0.02);
+    }	
+    if(decibels > 12.0){
+      col = vec3(1.0, 1.0, 0.0);
+    }	
+    if(decibels > 15.0){
+      col = vec3(1.0, 0.5, 0.0);
+    }	
+    if(decibels > 18.0){
+      col = vec3(0.93, 0.15, 0.0);
+    }
+    if(decibels > 21.0){
+      col = vec3(1.0, 0.0, 0.0);
+    }	
 
 	gl_FragColor = vec4(col,1);    
     
@@ -107,6 +140,8 @@ window.onload = function() {
   uResolution = gl.getUniformLocation(program, "iResolution");
   uSourcePos = gl.getUniformLocation(program, "sourcesPos");
   uScale = gl.getUniformLocation(program, "scale");
+  uVolume = gl.getUniformLocation(program, "volume");
+  uFrequency = gl.getUniformLocation(program, "frequency");
 
   gl.bindBuffer(gl.ARRAY_BUFFER, vbuf);
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf);
@@ -130,7 +165,7 @@ window.onload = function() {
   render();
 }
                 
- var tuni,startTime, uResolution, uSourcePos, uScale;      
+ var tuni,startTime, uResolution, uSourcePos, uScale, uVolume, uFrequency;      
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.uniform2fv(uResolution,[1600,1600]);
@@ -143,6 +178,8 @@ function render() {
 	];
   gl.uniform2fv(uSourcePos, locations); 
   gl.uniform1f(uScale, 30.0);
+  gl.uniform1f(uVolume, omniSourceVolume);
+  gl.uniform1f(uFrequency, omniSourceFrequency);
   gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 	
   

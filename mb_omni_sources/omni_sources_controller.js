@@ -1,4 +1,6 @@
 let numOfOmniSources = 1;
+let omniSourceVolume = 0;
+let omniSourceFrequency = 20;
 
 var omni_sources_controller = function(p){
   p.setup = function(){
@@ -6,19 +8,34 @@ var omni_sources_controller = function(p){
     cnvs.parent('controllPanel');
 
     p.createSliders();
+
+    console.log(1 / Math.log(10));
   }
 
   p.draw = function(){
     p.clear();
 
     p.sourceCountSlider.show(p);
+    p.volumeSlider.show(p);
+    p.frequencySlider.show(p);
+
     numOfOmniSources = p.sourceCountSlider.getValue();
+    omniSourceVolume = p.volumeSlider.getValue();
+    omniSourceFrequency = p.frequencySlider.getValue();
   }
 
   p.createSliders = function(){
     p.sourceCountSlider = new Slider(p, 1, 5, 1);
     p.sourceCountSlider.setRectangle(new Rectangle(100,15,180,35));
     p.sourceCountSlider.setLabel("N of Sources: ");
+
+    p.volumeSlider = new Slider(p, 0, 15, 0.0001);
+    p.volumeSlider.setRectangle(new Rectangle(300,15,380,35));
+    p.volumeSlider.setLabel("Volume of Sources: ");
+
+    p.frequencySlider = new Slider(p, 20, 500, 5);
+    p.frequencySlider.setRectangle(new Rectangle(500,15,580,35));
+    p.frequencySlider.setLabel("Frequency: ");
   }
 }
 
