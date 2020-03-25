@@ -10,8 +10,8 @@ var omni_sources_sketch = function(p){
     omniSourcePositions.push(new DraggablePoint(p.createVector(400.0, 300.0)));
     omniSourcePositions.push(new DraggablePoint(p.createVector(300.0, 400.0)));
     omniSourcePositions.push(new DraggablePoint(p.createVector(500.0, 400.0)));
-    omniSourcePositions.push(new DraggablePoint(p.createVector(550.0, 400.0)));
-    omniSourcePositions.push(new DraggablePoint(p.createVector(600.0, 400.0)));
+    omniSourcePositions.push(new DraggablePoint(p.createVector(400.0, 500.0)));
+    omniSourcePositions.push(new DraggablePoint(p.createVector(400.0, 400.0)));
   }
 
   p.draw = function(){

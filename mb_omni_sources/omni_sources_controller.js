@@ -20,8 +20,8 @@ var omni_sources_controller = function(p){
     p.frequencySlider.show(p);
 
     numOfOmniSources = p.sourceCountSlider.getValue();
-    omniSourceVolume = p.volumeSlider.getValue();
-    omniSourceFrequency = p.frequencySlider.getValue();
+    omniSourceVolume = p.lerp(omniSourceVolume, p.volumeSlider.getValue(), 0.08);
+    omniSourceFrequency = p.lerp(omniSourceFrequency, p.frequencySlider.getValue(), 0.08);
   }
 
   p.createSliders = function(){
@@ -32,6 +32,7 @@ var omni_sources_controller = function(p){
     p.volumeSlider = new Slider(p, 0, 15, 0.0001);
     p.volumeSlider.setRectangle(new Rectangle(300,15,380,35));
     p.volumeSlider.setLabel("Volume of Sources: ");
+    p.volumeSlider.setValue(3);
 
     p.frequencySlider = new Slider(p, 20, 500, 5);
     p.frequencySlider.setRectangle(new Rectangle(500,15,580,35));
