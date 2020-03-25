@@ -3,11 +3,12 @@ let phasorA, phasorB,phasorSum;
 let guides, mousePos;
 let selectedPhasor;
 
-// textbox úhlů, textbox magnitude
-// checkbox lock magnitude per phasor
-// fix max magnitude (0 - 1)¨
-// červená součet, o pixel tlustčí
-// spojit s mb_sin_add
+// ✔ ❌
+// textbox úhlů, textbox magnitude ❌
+// checkbox lock magnitude per phasor ❌
+// fix max magnitude (0 - 1)¨ ❌
+// červená součet, o pixel tlustčí ❌
+// spojit s mb_sin_add - tedy dvě sinusovky s fázema❌
 
 
 p.setup = function() {

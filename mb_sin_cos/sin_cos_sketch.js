@@ -4,14 +4,14 @@ let guides;
 let margin = 50, graphHeight;
 let speed = 0.0005, periodsToShow = 1.5;
 
-// čistý start
-// tlačítko reset
-// speed
-// vyznačená nulová fáze
-// popisky - stupně
-// výseč kruhu k nule
-// popisky - sin cos
-// hide tlačítko na cos
+// čistý start ❌
+// tlačítko reset ❌
+// speed ❌
+// vyznačená nulová fáze ❌
+// popisky - stupně ❌
+// výseč kruhu k nule ❌
+// popisky - sin cos ❌
+// hide tlačítko na cos ❌
 
 p.setup = function() {
   p.createCanvas(1600, 550);

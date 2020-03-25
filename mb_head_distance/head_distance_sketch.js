@@ -5,9 +5,9 @@ var head_distance_sketch = function(p){
 	let headDiameter = 17;
 	let magnify;
 
-	// zobrazit vzdálenosti
-	// počítat s tím, že hlava je 17cm
-	// změnit do stejného vizuálního stylu
+	// zobrazit vzdálenosti ✔
+	// počítat s tím, že hlava je 17cm ✔
+	// změnit do stejného vizuálního stylu ❌
 
 	p.setup = function() {
 		p.createCanvas(900, 900);

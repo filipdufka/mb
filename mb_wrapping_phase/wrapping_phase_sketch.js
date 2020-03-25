@@ -5,26 +5,26 @@ let unwrapTime;
 
 let maxWrapsSlider, unwrapCheckbox;
 
-// popisky
-// střed slideru - 5 wrapů, krokovej
-// osa  wrapu - +- 180
-// celá osa s popiskama po 180°
-// beziér vzhůru nohama
+// popisky ❌
+// střed slideru - 5 wrapů, krokovej ❌
+// osa  wrapu - +- 180 ❌
+// celá osa s popiskama po 180° ❌
+// beziér vzhůru nohama ❌
 
-// tlačítko semilog x -> linear
+// tlačítko semilog x -> linear ❌
 
-// levý horní vždy 0°
-// krajní vždy lock x
+// levý horní vždy 0° ❌
+// krajní vždy lock x ❌
 
-// popisky freq
+// popisky freq ❌
 
-// beziér default: 
-//       0 - (-hromada) 1/log(x) [0-1], ( lineraní ramp do log) 
+// beziér default: ❌ 
+//       0 - (-hromada) 1/log(x) [0-1], ( lineraní ramp do log) ❌
 
-// hightlight wrap rectangle
-// wrap vždy k nule
+// hightlight wrap rectangle ❌
+// wrap vždy k nule ❌
 
-// preset buttons (3,4)
+// preset buttons (3,4) ❌
 
 p.setup = function() {
 	p.createCanvas(900, 900);

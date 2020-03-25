@@ -5,14 +5,14 @@ var animationCheckbox, squaredCheckbox, meanCheckbox;
 var squareAnimationTime = 0, meanAnimationTime = 0, rootAnimationTime = 0;
 var squareTarget, meanTarget, rootTarget;
 
-// jeden signál - sinusovka (čísleně), šum
-// husoota šumu
-// výpočet rms
-// na druhou
-// průměr
-// odmocnina
-// bez animace
-// sinusovka vždy v celých násobcích
+// jeden signál - sinusovka (čísleně), šum ❌
+// husoota šumu ✔
+// výpočet rms ✔
+// na druhou ✔
+// průměr ✔
+// odmocnina ✔
+// bez animace ❌
+// sinusovka vždy v celých násobcích ❌
 
 
 
