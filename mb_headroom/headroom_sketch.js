@@ -13,6 +13,8 @@ var squareTarget, meanTarget, rootTarget;
 // odmocnina ✔
 // bez animace ❌
 // sinusovka vždy v celých násobcích ❌
+// operace zvlášť ❌
+// dB -> -80 až 20 ❌
 
 
 

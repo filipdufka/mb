@@ -15,7 +15,7 @@ class DraggablePoint {
         }else if(this.drag){
             p.strokeWeight(8);
         }else{
-            p.strokeWeight(1);
+            p.noStroke();
         }
         p.ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
     }

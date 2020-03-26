@@ -73,16 +73,16 @@ window.onload = function() {
 	float speed = 344.0;
     
 	vec2 phis = vec2(0.0);
-  vec2 k = vec2(2.0 * PI * frequency / speed, 0);    
-  
+  vec2 k = vec2(2.0 * PI * frequency / speed, 0);  
+  //A0 = -(R.^2)./(1+j*k*R).*exp(-j*k*R);
 
     for(int i = 0; i < 5; i++){
         if(sourcesPos[i].x >= 0.0){
-		    float dist =  distance(scale * sourcesPos[i] / 800.0, uv);
-    	  vec2 insideExp = cmul(cmul(-j, vec2(dist, 0)), k);
-        
-        vec2 phi = cdiv(cmul(vec2(volume,0.0), cexp(insideExp)),vec2(dist,0.0));
-        phis = phi + phis;
+          float dist =  distance(scale * sourcesPos[i] / 800.0, uv);
+          vec2 insideExp = cmul(cmul(-j, vec2(dist, 0)), k);
+          
+          vec2 phi = cdiv(cmul(vec2(volume,0.0), cexp(insideExp)),vec2(dist,0.0));
+          phis = phi + phis;
         }
       
     }
