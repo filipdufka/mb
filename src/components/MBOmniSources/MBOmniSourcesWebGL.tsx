@@ -2,91 +2,92 @@ import React, { Component } from "react";
 import { Shaders, Node, GLSL } from "gl-react";
 import { Surface } from "gl-react-dom";
 import { Vector } from "p5";
+import "./omniSources.glsl";
 
 const shaders = Shaders.create({
   ColoredDisc: {
     frag: GLSL`
   precision highp float;
-  varying vec2 uv;
+
   uniform vec2 res;
-  uniform vec2 blob0;	
-  uniform vec2 blob1;
-  uniform vec2 blob2;
-  uniform vec2 blob3;
-  uniform vec2 blob4;
-  uniform float time;
+
+  uniform float locations[10];
+  uniform float scale;
+  uniform float volume;
+  uniform float frequency;
+	
+	  #define PI  3.14159265359
+
+	vec2 cmul( vec2 a, vec2 b )  { return vec2( a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x ); }
+	vec2 cdiv( vec2 a, vec2 b )  { float d = dot(b,b); return vec2( dot(a,b), a.y*b.x - a.x*b.y ) / d; }
+	vec2 cexp( vec2 z ){ return vec2(cos(z.y), sin(z.y)) * exp(z.x); }
   
-  vec2 hash( vec2 x ){  // replace this by something better
-      const vec2 k = vec2( 0.3183099, 0.3678794 );
-      x = x*k + k.yx;
-      return -1.0 + 2.0 * fract( 16.12341 * k*fract( x.x*x.y*(x.x+x.y)) );
-  }
-  
-  float noise( in vec2 p ){
-      vec2 i = floor( p );
-      vec2 f = fract( p );
-      
-      vec2 u = f*f*(3.0-2.0*f);
-      
-      return 0.5 + mix( mix( dot( hash( i + vec2(0.0,0.0) ), f - vec2(0.0,0.0) ), 
-                             dot( hash( i + vec2(1.0,0.0) ), f - vec2(1.0,0.0) ), u.x),
-                        mix( dot( hash( i + vec2(0.0,1.0) ), f - vec2(0.0,1.0) ), 
-                             dot( hash( i + vec2(1.0,1.0) ), f - vec2(1.0,1.0) ), u.x), u.y);
-  }
-  
-  vec3 randomColor(in vec2 p){
-    vec2 pp = p + vec2(-4200. +500.*sin(time),-8000.);
-    return vec3(
-      noise(pp * 0.003),
-      noise((vec2(124.2, 74.24154121) + pp) * 0.003),
-      noise((vec2(57.001211411, -122.50012111) + pp) * 0.003));
-  }
-  
-  vec4 getBlob(vec2 p, vec2 c){
-    float d = distance(p, c);
-    float r = 600.0;
-    float a = atan( c.y - p.y , c.x - p.x);
-    float a2 = atan( p.y + 200., p.x - c.x);
-    float a3 = noise(c * 0.002 + .1 * vec2(cos(a), sin(a)));
-    float a4 = noise(c * 0.002 + .1 * vec2(cos(a+time*3.), sin(a+time*3.)));
-    float edge = r * a3;
-    float s = (sin ( 10.0 * a) + 1.) * .25;
-  
-    vec4 col = vec4(1., 1., 1., 1.);
-    if(d < edge){
-      float ratio = d/edge;
-      float saturation = 1.0;
-      vec3 col0 = randomColor(c * 0.3);
-      vec3 col1 = randomColor(c * 0.3 - vec2(40, 40));
-      vec3 col2 = randomColor(c * 0.3 + vec2(40, 40));
-  
-      float border = 0.6;
-  
-      float ss = smoothstep(0.0, border, ratio);
-      vec3 resColor = mix(col0,col1, ss);
-      if(ratio >= border){
-        ss = smoothstep(border, 1.0, ratio);
-        resColor = mix(col1,col2, ss);
-      }
-  
-      resColor = mix(resColor, vec3(1.), smoothstep(mix(1.,.2,a4),1.,ratio));
-      col = vec4(resColor,1);
-    }
-    return col;
-  }
-  
-  void main() {
-    vec2 p = vec2(uv.x, 1. - uv.y) * res;
-    vec2 c = res / 2.;
+  float log10(float x) {return 0.43429448190325176 * log(x);}
+
+  void main(void) {
+  vec2 j = vec2(0,1);
+
+  vec2 uv = gl_FragCoord.xy/res.y;
+  uv = vec2(uv.x, 1.0 - uv.y);
+  uv *= scale;	
+
+	float speed = 344.0;
     
-    vec4 col0 = getBlob(p, blob0);
-    vec4 col1 = getBlob(p, blob1);
-    vec4 col2 = getBlob(p, blob2);
-    vec4 col3 = getBlob(p, blob3);
-    vec4 col4 = getBlob(p, blob4);
-  
-    gl_FragColor = col0 * col1 * col2 * col3 * col4 ;
-  }`,
+	vec2 phis = vec2(0.0);
+  vec2 k = vec2(2.0 * PI * frequency / speed, 0);  
+  //A0 = -(R.^2)./(1+j*k*R).*exp(-j*k*R);
+
+    for(int i = 0; i < 5; i++){
+      vec2 pos = vec2(locations[i*2], locations[i*2 + 1]);
+        if(pos.x >= 0.0){
+          float dist =  distance(scale * pos / 800.0, uv);
+          vec2 insideExp = cmul(cmul(-j, vec2(dist, 0)), k);
+          
+          vec2 phi = cdiv(cmul(vec2(volume,0.0), cexp(insideExp)),vec2(dist,0.0));
+          phis = phi + phis;
+        }
+      
+    }
+	    
+     float magP = sqrt(pow(phis.x,2.0) + pow(phis.y,2.0));   
+     
+    float decibels = 20.0 * log10(magP);
+    vec3 col = vec3(0.0);
+    if(decibels > -6.0){
+      col = vec3(0.0,0.066,1.0);
+    }	
+    if(decibels > -3.0){
+      col = vec3(0.0, 0.3, 1.0);
+    }	
+    if(decibels > 0.0){
+      col = vec3(0.0, 1.0, 1.0);
+    }	
+    if(decibels > 3.0){
+      col = vec3(0.0, 1.0, 0.5);
+    }	
+    if(decibels > 6.0){
+      col = vec3(0.3, 1.0, 0.15);
+    }	
+    if(decibels > 9.0){
+      col = vec3(0.7, 0.9, 0.02);
+    }	
+    if(decibels > 12.0){
+      col = vec3(1.0, 1.0, 0.0);
+    }	
+    if(decibels > 15.0){
+      col = vec3(1.0, 0.5, 0.0);
+    }	
+    if(decibels > 18.0){
+      col = vec3(0.93, 0.15, 0.0);
+    }
+    if(decibels > 21.0){
+      col = vec3(1.0, 0.0, 0.0);
+    }	
+
+	gl_FragColor = vec4(col,1);    
+    
+  }
+  `,
   },
 });
 
@@ -94,16 +95,26 @@ class ColoredDisc extends Component<MBOmniSourcesWebGLProps, {}> {
   render() {
     // fromColor/toColor must be array of 3 numbers because defined as vec3 type.
     const { res } = this.props;
+    const locations = [
+      this.props.positions[0].x,this.props.positions[0].y,
+      this.props.positions[1].x,this.props.positions[1].y,
+      this.props.positions[2].x,this.props.positions[2].y,
+      this.props.positions[3].x,this.props.positions[3].y,
+      this.props.positions[4].x,this.props.positions[4].y
+      ];
     const blob0 = [this.props.positions[0].x, this.props.positions[0].y];
     const blob1 = [this.props.positions[1].x, this.props.positions[1].y];
     const blob2 = [this.props.positions[2].x, this.props.positions[2].y];
     const blob3 = [this.props.positions[3].x, this.props.positions[3].y];
     const blob4 = [this.props.positions[4].x, this.props.positions[4].y];
     const time = new Date().getTime();
+    const scale = 30.0;
+    const volume = 3.0;
+    const frequency = 81.5*4;
     return (
       <Node
         shader={shaders.ColoredDisc}
-        uniforms={{ res, time, blob0, blob1, blob2, blob3, blob4 }}
+        uniforms={{ res, locations, scale, volume, frequency }}
       />
     );
   }
