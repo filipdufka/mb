@@ -72,3 +72,14 @@ export function getNormal(p5 : p5InstanceExtensions, pos0, pos1){
   let dir = Vector.sub(pos1, pos0).normalize();
   return p5.createVector(dir.y,-dir.x);
 }
+
+export function lerp(A:number, B:number, t:number):number{
+  return A + (B - A) * t;
+}
+
+export function vectorLerp(A:Vector, B:Vector, t:number):Vector{
+  let v = new Vector();
+  v.x = lerp(A.x, B.x, t);
+  v.y = lerp(A.y, B.y, t);
+  return v;
+}
