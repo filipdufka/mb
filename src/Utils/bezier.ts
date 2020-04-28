@@ -1,5 +1,9 @@
-class BezierCurve{
+import { Vector } from "p5";
+import { DraggablePoint } from "./draggablePoint";
 
+export class BezierCurve{
+    precision : number;
+    points : DraggablePoint[];
     constructor(){
         this.precision = 100;
         this.points = [];
@@ -27,11 +31,11 @@ class BezierCurve{
         return this.points[3 * segment + index];
     }
 
-    getAnchorPoints(){
+    getAnchorPoints():DraggablePoint[]{
         return this.points;
     }
 
-    getDrawPoints(){
+    getDrawPoints():Vector[]{
         let pointsToReturn = [];        
         let segments = Math.floor((this.points.length - 1) / 3);
         for (let s = 0; s < segments; s++) {

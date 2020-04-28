@@ -6,6 +6,7 @@ import MBPhasors from "./MBPhasors/MBPhasors";
 import MBSinAdd from "./MBSinAdd/MBSinAdd";
 import MBSinCos from "./MBSinCos/MBSinCos";
 import MBSpaceWave from "./MBSpaceWave/MBSpaceWave";
+import MBWrappingPhase from "./MBWrappingPhase/MBWrappingPhase";
 
 export const links: MenuItem[] = [
   { path: "/", name: "Logo", component: MBLogo },
@@ -15,6 +16,7 @@ export const links: MenuItem[] = [
   { path: "/sin_add", name: "Sin Add", component: MBSinAdd },
   { path: "/sin_cos", name: "Sin Cos", component: MBSinCos },
   { path: "/space_wave", name: "Space Wave", component: MBSpaceWave },
+  { path: "/wrapping_phase", name: "Wrapping Phase", component: MBWrappingPhase },
 ];
 
 interface MenuItem {
