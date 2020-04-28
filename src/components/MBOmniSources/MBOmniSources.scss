@@ -1,0 +1,16 @@
+.blobs{
+    position: relative;
+}
+
+.blobs .layer{
+    position: absolute;
+}
+
+.blobs .textLayer{
+    position: absolute;
+    text-align: center;
+    color: #ffffff;
+    font-size: 200px;
+    opacity: .3;
+    top: 30%;
+}
