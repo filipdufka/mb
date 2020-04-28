@@ -1,5 +1,10 @@
-class Checkbox{
-    constructor(p){
+import { Rectangle } from "./rectangle";
+import { p5InstanceExtensions } from "p5";
+
+export class Checkbox{
+    border; value; animValue; margin; step; hover; clicked; label; lineHeights;
+    p : p5InstanceExtensions;
+    constructor(p : p5InstanceExtensions){
         this.border = new Rectangle(50,50,64,64);
         this.value = false;
         this.animValue = 0;

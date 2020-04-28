@@ -1,8 +1,8 @@
 import { p5InstanceExtensions, Vector } from 'p5';
 
-function sqr(x) { return x * x }
-function dist2(v, w) { return sqr(v.x - w.x) + sqr(v.y - w.y) }
-function distToSegmentSquared(p, v, w) {
+export function sqr(x) { return x * x }
+export function dist2(v, w) { return sqr(v.x - w.x) + sqr(v.y - w.y) }
+export function distToSegmentSquared(p, v, w) {
   var l2 = dist2(v, w);
   if (l2 == 0) return dist2(p, v);
   var t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
@@ -10,7 +10,7 @@ function distToSegmentSquared(p, v, w) {
   return dist2(p, { x: v.x + t * (w.x - v.x),
                     y: v.y + t * (w.y - v.y) });
 }
-function distToSegment(p, v, w) { return Math.sqrt(distToSegmentSquared(p, v, w)); }
+export function distToSegment(p, v, w) { return Math.sqrt(distToSegmentSquared(p, v, w)); }
 
 //from https://stackoverflow.com/questions/12219802/a-javascript-function-that-returns-the-x-y-points-of-intersection-between-two-ci
 export function circlesIntersection(p5 : p5InstanceExtensions, x0: number, y0:number, r0:number, x1:number, y1:number, r1:number) {

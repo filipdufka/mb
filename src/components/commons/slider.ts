@@ -1,4 +1,10 @@
-class Slider{
+import { p5InstanceExtensions } from "p5";
+import { Rectangle } from "./rectangle";
+import { distToSegment } from "./commonMath";
+
+export class Slider{
+      minValue;maxValue;step;value;border;hover;clicked;label;
+      p : p5InstanceExtensions;
       constructor(p, minValue, maxValue, step = 0.000001){
             this.minValue = minValue;
             this.maxValue = maxValue;
@@ -34,7 +40,7 @@ class Slider{
       }
 
       show(){
-            this.getHover(this.p);
+            this.getHover();
             this.showSlider(this.p);
             this.showHandle(this.p);  
             this.showLabel(this.p);          
