@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Shaders, Node, GLSL } from "gl-react";
 import { Surface } from "gl-react-dom";
 import { Vector } from "p5";
-import "./omniSources.glsl";
 
 const shaders = Shaders.create({
   ColoredDisc: {
