@@ -4,6 +4,7 @@ import MBHeadDistance from "./MBHeadDistance/MBHeadDistance";
 import MBHeadroom from "./MBHeadroom/MBHeadroom";
 import MBPhasors from "./MBPhasors/MBPhasors";
 import MBSinAdd from "./MBSinAdd/MBSinAdd";
+import MBSinCos from "./MBSinCos/MBSinCos";
 
 export const links: MenuItem[] = [
   { path: "/", name: "Logo", component: MBLogo },
@@ -11,6 +12,7 @@ export const links: MenuItem[] = [
   { path: "/headroom", name: "Headroom", component: MBHeadroom },
   { path: "/phasors", name: "Phasors", component: MBPhasors },
   { path: "/sin_add", name: "Sin Add", component: MBSinAdd },
+  { path: "/sin_cos", name: "Sin Cos", component: MBSinCos },
 ];
 
 interface MenuItem {
