@@ -1,5 +1,8 @@
-class Guides{
-    constructor(p){
+import { p5InstanceExtensions } from "p5";
+
+export class Guides{
+    hs; vs; p : p5InstanceExtensions;
+    constructor(p : p5InstanceExtensions){
         this.hs = [];
         this.vs = [];
         this.p = p;
