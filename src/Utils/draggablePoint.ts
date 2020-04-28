@@ -1,5 +1,10 @@
+import { p5InstanceExtensions, Vector } from 'p5';
 
-class DraggablePoint {
+export class DraggablePoint {
+    pos : Vector; 
+    r : number; interactable; hover; drag; 
+    static hoverObject;
+
     constructor(pos) {
       this.pos = pos;
       this.r = 6; //radius
@@ -8,30 +13,30 @@ class DraggablePoint {
       this.drag = false;      
     }
 
-    show(p){
-        this.getHover(p);
+    show(p5 : p5InstanceExtensions){
+        this.getHover(p5);
         if(this.hover){
-            p.strokeWeight(4);
+            p5.strokeWeight(4);
         }else if(this.drag){
-            p.strokeWeight(8);
+            p5.strokeWeight(8);
         }else{
-            p.noStroke();
+            p5.noStroke();
         }
-        p.ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+        p5.ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
     }
 
-    getHover(p){
-        let m = p.createVector(p.mouseX, p.mouseY);
+    getHover(p5 : p5InstanceExtensions){
+        let m = p5.createVector(p5.mouseX, p5.mouseY);
         if(this.pos.dist(m) < this.r){
             this.hover = true;
             DraggablePoint.hoverObject = this;
-            if(p.mouseIsPressed){
+            if(p5.mouseIsPressed){
                 this.drag = true;
             }
         }else{
             this.hover = false;            
         }
-        if(p.mouseIsPressed == false){
+        if(p5.mouseIsPressed == false){
             this.drag = false;
         }
 

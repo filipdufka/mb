@@ -1,5 +1,12 @@
-class Graph {
-    constructor(p, border) {
+import { p5InstanceExtensions, Color } from "p5";
+
+export class Graph {
+  data; xdata; xlabels; ylabels; border;c1;c2;
+  mainColor : Color;
+  ymin;ymax;xmin;xmax;lineWeight; 
+  p:p5InstanceExtensions;
+
+    constructor(p : p5InstanceExtensions, border) {
       this.data = null;
       this.xdata = null;
       this.xlabels = null;
@@ -38,7 +45,7 @@ class Graph {
       this.ymax = ymax;
     }
 
-    setMainColor(col){
+    setMainColor(col : Color){
       this.mainColor = col;
     }
 
@@ -143,7 +150,7 @@ class Graph {
 
     drawColor(t){
       if(this.c1 != null && this.c2 != null){
-        stroke(lerpColor(this.c1,this.c2,t));
+        this.p.stroke(this.p.lerpColor(this.c1,this.c2,t));
       }
     }
 

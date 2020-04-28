@@ -1,5 +1,10 @@
-class BezierCurve{
+import { Vector } from "p5";
+import { DraggablePoint } from "./draggablePoint";
+import { vectorLerp } from "./commonMath";
 
+export class BezierCurve{
+    precision : number;
+    points : DraggablePoint[];
     constructor(){
         this.precision = 100;
         this.points = [];
@@ -15,23 +20,23 @@ class BezierCurve{
         let B = this.getSegmentPoint(segment, 1).pos;
         let C = this.getSegmentPoint(segment, 2).pos;
         let D = this.getSegmentPoint(segment, 3).pos;
-        let AB = p5.Vector.lerp(A, B, t);
-        let BC = p5.Vector.lerp(B, C, t);
-        let CD = p5.Vector.lerp(C, D, t);
-        let ABBC = p5.Vector.lerp(AB, BC, t);
-        let BCCD = p5.Vector.lerp(BC, CD, t);
-        return p5.Vector.lerp(ABBC, BCCD, t);
+        let AB = vectorLerp(A, B, t);
+        let BC = vectorLerp(B, C, t);
+        let CD = vectorLerp(C, D, t);
+        let ABBC = vectorLerp(AB, BC, t);
+        let BCCD = vectorLerp(BC, CD, t);
+        return vectorLerp(ABBC, BCCD, t);
     }
 
     getSegmentPoint(segment, index) {
         return this.points[3 * segment + index];
     }
 
-    getAnchorPoints(){
+    getAnchorPoints():DraggablePoint[]{
         return this.points;
     }
 
-    getDrawPoints(){
+    getDrawPoints():Vector[]{
         let pointsToReturn = [];        
         let segments = Math.floor((this.points.length - 1) / 3);
         for (let s = 0; s < segments; s++) {

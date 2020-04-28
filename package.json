@@ -1,0 +1,32 @@
+{
+  "name": "mb",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:filipdufka/mb.git"
+  },
+  "author": "Filip Dufka",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/p5": "^0.9.0",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "@types/react-router-dom": "^5.1.5",
+    "autoprefixer": "^9.7.6",
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.26.5",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-p5": "^1.3.2",
+    "react-router-dom": "^5.1.2"
+  }
+}
