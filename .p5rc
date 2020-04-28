@@ -6,6 +6,7 @@
     "mb_headroom",
     "mb_omni_sources",
     "mb_phasors",
+    "mb_sin_add",
     "mb_sin_cos",
     "mb_space_wave",
     "mb_standing_wave",
