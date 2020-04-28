@@ -1,1 +1,5 @@
 *.ai
+dist
+.cache
+
+node_modules
