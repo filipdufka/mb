@@ -72,7 +72,6 @@ export default class MBHeadroom extends Component {
     let maxValuePos = 0;
     for (let i = 0; i < dataA.length; i++) {
       let squared = dataA[i] * dataA[i];
-      console.log(this.squareAnimationTime);
       squared = p5.lerp(dataA[i], squared, this.squareAnimationTime);
       editedSum += squared;
       dataAedited[i] = squared;

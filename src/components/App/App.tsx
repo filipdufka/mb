@@ -1,51 +1,31 @@
-import React,{ Component } from "react";
-import MBLogo from "../MBLogo/MBLogo";
-import MBHeadDistance from "../MBHeadDistance/MBHeadDistance";
-import MBHeadroom from "../MBHeadroom/MBHeadroom"
+import React, { Component } from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useRouteMatch
 } from "react-router-dom";
 
 import "./App.scss";
+import Menu from "../Menu/Menu";
+import { links } from "../links";
 
 export default class App extends Component {
-    render() {
-      return (
-        <Router>
+  contents = links.slice(0).reverse().map((link) => (
+    <Route path={link.path} key={link.path}>
+      <link.component />
+    </Route>
+  ));
+
+  render() {
+    return (
+      <Router>
         <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Logo</Link>
-              </li>
-              <li>
-                <Link to="/head_distance">Head Distance</Link>
-              </li>
-              <li>
-                <Link to="/headroom">Headroom</Link>
-              </li>
-            </ul>
-          </nav>
-  
-          {/* A <Switch> looks through its children <Route>s and
-              renders the first one that matches the current URL. */}
+          <Menu />
           <Switch>
-            <Route path="/head_distance">
-              <MBHeadDistance />
-            </Route>
-            <Route path="/headroom">
-              <MBHeadroom />
-            </Route>
-            <Route path="/">
-              <MBLogo />
-            </Route>
+            {this.contents}
           </Switch>
         </div>
       </Router>
-      )
-    }
+    );
   }
+}
