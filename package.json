@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html && copyfiles --flat src/_redirects dist"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "copyfiles": "^2.2.0",
     "gl-react": "^4.0.1",
     "gl-react-dom": "^4.0.1",
     "react": "^16.13.1",

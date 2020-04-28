@@ -6,7 +6,7 @@ import { Vector } from "p5";
 
 export default class MBOmniSources extends Component {
     state = {
-        positions : [[0,100],[100,100],[200,100],[300,100],[400,100],[500,100]]
+        positions : [new Vector(), new Vector(), new Vector(), new Vector(), new Vector()]
     }
     blobChangedPosition = (positions: Vector[]) : void  =>  {
         this.setState({positions});
