@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Shaders, Node, GLSL } from "gl-react";
 import { Surface } from "gl-react-dom";
+import { Vector } from "p5";
 
 const shaders = Shaders.create({
   ColoredDisc: {
@@ -13,7 +14,6 @@ const shaders = Shaders.create({
   uniform vec2 blob2;
   uniform vec2 blob3;
   uniform vec2 blob4;
-  uniform vec2 blob5;
   uniform float time;
   
   vec2 hash( vec2 x ){  // replace this by something better
@@ -84,9 +84,8 @@ const shaders = Shaders.create({
     vec4 col2 = getBlob(p, blob2);
     vec4 col3 = getBlob(p, blob3);
     vec4 col4 = getBlob(p, blob4);
-    vec4 col5 = getBlob(p, blob5);
   
-    gl_FragColor = col0 * col1 * col2 * col3 * col4 * col5;
+    gl_FragColor = col0 * col1 * col2 * col3 * col4 ;
   }`,
   },
 });
@@ -95,17 +94,16 @@ class ColoredDisc extends Component<MBOmniSourcesWebGLProps, {}> {
   render() {
     // fromColor/toColor must be array of 3 numbers because defined as vec3 type.
     const { res } = this.props;
-    const blob0 = this.props.positions[0];
-    const blob1 = this.props.positions[1];
-    const blob2 = this.props.positions[2];
-    const blob3 = this.props.positions[3];
-    const blob4 = this.props.positions[4];
-    const blob5 = this.props.positions[5];
+    const blob0 = [this.props.positions[0].x, this.props.positions[0].y];
+    const blob1 = [this.props.positions[1].x, this.props.positions[1].y];
+    const blob2 = [this.props.positions[2].x, this.props.positions[2].y];
+    const blob3 = [this.props.positions[3].x, this.props.positions[3].y];
+    const blob4 = [this.props.positions[4].x, this.props.positions[4].y];
     const time = new Date().getTime();
     return (
       <Node
         shader={shaders.ColoredDisc}
-        uniforms={{ res, time, blob0, blob1, blob2, blob3, blob4, blob5 }}
+        uniforms={{ res, time, blob0, blob1, blob2, blob3, blob4 }}
       />
     );
   }
@@ -126,5 +124,5 @@ export default class MBOmniSourcesWebGL extends Component<MBOmniSourcesWebGLProp
 
 interface MBOmniSourcesWebGLProps {
     res: number[]; 
-    positions: number[][];
+    positions: Vector[];
 }

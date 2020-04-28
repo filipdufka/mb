@@ -5,7 +5,7 @@ export class DraggablePoint {
     r : number; interactable; hover; drag; 
     static hoverObject;
 
-    constructor(pos) {
+    constructor(pos : Vector) {
       this.pos = pos;
       this.r = 6; //radius
       this.interactable = true;
