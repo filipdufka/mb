@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Sketch from "react-p5";
 import { p5InstanceExtensions, Vector } from "p5";
-import { Guides } from "../../Utils/guides";
-import { BezierCurve } from "../../Utils/bezier";
-import { Slider } from "../../Utils/slider";
-import { Checkbox } from "../../Utils/checkbox";
-import { Rectangle } from "../../Utils/rectangle";
+import { Guides } from "../../utils2/guides";
+import { BezierCurve } from "../../utils2/bezier";
+import { Slider } from "../../utils2/slider";
+import { Checkbox } from "../../utils2/checkbox";
+import { Rectangle } from "../../utils2/rectangle";
 
 export default class MBWrappingPhase extends Component {
   gs : Guides;
