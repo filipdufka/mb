@@ -1,4 +1,3 @@
-import { Component } from "react";
 import MBHeadDistance from "./MBHeadDistance/MBHeadDistance";
 import MBHeadroom from "./MBHeadroom/MBHeadroom";
 import MBPhasors from "./MBPhasors/MBPhasors";
@@ -8,6 +7,7 @@ import MBSpaceWave from "./MBSpaceWave/MBSpaceWave";
 import MBWrappingPhase from "./MBWrappingPhase/MBWrappingPhase";
 import MBOmniSources from "./MBOmniSources/MBOmniSources";
 import TitleScreen from "./TitleScreen/TitleScreen";
+import { Component } from "react";
 
 export const links: MenuItem[] = [
   { path: "/", name: "Logo", component: TitleScreen },

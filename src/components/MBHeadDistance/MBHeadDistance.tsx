@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Sketch from "react-p5";
-import { p5InstanceExtensions, Vector } from 'p5';
+import { p5InstanceExtensions, Vector } from "p5";
 import { DraggablePoint} from '../../Utils/draggablePoint'
 import { circlesIntersection, getNormal } from "../../Utils/commonMath";
 
