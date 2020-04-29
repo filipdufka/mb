@@ -11,12 +11,12 @@ export default class MBWrappingPhase extends Component {
   gs : Guides;
   bezier : BezierCurve;
   margin;
-  minWraps;
-  maxWraps;
+  minWraps : number;
+  maxWraps : number;
   unwrapTime;
 
-  maxWrapsSlider;
-  unwrapCheckbox;
+  maxWrapsSlider : Slider;
+  unwrapCheckbox : Checkbox;
 
   setup = (p5: p5InstanceExtensions, canvasParentRef) => {
     p5.createCanvas(900, 900).parent(canvasParentRef);
@@ -33,7 +33,7 @@ export default class MBWrappingPhase extends Component {
     this.gs.addVertical(p5.width - this.margin);
 
     this.bezier = new BezierCurve();
-    this.bezier.createNewPoint(p5.createVector(this.gs.vs[0], this.gs.hs[0]));
+    this.bezier.createNewPoint(p5.createVector(this.gs.vs[0], (this.gs.hs[0] + this.gs.hs[1])/2));
     this.bezier.createNewPoint(
       p5.createVector(this.gs.vs[this.gs.vs.length - 1] - 20, this.gs.hs[0])
     );
@@ -43,11 +43,12 @@ export default class MBWrappingPhase extends Component {
     this.bezier.createNewPoint(
         p5.createVector(this.gs.vs[this.gs.vs.length - 1], this.gs.hs[this.gs.hs.length - 1])
     );
+
+    this.bezier.getSegmentPoint(0, 0).interactable = false;
   };
 
   draw = (p5: p5InstanceExtensions) => {
     // lock X axis to anchor points
-    this.bezier.getSegmentPoint(0, 0).pos.x = this.gs.vs[0];
     this.bezier.getSegmentPoint(0, 3).pos.x = this.gs.vs[this.gs.vs.length - 1];
 
     // calculating max wraps
@@ -82,7 +83,7 @@ export default class MBWrappingPhase extends Component {
     for (let i = 0; i < lineSeq.length; i++) {
       let A = lineSeq[i].A;
       let B = lineSeq[i].B;
-      let wrap = lineSeq[i].wrap;
+      let wrap = lineSeq[i].wrap - Math.floor(this.maxWraps / 2);
 
       let unwrapTarget = wrap * this.getWrapHeight();
 
@@ -178,10 +179,10 @@ export default class MBWrappingPhase extends Component {
   };
 
   createUI = (p5 : p5InstanceExtensions) => {
-    this.maxWrapsSlider = new Slider(p5, 3, 11, 2);
+    this.maxWrapsSlider = new Slider(p5, 3, 17, 2);
     this.maxWrapsSlider.setRectangle(new Rectangle(200, 15, 280, 35));
     this.maxWrapsSlider.setLabel("Max Wraps: ");
-    this.maxWrapsSlider.value = 0.5;
+    this.maxWrapsSlider.setValue(7);
 
     this.unwrapCheckbox = new Checkbox(p5);
     this.unwrapCheckbox.setRectangle(new Rectangle(358, 16, 372, 30));

@@ -10,7 +10,7 @@ export class BezierCurve{
         this.points = [];
     }
 
-    createNewPoint(pos) {
+    createNewPoint(pos : Vector) {
         var anchor = new DraggablePoint(pos);
         this.points.push(anchor);
     }
