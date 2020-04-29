@@ -15,7 +15,7 @@ export class BezierCurve{
         this.points.push(anchor);
     }
 
-    getBezierPoint(t, segment) {
+    getBezierPoint(t:number, segment:number) {
         let A = this.getSegmentPoint(segment, 0).pos;
         let B = this.getSegmentPoint(segment, 1).pos;
         let C = this.getSegmentPoint(segment, 2).pos;
@@ -28,7 +28,7 @@ export class BezierCurve{
         return vectorLerp(ABBC, BCCD, t);
     }
 
-    getSegmentPoint(segment, index) {
+    getSegmentPoint(segment:number, index:number) {
         return this.points[3 * segment + index];
     }
 

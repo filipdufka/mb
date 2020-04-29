@@ -6,9 +6,9 @@ export default class MBLogo extends Component<MBLogoProps, {}> {
   orderRatio: number = 0;
   targetOrderRatio: number = 0.98;
   bWidth: number = 200;
-  lastMousePos: Vector;
+  lastMousePos: Vector = new Vector();
 
-  setup = (p5: p5InstanceExtensions, canvasParentRef) => {
+  setup = (p5: p5InstanceExtensions, canvasParentRef : Element) => {
     p5.createCanvas(450, 300).parent(canvasParentRef);
     p5.textSize(40);
     p5.textAlign(p5.CENTER, p5.CENTER);
