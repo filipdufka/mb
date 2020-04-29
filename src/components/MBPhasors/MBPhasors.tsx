@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Sketch from "react-p5";
 import { p5InstanceExtensions, Vector, Color } from "p5";
-import { Guides } from "../../utils2/guides";
-import { Phasor } from "../../utils2/phasor";
+import { Guides } from "../../utils/guides";
+import { Phasor } from "../../utils/phasor";
 
 export default class MBPhasors extends Component {
   guides: Guides;

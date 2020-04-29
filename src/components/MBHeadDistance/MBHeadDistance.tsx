@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Sketch from "react-p5";
 import { p5InstanceExtensions, Vector } from "p5";
-import { DraggablePoint} from '../../utils2/draggablePoint'
-import { circlesIntersection, getNormal } from "../../utils2/commonMath";
+import { DraggablePoint} from '../../utils/draggablePoint'
+import { circlesIntersection, getNormal } from "../../utils/commonMath";
 
 
 export default class MBHeadDistance extends Component {

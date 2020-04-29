@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Sketch from "react-p5";
 import { p5InstanceExtensions } from "p5";
-import { Guides } from "../../utils2/guides";
-import { Graph } from "../../utils2/graph";
-import { Slider } from "../../utils2/slider";
-import { Checkbox } from "../../utils2/checkbox";
-import { Rectangle } from "../../utils2/rectangle";
-import { generateSin } from "../../utils2/signal_generator";
+import { Guides } from "../../utils/guides";
+import { Graph } from "../../utils/graph";
+import { Slider } from "../../utils/slider";
+import { Checkbox } from "../../utils/checkbox";
+import { Rectangle } from "../../utils/rectangle";
+import { generateSin } from "../../utils/signal_generator";
 
 export default class MBSinAdd extends Component {
   graphA: Graph;
