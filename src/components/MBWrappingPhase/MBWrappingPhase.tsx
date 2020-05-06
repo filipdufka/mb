@@ -8,6 +8,18 @@ import { Checkbox } from "../../utils/checkbox";
 import { Rectangle } from "../../utils/rectangle";
 
 export default class MBWrappingPhase extends Component {
+render(){
+  return (
+    <div>
+      <input type="range" min="1" max="100" value="50" className="slider" id="myRange"></input>
+      <MBWrappingPhaseSketch />
+    </div>
+  );
+}
+
+}
+
+class MBWrappingPhaseSketch extends Component {
   gs : Guides;
   bezier : BezierCurve;
   margin;
@@ -19,7 +31,7 @@ export default class MBWrappingPhase extends Component {
   unwrapCheckbox : Checkbox;
 
   setup = (p5: p5InstanceExtensions, canvasParentRef) => {
-    p5.createCanvas(900, 900).parent(canvasParentRef);
+    p5.createCanvas(1000, 800).parent(canvasParentRef);
     this.createUI(p5);
 
     this.calculateWraps();
