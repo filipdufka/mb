@@ -1,11 +1,11 @@
-import { p5InstanceExtensions } from "p5";
 import { Rectangle } from "./rectangle";
 import { distToSegment } from "./commonMath";
+import p5 from "p5";
 
 export class Slider{
       minValue;maxValue;step;value;border;hover;clicked;label;
-      p : p5InstanceExtensions;
-      constructor(p, minValue, maxValue, step = 0.000001){
+      p : p5;
+      constructor(p : p5, minValue, maxValue, step = 0.000001){
             this.minValue = minValue;
             this.maxValue = maxValue;
             this.step = step;
@@ -14,7 +14,7 @@ export class Slider{
             this.hover = false;
             this.clicked = false;
             this.label = "";
-            this.p = p;
+            this.p = p;            
       }
 
       setRectangle(rect){
@@ -36,7 +36,10 @@ export class Slider{
       }
 
       setValue(val){
-            this.setNormValue(this.p.map(val, this.minValue, this.maxValue, 0, 1));
+            const {p, minValue, maxValue} = this;
+            const normValue = p.map(1,0,10,50,70);
+            console.log(normValue);
+            this.setNormValue(p.map(val, minValue, maxValue, 0, 1));
       }
 
       show(){
@@ -74,7 +77,7 @@ export class Slider{
       }
 
       getHover(){
-            let p = this.p;
+            const {p} = this;
             let m = p.createVector(p.mouseX, p.mouseY);
             let posX = p.lerp(this.border.left, this.border.right, this.value);
             let a = p.createVector(posX, this.border.top);

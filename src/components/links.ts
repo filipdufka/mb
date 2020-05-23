@@ -1,5 +1,5 @@
 import {MBHeadDistance} from "./MBHeadDistance/MBHeadDistance";
-import MBHeadroom from "./MBHeadroom/MBHeadroom";
+import {MBHeadroom} from "./MBHeadroom/MBHeadroom";
 import MBPhasors from "./MBPhasors/MBPhasors";
 import MBSinAdd from "./MBSinAdd/MBSinAdd";
 import MBSinCos from "./MBSinCos/MBSinCos";
