@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Sketch from "react-p5";
 import { p5InstanceExtensions, Vector } from 'p5';
-import { DraggablePoint } from "../../utils/draggablePoint";
+import { DraggablePoint } from "../../utils/p5/draggablePoint";
 
 
 export default class MBOmniSourcesP5 extends Component<MBOmniSourcesP5Props, {}> {

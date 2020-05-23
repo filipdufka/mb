@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Sketch from "react-p5";
 import { p5InstanceExtensions } from "p5";
-import { Rectangle } from "../../utils/rectangle";
-import { Graph } from "../../utils/graph";
-import { Slider } from "../../utils/slider";
-import { Checkbox } from "../../utils/checkbox";
-import { generateNoise } from "../../utils/signal_generator";
+import { Rectangle } from "../../utils/p5/rectangle";
+import { Graph } from "../../utils/p5/graph";
+import { Slider } from "../../utils/p5/slider";
+import { Checkbox } from "../../utils/p5/checkbox";
+import { generateNoise } from "../../utils/p5/signal_generator";
 
 export default class MBHeadroom extends Component {
   graphA: Graph;
