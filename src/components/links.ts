@@ -1,11 +1,12 @@
 import {MBHeadDistance} from "./MBHeadDistance/MBHeadDistance";
 import {MBHeadroom} from "./MBHeadroom/MBHeadroom";
+import {MBOmniSources} from "./MBOmniSources/MBOmniSources";
 import MBPhasors from "./MBPhasors/MBPhasors";
 import MBSinAdd from "./MBSinAdd/MBSinAdd";
 import MBSinCos from "./MBSinCos/MBSinCos";
 import MBSpaceWave from "./MBSpaceWave/MBSpaceWave";
 import MBWrappingPhase from "./MBWrappingPhase/MBWrappingPhase";
-import MBOmniSources from "./MBOmniSources/MBOmniSources";
+
 import TitleScreen from "./TitleScreen/TitleScreen";
 import { Component } from "react";
 
