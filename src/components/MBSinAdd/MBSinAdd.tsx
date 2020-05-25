@@ -1,197 +1,197 @@
 import React, { Component } from "react";
-import Sketch from "react-p5";
-import { p5InstanceExtensions } from "p5";
-import { Guides } from "../../utils/p5/guides";
-import { Graph } from "../../utils/p5/graph";
-import { Slider } from "../../utils/p5/slider";
-import { Checkbox } from "../../utils/p5/checkbox";
-import { Rectangle } from "../../utils/p5/rectangle";
-import { generateSin } from "../../utils/p5/signal_generator";
+import sinAddSketch from "./sinAddSketch";
+import P5Wrapper from "../../utils/react-p5-wrapper";
 
-export default class MBSinAdd extends Component {
-  graphA: Graph;
-  graphB: Graph;
-  graphSum: Graph;
-  guides: Guides;
-  phase: number = 0;
-  decibels;
-  obstacle: boolean;
-  phaseSlider: Slider;
-  periodsSlider: Slider;
-  testSlider: Slider;
-  degreesCheckbox: Checkbox;
-  decibelsCheckbox: Checkbox;
-  animationCheckbox: Checkbox;
-  obstacleCheckbox: Checkbox;
+export const MBSinAdd: React.FC<{}> = (props: {}) => {
+  return (
+      <P5Wrapper sketch={sinAddSketch} />
+  );
+};
 
-  setup = (p5: p5InstanceExtensions, canvasParentRef) => {
-    p5.createCanvas(800, 550).parent(canvasParentRef);
+// export default class MBSinAdd extends Component {
+//   graphA: Graph;
+//   graphB: Graph;
+//   graphSum: Graph;
+//   guides: Guides;
+//   phase: number = 0;
+//   decibels;
+//   obstacle: boolean;
+//   phaseSlider: Slider;
+//   periodsSlider: Slider;
+//   testSlider: Slider;
+//   degreesCheckbox: Checkbox;
+//   decibelsCheckbox: Checkbox;
+//   animationCheckbox: Checkbox;
+//   obstacleCheckbox: Checkbox;
 
-    let rect = new Rectangle(50, 50, p5.width - 50, p5.height - 50);
-    this.graphA = new Graph(p5, rect);
-    this.graphA.setYMinMax(-2, 2);
-    this.graphA.setMainColor(p5.color(255, 0, 0));
-    this.graphB = new Graph(p5, rect);
-    this.graphB.setYMinMax(-2, 2);
-    this.graphB.setMainColor(p5.color(0, 0, 255));
-    this.graphSum = new Graph(p5, rect);
-    this.graphSum.setYMinMax(-2, 2);
-    this.createSliders(p5);
-    this.createCheckBoxes(p5);
-  };
+//   setup = (p5: p5InstanceExtensions, canvasParentRef) => {
+//     p5.createCanvas(800, 550).parent(canvasParentRef);
 
-  draw = (p5: p5InstanceExtensions) => {
-    p5.clear();
+//     let rect = new Rectangle(50, 50, p5.width - 50, p5.height - 50);
+//     this.graphA = new Graph(p5, rect);
+//     this.graphA.setYMinMax(-2, 2);
+//     this.graphA.setMainColor(p5.color(255, 0, 0));
+//     this.graphB = new Graph(p5, rect);
+//     this.graphB.setYMinMax(-2, 2);
+//     this.graphB.setMainColor(p5.color(0, 0, 255));
+//     this.graphSum = new Graph(p5, rect);
+//     this.graphSum.setYMinMax(-2, 2);
+//     this.createSliders(p5);
+//     this.createCheckBoxes(p5);
+//   };
 
-    p5.stroke(0, 0, 0, 25);
-    if (this.animationCheckbox.getValue()) {
-      this.phase += 0.01;
-    }
+//   draw = (p5: p5InstanceExtensions) => {
+//     p5.clear();
 
-    let resolution = 300;
+//     p5.stroke(0, 0, 0, 25);
+//     if (this.animationCheckbox.getValue()) {
+//       this.phase += 0.01;
+//     }
 
-    let dataA = generateSin(
-      this.phase,
-      this.periodsSlider.getValue(),
-      resolution
-    );
-    let dataB = generateSin(
-      this.phaseSlider.getValue() + this.phase,
-      this.periodsSlider.getValue(),
-      resolution
-    );
+//     let resolution = 300;
 
-    if (this.obstacleCheckbox.getValue()) {
-      let dataStandingWave = generateSin(
-        this.phaseSlider.getValue() + this.phase,
-        this.periodsSlider.getValue() * 2,
-        resolution * 2
-      );
-      dataA = dataStandingWave.slice(0, resolution);
-      dataB = dataStandingWave.slice(resolution).reverse();
-      p5.strokeWeight(8);
-      p5.line(
-        this.graphSum.border.right,
-        this.graphSum.border.top,
-        this.graphSum.border.right,
-        this.graphSum.border.bottom
-      );
-    }
+//     let dataA = generateSin(
+//       this.phase,
+//       this.periodsSlider.getValue(),
+//       resolution
+//     );
+//     let dataB = generateSin(
+//       this.phaseSlider.getValue() + this.phase,
+//       this.periodsSlider.getValue(),
+//       resolution
+//     );
 
-    this.graphA.setData(dataA);
-    this.graphA.show();
+//     if (this.obstacleCheckbox.getValue()) {
+//       let dataStandingWave = generateSin(
+//         this.phaseSlider.getValue() + this.phase,
+//         this.periodsSlider.getValue() * 2,
+//         resolution * 2
+//       );
+//       dataA = dataStandingWave.slice(0, resolution);
+//       dataB = dataStandingWave.slice(resolution).reverse();
+//       p5.strokeWeight(8);
+//       p5.line(
+//         this.graphSum.border.right,
+//         this.graphSum.border.top,
+//         this.graphSum.border.right,
+//         this.graphSum.border.bottom
+//       );
+//     }
 
-    this.graphB.setData(dataB);
-    this.graphB.show();
+//     this.graphA.setData(dataA);
+//     this.graphA.show();
 
-    //SUM
-    let dataSum = [];
-    let xdataSum = [];
-    for (let i = 0; i < dataA.length; i++) {
-      dataSum[i] = dataA[i] + dataB[i];
-      xdataSum[i] = p5.map(
-        i,
-        0,
-        dataA.length - 1,
-        0,
-        this.periodsSlider.getValue() * 2 * Math.PI
-      );
-    }
+//     this.graphB.setData(dataB);
+//     this.graphB.show();
 
-    let xlabels = this.createXLabels();
-    let ylabels = this.createYLabels();
+//     //SUM
+//     let dataSum = [];
+//     let xdataSum = [];
+//     for (let i = 0; i < dataA.length; i++) {
+//       dataSum[i] = dataA[i] + dataB[i];
+//       xdataSum[i] = p5.map(
+//         i,
+//         0,
+//         dataA.length - 1,
+//         0,
+//         this.periodsSlider.getValue() * 2 * Math.PI
+//       );
+//     }
 
-    this.graphSum.setData(dataSum);
-    this.graphSum.setXData(xdataSum);
-    this.graphSum.setXLabels(xlabels);
-    this.graphSum.setYLabels(ylabels);
+//     let xlabels = this.createXLabels();
+//     let ylabels = this.createYLabels();
 
-    this.graphSum.show();
-    this.graphSum.showLabels();
+//     this.graphSum.setData(dataSum);
+//     this.graphSum.setXData(xdataSum);
+//     this.graphSum.setXLabels(xlabels);
+//     this.graphSum.setYLabels(ylabels);
 
-    this.phaseSlider.show();
-    this.periodsSlider.show();
+//     this.graphSum.show();
+//     this.graphSum.showLabels();
 
-    this.degreesCheckbox.show();
-    this.decibelsCheckbox.show();
-    this.animationCheckbox.show();
-    this.obstacleCheckbox.show();
-  };
+//     this.phaseSlider.show();
+//     this.periodsSlider.show();
 
-  render() {
-    return (
-      <Sketch
-        setup={this.setup}
-        draw={this.draw}
-        style={{ position: "absolute" }}
-      />
-    );
-  }
+//     this.degreesCheckbox.show();
+//     this.decibelsCheckbox.show();
+//     this.animationCheckbox.show();
+//     this.obstacleCheckbox.show();
+//   };
 
-  createSliders = (p5:p5InstanceExtensions) => {
-    this.phaseSlider = new Slider(p5, 0, 2 * p5.PI);
-    this.phaseSlider.setRectangle(new Rectangle(100, 15, 180, 35));
-    this.phaseSlider.setLabel("Phase: ");
+//   render() {
+//     return (
+//       <Sketch
+//         setup={this.setup}
+//         draw={this.draw}
+//         style={{ position: "absolute" }}
+//       />
+//     );
+//   }
 
-    this.periodsSlider = new Slider(p5, 1, 3);
-    this.periodsSlider.setRectangle(new Rectangle(250, 15, 330, 35));
-    this.periodsSlider.setLabel("Periods: ");
-  };
+//   createSliders = (p5:p5InstanceExtensions) => {
+//     this.phaseSlider = new Slider(p5, 0, 2 * p5.PI);
+//     this.phaseSlider.setRectangle(new Rectangle(100, 15, 180, 35));
+//     this.phaseSlider.setLabel("Phase: ");
 
-  createCheckBoxes = (p5:p5InstanceExtensions) => {
-    this.degreesCheckbox = new Checkbox(p5);
-    this.degreesCheckbox.setRectangle(new Rectangle(358, 16, 372, 30));
-    this.degreesCheckbox.setLabel("Degrees");
+//     this.periodsSlider = new Slider(p5, 1, 3);
+//     this.periodsSlider.setRectangle(new Rectangle(250, 15, 330, 35));
+//     this.periodsSlider.setLabel("Periods: ");
+//   };
 
-    this.decibelsCheckbox = new Checkbox(p5);
-    this.decibelsCheckbox.setRectangle(new Rectangle(458, 16, 472, 30));
-    this.decibelsCheckbox.setLabel("Decibels");
+//   createCheckBoxes = (p5:p5InstanceExtensions) => {
+//     this.degreesCheckbox = new Checkbox(p5);
+//     this.degreesCheckbox.setRectangle(new Rectangle(358, 16, 372, 30));
+//     this.degreesCheckbox.setLabel("Degrees");
 
-    this.animationCheckbox = new Checkbox(p5);
-    this.animationCheckbox.setRectangle(new Rectangle(558, 16, 572, 30));
-    this.animationCheckbox.setLabel("Animation");
+//     this.decibelsCheckbox = new Checkbox(p5);
+//     this.decibelsCheckbox.setRectangle(new Rectangle(458, 16, 472, 30));
+//     this.decibelsCheckbox.setLabel("Decibels");
 
-    this.obstacleCheckbox = new Checkbox(p5);
-    this.obstacleCheckbox.setRectangle(new Rectangle(658, 16, 672, 30));
-    this.obstacleCheckbox.setLabel("Obstacle");
-  };
+//     this.animationCheckbox = new Checkbox(p5);
+//     this.animationCheckbox.setRectangle(new Rectangle(558, 16, 572, 30));
+//     this.animationCheckbox.setLabel("Animation");
 
-  createXLabels = () => {
-    let xlabels = [];
-    let pis = this.periodsSlider.getValue() * 2;
-    for (let i = 0; i <= pis; i++) {
-      if (this.degreesCheckbox.getValue()) {
-        xlabels[i] = { x: i * Math.PI, label: 180 * i + "°" };
-      } else {
-        let label;
-        if (i === 0) {
-          label = "0";
-        } else if (i === 1) {
-          label = "π";
-        } else {
-          label = i + "π";
-        }
-        xlabels[i] = { x: i * Math.PI, label: label };
-      }
-    }
-    return xlabels;
-  };
+//     this.obstacleCheckbox = new Checkbox(p5);
+//     this.obstacleCheckbox.setRectangle(new Rectangle(658, 16, 672, 30));
+//     this.obstacleCheckbox.setLabel("Obstacle");
+//   };
 
-  createYLabels = () => {
-    let ylabels = [];
-    if (this.decibelsCheckbox.getValue()) {
-      ylabels[0] = { y: 2, label: "6 dB" };
-      ylabels[1] = { y: 1, label: "0 dB" };
-      ylabels[2] = { y: 0, label: "-oo dB" };
-      ylabels[3] = { y: -1, label: "0" };
-      ylabels[4] = { y: -2, label: "6 dB" };
-    } else {
-      ylabels[0] = { y: 2, label: "2" };
-      ylabels[1] = { y: 1, label: "1" };
-      ylabels[2] = { y: 0, label: "0" };
-      ylabels[3] = { y: -1, label: "-1" };
-      ylabels[4] = { y: -2, label: "-2" };
-    }
-    return ylabels;
-  };
-}
+//   createXLabels = () => {
+//     let xlabels = [];
+//     let pis = this.periodsSlider.getValue() * 2;
+//     for (let i = 0; i <= pis; i++) {
+//       if (this.degreesCheckbox.getValue()) {
+//         xlabels[i] = { x: i * Math.PI, label: 180 * i + "°" };
+//       } else {
+//         let label;
+//         if (i === 0) {
+//           label = "0";
+//         } else if (i === 1) {
+//           label = "π";
+//         } else {
+//           label = i + "π";
+//         }
+//         xlabels[i] = { x: i * Math.PI, label: label };
+//       }
+//     }
+//     return xlabels;
+//   };
+
+//   createYLabels = () => {
+//     let ylabels = [];
+//     if (this.decibelsCheckbox.getValue()) {
+//       ylabels[0] = { y: 2, label: "6 dB" };
+//       ylabels[1] = { y: 1, label: "0 dB" };
+//       ylabels[2] = { y: 0, label: "-oo dB" };
+//       ylabels[3] = { y: -1, label: "0" };
+//       ylabels[4] = { y: -2, label: "6 dB" };
+//     } else {
+//       ylabels[0] = { y: 2, label: "2" };
+//       ylabels[1] = { y: 1, label: "1" };
+//       ylabels[2] = { y: 0, label: "0" };
+//       ylabels[3] = { y: -1, label: "-1" };
+//       ylabels[4] = { y: -2, label: "-2" };
+//     }
+//     return ylabels;
+//   };
+// }

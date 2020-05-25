@@ -1,208 +1,210 @@
-import React, { Component } from "react";
-import Sketch from "react-p5";
-import { p5InstanceExtensions, Vector } from "p5";
-import { Guides } from "../../utils/p5/guides";
-import { BezierCurve } from "../../utils/p5/bezier";
-import { Slider } from "../../utils/p5/slider";
-import { Checkbox } from "../../utils/p5/checkbox";
-import { Rectangle } from "../../utils/p5/rectangle";
+import React from "react";
+import P5Wrapper from "../../utils/react-p5-wrapper";
+import wrappingPhaseSketch from "./wrappingPhaseSketch";
 
-export default class MBWrappingPhase extends Component {
-render(){
+export const MBWrappingPhase: React.FC<{}> = (props: {}) => {
   return (
-    <div>
-      <input type="range" min="1" max="100" value="50" className="slider" id="myRange"></input>
-      <MBWrappingPhaseSketch />
-    </div>
+      <P5Wrapper sketch={wrappingPhaseSketch} />
   );
-}
+};
 
-}
 
-class MBWrappingPhaseSketch extends Component {
-  gs : Guides;
-  bezier : BezierCurve;
-  margin;
-  minWraps : number;
-  maxWraps : number;
-  unwrapTime;
+// export default class MBWrappingPhase extends Component {
+// render(){
+//   return (
+//     <div>
+//       <input type="range" min="1" max="100" value="50" className="slider" id="myRange"></input>
+//       <MBWrappingPhaseSketch />
+//     </div>
+//   );
+// }
 
-  maxWrapsSlider : Slider;
-  unwrapCheckbox : Checkbox;
+// }
 
-  setup = (p5: p5InstanceExtensions, canvasParentRef) => {
-    p5.createCanvas(1000, 800).parent(canvasParentRef);
-    this.createUI(p5);
+// class MBWrappingPhaseSketch extends Component {
+//   gs : Guides;
+//   bezier : BezierCurve;
+//   margin;
+//   minWraps : number;
+//   maxWraps : number;
+//   unwrapTime;
 
-    this.calculateWraps();
-    this.margin = 30;
-    this.unwrapTime = 1;
+//   maxWrapsSlider : Slider;
+//   unwrapCheckbox : Checkbox;
 
-    this.gs = new Guides(p5);
-    this.gs.addHorizontal(this.margin);
-    this.gs.addHorizontal(p5.height - this.margin);
-    this.gs.addVertical(this.margin);
-    this.gs.addVertical(p5.width - this.margin);
+//   setup = (p5: p5InstanceExtensions, canvasParentRef) => {
+//     p5.createCanvas(1000, 800).parent(canvasParentRef);
+//     this.createUI(p5);
 
-    this.bezier = new BezierCurve();
-    this.bezier.createNewPoint(p5.createVector(this.gs.vs[0], (this.gs.hs[0] + this.gs.hs[1])/2));
-    this.bezier.createNewPoint(
-      p5.createVector(this.gs.vs[this.gs.vs.length - 1] - 20, this.gs.hs[0])
-    );
-    this.bezier.createNewPoint(
-        p5.createVector(this.gs.vs[this.gs.vs.length - 1], this.gs.hs[0] + 20)
-    );
-    this.bezier.createNewPoint(
-        p5.createVector(this.gs.vs[this.gs.vs.length - 1], this.gs.hs[this.gs.hs.length - 1])
-    );
+//     this.calculateWraps();
+//     this.margin = 30;
+//     this.unwrapTime = 1;
 
-    this.bezier.getSegmentPoint(0, 0).interactable = false;
-  };
+//     this.gs = new Guides(p5);
+//     this.gs.addHorizontal(this.margin);
+//     this.gs.addHorizontal(p5.height - this.margin);
+//     this.gs.addVertical(this.margin);
+//     this.gs.addVertical(p5.width - this.margin);
 
-  draw = (p5: p5InstanceExtensions) => {
-    // lock X axis to anchor points
-    this.bezier.getSegmentPoint(0, 3).pos.x = this.gs.vs[this.gs.vs.length - 1];
+//     this.bezier = new BezierCurve();
+//     this.bezier.createNewPoint(p5.createVector(this.gs.vs[0], (this.gs.hs[0] + this.gs.hs[1])/2));
+//     this.bezier.createNewPoint(
+//       p5.createVector(this.gs.vs[this.gs.vs.length - 1] - 20, this.gs.hs[0])
+//     );
+//     this.bezier.createNewPoint(
+//         p5.createVector(this.gs.vs[this.gs.vs.length - 1], this.gs.hs[0] + 20)
+//     );
+//     this.bezier.createNewPoint(
+//         p5.createVector(this.gs.vs[this.gs.vs.length - 1], this.gs.hs[this.gs.hs.length - 1])
+//     );
 
-    // calculating max wraps
-    this.calculateWraps();
-    p5.clear();
+//     this.bezier.getSegmentPoint(0, 0).interactable = false;
+//   };
 
-    p5.strokeWeight(1);
-    p5.stroke(220);
-    // border guides
-    this.gs.show();
+//   draw = (p5: p5InstanceExtensions) => {
+//     // lock X axis to anchor points
+//     this.bezier.getSegmentPoint(0, 3).pos.x = this.gs.vs[this.gs.vs.length - 1];
 
-    // wrap guides
-    for (let i = this.minWraps; i < this.maxWraps; i++) {
-      let hGuide = p5.createVector(0, i * 2 * Math.PI);
-      hGuide = this.getCanvasPos(p5, hGuide);
-      p5.line(this.gs.vs[0], hGuide.y, this.gs.vs[this.gs.vs.length - 1], hGuide.y);
-    }
+//     // calculating max wraps
+//     this.calculateWraps();
+//     p5.clear();
 
-    p5.stroke(70);
-    let bezierDrawPoints = this.bezier.getDrawPoints();
-    let bezierAnchorPoints = this.bezier.getAnchorPoints();
+//     p5.strokeWeight(1);
+//     p5.stroke(220);
+//     // border guides
+//     this.gs.show();
 
-    // Unwrapped
-    for (let i = 1; i < bezierDrawPoints.length; i++) {
-      let A = bezierDrawPoints[i - 1];
-      let B = bezierDrawPoints[i];
-      p5.line(A.x, A.y, B.x, B.y);
-    }
+//     // wrap guides
+//     for (let i = this.minWraps; i < this.maxWraps; i++) {
+//       let hGuide = p5.createVector(0, i * 2 * Math.PI);
+//       hGuide = this.getCanvasPos(p5, hGuide);
+//       p5.line(this.gs.vs[0], hGuide.y, this.gs.vs[this.gs.vs.length - 1], hGuide.y);
+//     }
 
-    p5.stroke(230, 125, 45);
-    let lineSeq = this.splitSequence(p5, bezierDrawPoints);
-    for (let i = 0; i < lineSeq.length; i++) {
-      let A = lineSeq[i].A;
-      let B = lineSeq[i].B;
-      let wrap = lineSeq[i].wrap - Math.floor(this.maxWraps / 2);
+//     p5.stroke(70);
+//     let bezierDrawPoints = this.bezier.getDrawPoints();
+//     let bezierAnchorPoints = this.bezier.getAnchorPoints();
 
-      let unwrapTarget = wrap * this.getWrapHeight();
+//     // Unwrapped
+//     for (let i = 1; i < bezierDrawPoints.length; i++) {
+//       let A = bezierDrawPoints[i - 1];
+//       let B = bezierDrawPoints[i];
+//       p5.line(A.x, A.y, B.x, B.y);
+//     }
 
-      A.y += unwrapTarget * this.unwrapTime;
-      B.y += unwrapTarget * this.unwrapTime;
+//     p5.stroke(230, 125, 45);
+//     let lineSeq = this.splitSequence(p5, bezierDrawPoints);
+//     for (let i = 0; i < lineSeq.length; i++) {
+//       let A = lineSeq[i].A;
+//       let B = lineSeq[i].B;
+//       let wrap = lineSeq[i].wrap - Math.floor(this.maxWraps / 2);
 
-      p5.line(A.x, A.y, B.x, B.y);
-    }
+//       let unwrapTarget = wrap * this.getWrapHeight();
 
-    p5.stroke(30);
-    for (let i = 0; i < bezierAnchorPoints.length; i++) {
-      bezierAnchorPoints[i].show(p5);
-    }
+//       A.y += unwrapTarget * this.unwrapTime;
+//       B.y += unwrapTarget * this.unwrapTime;
 
-    this.showUI(p5);
-    let targetTime = this.unwrapCheckbox.value ? 1 : 0;
-    this.unwrapTime = p5.lerp(this.unwrapTime, targetTime, 0.05);
-  };
+//       p5.line(A.x, A.y, B.x, B.y);
+//     }
 
-  render() {
-    return (
-      <Sketch
-        setup={this.setup}
-        draw={this.draw}
-        style={{ position: "absolute" }}
-      />
-    );
-  }
+//     p5.stroke(30);
+//     for (let i = 0; i < bezierAnchorPoints.length; i++) {
+//       bezierAnchorPoints[i].show(p5);
+//     }
 
-  calculateWraps = () => {
-    this.maxWraps = this.maxWrapsSlider.getValue();
-    this.minWraps = -this.maxWraps;
-  };
+//     this.showUI(p5);
+//     let targetTime = this.unwrapCheckbox.value ? 1 : 0;
+//     this.unwrapTime = p5.lerp(this.unwrapTime, targetTime, 0.05);
+//   };
 
-  getWrapHeight = () => {
-    return (this.gs.hs[this.gs.hs.length - 1] - this.gs.hs[0]) / this.maxWraps;
-  };
+//   render() {
+//     return (
+//       <Sketch
+//         setup={this.setup}
+//         draw={this.draw}
+//         style={{ position: "absolute" }}
+//       />
+//     );
+//   }
 
-  splitSequence = (p5:p5InstanceExtensions ,seq : Vector[]) => {
-    let lineSeq = [];
-    for (let i = 1; i < seq.length; i++) {
-      let A = p5.createVector(seq[i - 1].x, seq[i - 1].y);
-      let B = p5.createVector(seq[i].x, seq[i].y);
+//   calculateWraps = () => {
+//     this.maxWraps = this.maxWrapsSlider.getValue();
+//     this.minWraps = -this.maxWraps;
+//   };
 
-      let tA = this.getPlotPos(p5, A);
-      let tB = this.getPlotPos(p5, B);
+//   getWrapHeight = () => {
+//     return (this.gs.hs[this.gs.hs.length - 1] - this.gs.hs[0]) / this.maxWraps;
+//   };
 
-      let wrapA = Math.floor(tA.y / (2 * Math.PI));
-      let wrapB = Math.floor(tB.y / (2 * Math.PI));
+//   splitSequence = (p5:p5InstanceExtensions ,seq : Vector[]) => {
+//     let lineSeq = [];
+//     for (let i = 1; i < seq.length; i++) {
+//       let A = p5.createVector(seq[i - 1].x, seq[i - 1].y);
+//       let B = p5.createVector(seq[i].x, seq[i].y);
 
-      if (wrapA == wrapB) {
-        let thisLine = { A: A, B: B, wrap: wrapA };
-        lineSeq.push(thisLine);
-      } else {
-        let maxPoint = Math.max(tA.y, tB.y);
-        let wrapMax = Math.floor(maxPoint / (2 * Math.PI));
-        let angleIntersect = 2 * Math.PI * wrapMax;
-        let plotIntersectY = p5.map(angleIntersect, tA.y, tB.y, A.y, B.y);
-        let plotIntersectX = p5.map(angleIntersect, tA.y, tB.y, A.x, B.x);
+//       let tA = this.getPlotPos(p5, A);
+//       let tB = this.getPlotPos(p5, B);
 
-        let newB = p5.createVector(plotIntersectX, plotIntersectY);
-        let lineA = { A: A, B: newB, wrap: wrapA };
-        lineSeq.push(lineA);
+//       let wrapA = Math.floor(tA.y / (2 * Math.PI));
+//       let wrapB = Math.floor(tB.y / (2 * Math.PI));
 
-        let newA = p5.createVector(plotIntersectX, plotIntersectY);
-        let lineB = { A: newA, B: B, wrap: wrapB };
-        lineSeq.push(lineB);
-      }
-    }
-    return lineSeq;
-  };
+//       if (wrapA == wrapB) {
+//         let thisLine = { A: A, B: B, wrap: wrapA };
+//         lineSeq.push(thisLine);
+//       } else {
+//         let maxPoint = Math.max(tA.y, tB.y);
+//         let wrapMax = Math.floor(maxPoint / (2 * Math.PI));
+//         let angleIntersect = 2 * Math.PI * wrapMax;
+//         let plotIntersectY = p5.map(angleIntersect, tA.y, tB.y, A.y, B.y);
+//         let plotIntersectX = p5.map(angleIntersect, tA.y, tB.y, A.x, B.x);
 
-  getPlotPos = (p5:p5InstanceExtensions, canvasPos:Vector) => {
-    let plotY = p5.map(
-      canvasPos.y,
-      this.gs.hs[this.gs.hs.length - 1],
-      this.gs.hs[0],
-      0,
-      this.maxWraps * 2 * Math.PI
-    );
-    return p5.createVector(canvasPos.x, plotY);
-  };
+//         let newB = p5.createVector(plotIntersectX, plotIntersectY);
+//         let lineA = { A: A, B: newB, wrap: wrapA };
+//         lineSeq.push(lineA);
 
-  getCanvasPos = (p5:p5InstanceExtensions, plotPos:Vector) => {
-    let canvasY = p5.map(
-      plotPos.y,
-      0,
-      this.maxWraps * 2 * Math.PI,
-      this.gs.hs[this.gs.hs.length - 1],
-      this.gs.hs[0]
-    );
-    return p5.createVector(plotPos.x, canvasY);
-  };
+//         let newA = p5.createVector(plotIntersectX, plotIntersectY);
+//         let lineB = { A: newA, B: B, wrap: wrapB };
+//         lineSeq.push(lineB);
+//       }
+//     }
+//     return lineSeq;
+//   };
 
-  createUI = (p5 : p5InstanceExtensions) => {
-    this.maxWrapsSlider = new Slider(p5, 3, 17, 2);
-    this.maxWrapsSlider.setRectangle(new Rectangle(200, 15, 280, 35));
-    this.maxWrapsSlider.setLabel("Max Wraps: ");
-    this.maxWrapsSlider.setValue(7);
+//   getPlotPos = (p5:p5InstanceExtensions, canvasPos:Vector) => {
+//     let plotY = p5.map(
+//       canvasPos.y,
+//       this.gs.hs[this.gs.hs.length - 1],
+//       this.gs.hs[0],
+//       0,
+//       this.maxWraps * 2 * Math.PI
+//     );
+//     return p5.createVector(canvasPos.x, plotY);
+//   };
 
-    this.unwrapCheckbox = new Checkbox(p5);
-    this.unwrapCheckbox.setRectangle(new Rectangle(358, 16, 372, 30));
-    this.unwrapCheckbox.setLabel("Unwrap: ");
-  };
+//   getCanvasPos = (p5:p5InstanceExtensions, plotPos:Vector) => {
+//     let canvasY = p5.map(
+//       plotPos.y,
+//       0,
+//       this.maxWraps * 2 * Math.PI,
+//       this.gs.hs[this.gs.hs.length - 1],
+//       this.gs.hs[0]
+//     );
+//     return p5.createVector(plotPos.x, canvasY);
+//   };
 
-  showUI = (p5 : p5InstanceExtensions) => {
-    this.maxWrapsSlider.show();
-    this.unwrapCheckbox.show();
-  };
-}
+//   createUI = (p5 : p5InstanceExtensions) => {
+//     this.maxWrapsSlider = new Slider(p5, 3, 17, 2);
+//     this.maxWrapsSlider.setRectangle(new Rectangle(200, 15, 280, 35));
+//     this.maxWrapsSlider.setLabel("Max Wraps: ");
+//     this.maxWrapsSlider.setValue(7);
+
+//     this.unwrapCheckbox = new Checkbox(p5);
+//     this.unwrapCheckbox.setRectangle(new Rectangle(358, 16, 372, 30));
+//     this.unwrapCheckbox.setLabel("Unwrap: ");
+//   };
+
+//   showUI = (p5 : p5InstanceExtensions) => {
+//     this.maxWrapsSlider.show();
+//     this.unwrapCheckbox.show();
+//   };
+// }

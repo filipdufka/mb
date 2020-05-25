@@ -1,13 +1,13 @@
 import {MBHeadDistance} from "./MBHeadDistance/MBHeadDistance";
-import MBHeadroom from "./MBHeadroom/MBHeadroom";
-import MBPhasors from "./MBPhasors/MBPhasors";
-import MBSinAdd from "./MBSinAdd/MBSinAdd";
-import MBSinCos from "./MBSinCos/MBSinCos";
-import MBSpaceWave from "./MBSpaceWave/MBSpaceWave";
-import MBWrappingPhase from "./MBWrappingPhase/MBWrappingPhase";
-import MBOmniSources from "./MBOmniSources/MBOmniSources";
-import TitleScreen from "./TitleScreen/TitleScreen";
-import { Component } from "react";
+import {MBHeadroom} from "./MBHeadroom/MBHeadroom";
+import {MBPhasors} from "./MBPhasors/MBPhasors";
+import {MBSinAdd} from "./MBSinAdd/MBSinAdd";
+import {MBSinCos} from "./MBSinCos/MBSinCos";
+import {MBSpaceWave} from "./MBSpaceWave/MBSpaceWave";
+import {MBWrappingPhase} from "./MBWrappingPhase/MBWrappingPhase";
+import {MBOmniSources} from "./MBOmniSources/MBOmniSources";
+import {TitleScreen} from "./TitleScreen/TitleScreen";
+import React from "react";
 
 export const links: MenuItem[] = [
   { path: "/", name: "Logo", component: TitleScreen },
@@ -24,5 +24,5 @@ export const links: MenuItem[] = [
 interface MenuItem {
   path: string;
   name: string;
-  component: typeof Component;
+  component: React.FunctionComponent;
 }
