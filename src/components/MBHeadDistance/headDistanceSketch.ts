@@ -126,9 +126,9 @@ export default function headDistanceSketch(p: p5) {
 
       // Text draw
       p.noStroke();
-      p.fill(currentDrawColor);
+      p.fill(0);
       p.textAlign(p.CENTER);
-      p.text("Rozdíl vzdáleností: " + delta + " cm", headPos.x,headPos.y + 100);
+      p.text("Dráhový rozdíl: " + delta + " cm", headPos.x,headPos.y + 100);
   }
 
   const drawPath = () => {
