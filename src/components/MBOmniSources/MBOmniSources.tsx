@@ -1,7 +1,7 @@
 import React from "react";
 import "./MBOmniSources.scss"
 import omniSourcesSketch from "./omniSourcesSketch";
-import P5Wrapper from "../../utils/react-p5-wrapper";
+import {P5Wrapper} from "../../utils/react-p5-wrapper";
 
 
 export const MBOmniSources: React.FC<{}> = (props: {}) => {
