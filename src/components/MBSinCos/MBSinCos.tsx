@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import P5Wrapper from "../../utils/react-p5-wrapper";
+import {P5Wrapper} from "../../utils/react-p5-wrapper";
 import phasorsSketch from "../MBPhasors/phasorSketch";
 import sinCosSketch from "./sinCosSketch";
 

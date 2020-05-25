@@ -9,6 +9,9 @@ export default function headDistanceSketch(p: p5) {
   let headDiameter: number = 17;
   let magnify;
 
+  let rightDistance : number;
+  let leftDistance : number;
+
   p.setup = () => {
     p.createCanvas(900, 900);
 
@@ -38,6 +41,8 @@ export default function headDistanceSketch(p: p5) {
     p.noStroke();
     p.textAlign(p.CENTER);
     p.text(headDiameter + " cm", headPos.x, headPos.y + 3);
+
+    writeDelta();
   };
 
   const drawLineToCenter = () => {
@@ -116,16 +121,27 @@ export default function headDistanceSketch(p: p5) {
     );
   };
 
+  const writeDelta = () => {
+    const delta = Math.round((leftDistance - rightDistance) * 10) / 10;
+
+      // Text draw
+      p.noStroke();
+      p.fill(currentDrawColor);
+      p.textAlign(p.CENTER);
+      p.text("Rozdíl vzdáleností: " + delta + " cm", headPos.x,headPos.y + 100);
+  }
+
   const drawPath = () => {
     currentDrawColor = p.color(30, 120, 190);
-    drawShortestDistance(earsPos.left, earsPos.right);
+    drawShortestDistance(earsPos.left, earsPos.right, true);
     currentDrawColor = p.color(190, 30, 120);
-    drawShortestDistance(earsPos.right, earsPos.left);
+    drawShortestDistance(earsPos.right, earsPos.left, false);
   };
 
   const drawShortestDistance = (
     earPos: Vector,
-    otherEarPos: Vector
+    otherEarPos: Vector,
+    right : boolean
   ) => {
     p.stroke(currentDrawColor);
 
@@ -217,6 +233,12 @@ export default function headDistanceSketch(p: p5) {
 
     distance = Math.round(distance * 10) / 10;
     p.text(distance + " cm", midPoint.x + normal.x, midPoint.y + normal.y);
+
+    if(right){
+      rightDistance = distance;
+    }else{
+      leftDistance = distance;
+    }
   };
 
   const drawHead = () => {

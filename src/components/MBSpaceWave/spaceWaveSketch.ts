@@ -6,7 +6,7 @@ export default function spaceWaveSketch(p: p5) {
   p.setup = () => {
     p.createCanvas(800, 600);
     points = [];
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 2000; i++) {
       points[i] = p.createVector(
         p.random(p.width),
         p.random(p.height)
