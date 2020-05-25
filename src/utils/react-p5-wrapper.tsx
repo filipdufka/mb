@@ -33,20 +33,20 @@ export default class P5Wrapper extends Component <P5WrapperProps, P5WrapperState
     })    
   }
 
-  static getDerivedStateFromProps(props: P5WrapperProps, state: P5WrapperState){
-    let canvas = state.canvas;
-    if(state.sketch !== props.sketch){
-      state.wrapper.removeChild(state.wrapper.childNodes[0]);
-      canvas.remove();
-      canvas = new p5(props.sketch, state.wrapper)
-      return {
-        ...state,
-        sketch: props.sketch,
-        canvas: canvas
-      };
-    }    
-    return state;
-  }
+  // static getDerivedStateFromProps(props: P5WrapperProps, state: P5WrapperState){
+  //   let canvas = state.canvas;
+  //   if(state.sketch !== props.sketch){
+  //     state.wrapper.removeChild(state.wrapper.childNodes[0]);
+  //     canvas.remove();
+  //     canvas = new p5(props.sketch, state.wrapper)
+  //     return {
+  //       ...state,
+  //       sketch: props.sketch,
+  //       canvas: canvas
+  //     };
+  //   }    
+  //   return state;
+  // }
 
   componentWillUnmount() {
 		this.state.canvas.remove();
