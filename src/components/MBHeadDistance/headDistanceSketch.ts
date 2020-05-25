@@ -122,7 +122,7 @@ export default function headDistanceSketch(p: p5) {
   };
 
   const writeDelta = () => {
-    const delta = Math.round((leftDistance - rightDistance) * 10) / 10;
+    const delta = Math.abs(Math.round((leftDistance - rightDistance) * 10) / 10);
 
       // Text draw
       p.noStroke();
