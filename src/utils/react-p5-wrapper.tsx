@@ -9,12 +9,30 @@ export interface P5WrapperProps {
 
 export const P5Wrapper: React.FC<P5WrapperProps> = (props: P5WrapperProps) => {
   const wrapper = useRef(null);
-  const [canvas, setCanvas] = useState(new p5(props.sketch, wrapper.current));
+  const [canvas, setCanvas] = useState(null);
 
-  React.useEffect(() => { return () => { canvas.remove(); } }, []);
-  //React.useEffect(() => { console.log("Props changed."); canvas.remove(); }, [props.sketchProps]);
+  const createCanvas = () => {
+    canvas?.remove();
+    setCanvas(new p5(props.sketch, wrapper.current));
+  }
 
-  return <div ref={wrapper} style={{ position: 'fixed' }}></div>;
+  const checkCanvas = () => {
+    console.log(canvas);
+  }
+
+  // Vytvoř canvas, jakmile je navázaná reference na wrapper.
+  React.useEffect(createCanvas, [wrapper]);  
+
+  // Will unmount
+  React.useEffect(() => {
+    return () => {
+      // 🤔🤔🤔🤔🤔 Zde už je reference na canvas ztracena 🙄🙄🙄🙄
+      //console.log(canvas);
+      canvas?.remove();
+    }
+  }, []);
+
+  return <div ref={wrapper} style={{ position: 'fixed' }}><button onClick={checkCanvas}>Check Canvas</button></div>;
 };
 
 
