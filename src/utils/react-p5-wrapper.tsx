@@ -1,12 +1,15 @@
 import p5 from "p5";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, Component } from "react";
 
 export interface P5WrapperProps {
   sketch: (p: p5) => void;
   sketchProps?: object;
 }
 
-export const P5Wrapper: React.FC<P5WrapperProps> = ({ sketch, sketchProps }) => {
+export const P5Wrapper: React.FC<P5WrapperProps> = ({
+  sketch,
+  sketchProps,
+}) => {
   const wrapper = useRef(null);
   const [canvas, setCanvas] = useState<p5 | null>(null);
 
@@ -17,14 +20,16 @@ export const P5Wrapper: React.FC<P5WrapperProps> = ({ sketch, sketchProps }) => 
   };
 
   React.useEffect(() => {
-    if (!canvas) {
+    if (!canvas && wrapper.current) {
       createCanvas();
     }
     return () => {
-      console.log("removing");
-      canvas?.remove();
+      if (canvas) {
+        console.log(canvas);
+        canvas?.remove();
+      }
     };
-  }, [wrapper]);
+  }, [wrapper, canvas]);
 
   return <div ref={wrapper} style={{ position: "fixed" }}></div>;
 };

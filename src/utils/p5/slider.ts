@@ -37,8 +37,7 @@ export class Slider{
 
       setValue(val){
             const {p, minValue, maxValue} = this;
-            const normValue = p.map(1,0,10,50,70);
-            console.log(normValue);
+            const normValue = p.map(1,0,10,50,70);            
             this.setNormValue(p.map(val, minValue, maxValue, 0, 1));
       }
 
