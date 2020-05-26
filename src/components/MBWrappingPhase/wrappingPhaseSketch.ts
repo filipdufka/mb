@@ -4,8 +4,9 @@ import { Checkbox } from "../../utils/p5/checkbox";
 import { Rectangle } from "../../utils/p5/rectangle";
 import { Guides } from "../../utils/p5/guides";
 import { BezierCurve } from "../../utils/p5/bezier";
+import { p5w } from "../../utils/p5w";
 
-export default function wrappingPhaseSketch(p: p5) {
+export default function wrappingPhaseSketch(p: p5w) {
 
   let gs : Guides;
   let bezier : BezierCurve;
@@ -182,5 +183,9 @@ export default function wrappingPhaseSketch(p: p5) {
     maxWrapsSlider.show();
     unwrapCheckbox.show();
   };
+
+  p.updateProps = (o : object) =>{
+    console.log("update props");
+  }
 
 }

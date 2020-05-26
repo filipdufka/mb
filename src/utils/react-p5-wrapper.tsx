@@ -1,8 +1,9 @@
 import p5 from "p5";
 import React, { useState, useRef, Component } from "react";
+import { p5w } from "./p5w";
 
 export interface P5WrapperProps {
-  sketch: (p: p5) => void;
+  sketch: (p: p5w) => void;
   sketchProps?: object;
 }
 
@@ -11,12 +12,12 @@ export const P5Wrapper: React.FC<P5WrapperProps> = ({
   sketchProps,
 }) => {
   const wrapper = useRef(null);
-  const [canvas, setCanvas] = useState<p5 | null>(null);
+  const [canvas, setCanvas] = useState<p5w | null>(null);
 
   const createCanvas = () => {
     console.log("creating canvas...");
     canvas?.remove();
-    setCanvas(new p5(sketch, wrapper.current));
+    setCanvas(new p5w(sketch, wrapper.current));
   };
 
   React.useEffect(() => {
@@ -31,41 +32,11 @@ export const P5Wrapper: React.FC<P5WrapperProps> = ({
     };
   }, [wrapper, canvas]);
 
+  React.useEffect(()=>{
+    if(canvas){
+      canvas.updateProps({test: "ip"});
+    }
+  },[sketchProps]);
+
   return <div ref={wrapper} style={{ position: "fixed" }}></div>;
 };
-
-// export interface P5WrapperState {
-//   sketch: (p: p5) => void;
-//   canvas: p5;
-//   wrapper: HTMLElement;
-// }
-
-// export class P5Wrapper extends Component <P5WrapperProps, P5WrapperState> {
-
-//   constructor(props: any) {
-//     super(props);
-//     this.state  = {
-//       sketch: props.sketch,
-//       canvas: null,
-//       wrapper: null
-//     };
-//   }
-
-//   wrapper: HTMLElement;
-
-//   componentDidMount() {
-//     const canvas = new p5(this.state.sketch, this.wrapper);
-//     this.setState({
-//       canvas: canvas,
-//       wrapper: this.wrapper
-//     })
-//   }
-
-//   componentWillUnmount() {
-// 		this.state.canvas.remove();
-// 	}
-
-//   render() {
-//     return <div ref={wrapper => this.wrapper = wrapper} style={{position: 'fixed'}}></div>;
-//   }
-// }
