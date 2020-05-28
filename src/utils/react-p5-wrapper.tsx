@@ -3,17 +3,16 @@ import { P5w } from './p5w';
 
 export interface P5WrapperProps {
   sketchProps?: object;
-  sketch: (p: P5w<{}>) => void;
+  sketch: (p: P5w<object>) => void;
 }
 
-export const P5Wrapper: React.FC<P5WrapperProps> = (pr : P5WrapperProps) => {
+export const P5Wrapper: React.FC<P5WrapperProps> = (props : P5WrapperProps) => {
   const wrapper = useRef(null);
-  const [canvas, setCanvas] = useState<P5w<typeof pr.sketchProps> | null>(null);
+  const [canvas, setCanvas] = useState<P5w<typeof props.sketchProps> | null>(null);
 
   const createCanvas = () => {
-    console.log('creating canvas...');
-    canvas?.remove();
-    setCanvas(new P5w<typeof pr.sketchProps>(pr.sketch, wrapper.current));
+    if (canvas) { canvas.remove(); }
+    setCanvas(new P5w<typeof props.sketchProps>(props.sketch, wrapper.current));
   };
 
   React.useEffect(() => {
@@ -21,18 +20,16 @@ export const P5Wrapper: React.FC<P5WrapperProps> = (pr : P5WrapperProps) => {
       createCanvas();
     }
     return () => {
-      if (canvas) {
-        console.log(canvas);
-        canvas?.remove();
-      }
+      if (canvas) { canvas.remove(); }
     };
   }, [wrapper, canvas]);
 
   React.useEffect(() => {
     if (canvas) {
-      canvas.updateProps(pr.sketchProps);
+      canvas.updateProps(props.sketchProps);
+      console.log(props.sketchProps);
     }
-  }, [pr.sketchProps]);
+  }, [props.sketchProps]);
 
   return <div ref={wrapper} style={{ position: 'fixed' }}></div>;
 };
