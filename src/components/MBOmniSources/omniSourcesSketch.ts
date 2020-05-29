@@ -23,6 +23,8 @@ export default function omniSourceSketch (p: P5w) {
     omniSourcePositions.push(new DraggablePoint(p.createVector(400.0, 800.0)));
     omniSourcePositions.push(new DraggablePoint(p.createVector(450.0, 800.0)));
     omniSourcePositions.push(new DraggablePoint(p.createVector(500.0, 800.0)));
+
+    console.log(p);
   };
 
   p.draw = () => {
@@ -54,10 +56,8 @@ export default function omniSourceSketch (p: P5w) {
     // props.blobMoved(positions);
   };
 
-  console.log('Setting up update props');
-  p.updateProps = (props : object) => {
-    // Where are my props? 😠
-    console.log(props);
-    // frequency = props.freq;
+  p.updateProps = (props: OmniSourcesProps) => {
+    console.log('Update freqs');
+    frequency = props.freq;
   };
 }
