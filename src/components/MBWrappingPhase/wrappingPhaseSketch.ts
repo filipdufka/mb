@@ -6,7 +6,7 @@ import { BezierCurve } from '../../utils/p5/bezier';
 import { P5w } from '../../utils/p5w'; // eslint-disable-line no-unused-vars
 import { Vector } from 'p5'; // eslint-disable-line no-unused-vars
 
-export default function wrappingPhaseSketch (p: P5w<{}>) {
+export default function wrappingPhaseSketch (p: P5w) {
   let gs: Guides;
   let bezier: BezierCurve;
   let margin;

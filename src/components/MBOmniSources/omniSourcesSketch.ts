@@ -5,11 +5,11 @@ interface OmniSourcesProps {
   freq: number;
 }
 
-export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
+export default function omniSourceSketch (p: P5w) {
   const omniSourcePositions: DraggablePoint[] = [];
   const numOfOmniSources: number = 5;
   let theShader;
-  let frequency: number = 20;
+  const frequency : number = 20;
 
   p.preload = () => {
     theShader = p.loadShader('./resources/basic.vert', './resources/omniSources.frag');
@@ -55,8 +55,9 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
   };
 
   console.log('Setting up update props');
-  p.updateProps = (props: OmniSourcesProps) => {
-    console.log('Update freqs');
-    frequency = props.freq;
+  p.updateProps = (props : object) => {
+    // Where are my props? 😠
+    console.log(props);
+    // frequency = props.freq;
   };
 }
