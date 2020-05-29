@@ -7,7 +7,8 @@ import { MBSpaceWave } from './MBSpaceWave/MBSpaceWave';
 import { MBWrappingPhase } from './MBWrappingPhase/MBWrappingPhase';
 import { MBOmniSources } from './MBOmniSources/MBOmniSources';
 import { TitleScreen } from './TitleScreen/TitleScreen';
-import { MBTemplate } from './MBTemplate/MBTemplate';
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
 
 export const links: MenuItem[] = [
   { path: '/', name: 'Logo', component: TitleScreen },
@@ -18,8 +19,7 @@ export const links: MenuItem[] = [
   { path: '/sin_add', name: 'Sin Add', component: MBSinAdd },
   { path: '/sin_cos', name: 'Sin Cos', component: MBSinCos },
   { path: '/space_wave', name: 'Space Wave', component: MBSpaceWave },
-  { path: '/wrapping_phase', name: 'Wrapping Phase', component: MBWrappingPhase },
-  { path: '/test', name: 'Test Sketch', component: MBTemplate }
+  { path: '/wrapping_phase', name: 'Wrapping Phase', component: MBWrappingPhase }
 ];
 
 interface MenuItem {
