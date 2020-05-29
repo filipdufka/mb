@@ -9,7 +9,7 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
   const omniSourcePositions: DraggablePoint[] = [];
   const numOfOmniSources: number = 5;
   let theShader;
-  let frequency: number = 20;
+  let frequency: number = 81.5 * 4;
 
   p.preload = () => {
     theShader = p.loadShader('./resources/basic.vert', './resources/omniSources.frag');
@@ -23,6 +23,8 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
     omniSourcePositions.push(new DraggablePoint(p.createVector(400.0, 800.0)));
     omniSourcePositions.push(new DraggablePoint(p.createVector(450.0, 800.0)));
     omniSourcePositions.push(new DraggablePoint(p.createVector(500.0, 800.0)));
+
+    p.updateProps = updateProps;
   };
 
   p.draw = () => {
@@ -54,9 +56,7 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
     // props.blobMoved(positions);
   };
 
-  console.log('Setting up update props');
-  p.updateProps = (props: OmniSourcesProps) => {
-    console.log('Update freqs');
+  const updateProps = (props: OmniSourcesProps) => {
     frequency = props.freq;
   };
 }

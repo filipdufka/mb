@@ -27,7 +27,6 @@ export const P5Wrapper: React.FC<P5WrapperProps> = (props : P5WrapperProps) => {
   React.useEffect(() => {
     if (canvas) {
       canvas.updateProps(props.sketchProps);
-      console.log(props.sketchProps);
     }
   }, [props.sketchProps]);
 
