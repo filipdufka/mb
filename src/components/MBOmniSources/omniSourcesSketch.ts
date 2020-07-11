@@ -3,11 +3,14 @@ import { P5w } from '../../utils/p5w'; // eslint-disable-line no-unused-vars
 
 interface OmniSourcesProps {
   freq: number;
+  numOfOmniSources: number;
+  volume : number;
 }
 
 export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
   const omniSourcePositions: DraggablePoint[] = [];
-  const numOfOmniSources: number = 5;
+  let numOfOmniSources: number = 2;
+  let volume : number = 3;
   let theShader;
   let frequency: number = 81.5 * 4;
 
@@ -16,13 +19,16 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
   };
 
   p.setup = () => {
-    p.createCanvas(800, 800, p.WEBGL);
+    p.createCanvas(1600, 800, p.WEBGL);
 
-    omniSourcePositions.push(new DraggablePoint(p.createVector(350.0, 400.0)));
-    omniSourcePositions.push(new DraggablePoint(p.createVector(450.0, 400.0)));
-    omniSourcePositions.push(new DraggablePoint(p.createVector(400.0, 800.0)));
-    omniSourcePositions.push(new DraggablePoint(p.createVector(450.0, 800.0)));
-    omniSourcePositions.push(new DraggablePoint(p.createVector(500.0, 800.0)));
+    let a = p.createVector(p.width/2, p.height/2);
+    let o = 150;
+
+    omniSourcePositions.push(new DraggablePoint(p.createVector(a.x-o, a.y)));
+    omniSourcePositions.push(new DraggablePoint(p.createVector(a.x+o, a.y)));    
+    omniSourcePositions.push(new DraggablePoint(p.createVector(a.x, a.y-o)));
+    omniSourcePositions.push(new DraggablePoint(p.createVector(a.x, a.y+o)));
+    omniSourcePositions.push(new DraggablePoint(p.createVector(a.x, a.y)));
 
     p.updateProps = updateProps;
   };
@@ -51,12 +57,14 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
     theShader.setUniform('locations', positions);
     theShader.setUniform('res', [p.width, p.height]);
     theShader.setUniform('scale', 30);
-    theShader.setUniform('volume', 3);
+    theShader.setUniform('volume', volume);
     theShader.setUniform('frequency', frequency);
     // props.blobMoved(positions);
   };
 
   const updateProps = (props: OmniSourcesProps) => {
     frequency = props.freq;
+    numOfOmniSources = props.numOfOmniSources;
+    volume = props.volume;
   };
 }
