@@ -20,6 +20,7 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
 
   p.setup = () => {
     p.createCanvas(1600, 800, p.WEBGL);
+    p.pixelDensity(1);
 
     let a = p.createVector(p.width/2, p.height/2);
     let o = 150;

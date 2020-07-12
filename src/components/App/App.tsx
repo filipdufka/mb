@@ -19,12 +19,12 @@ export default class App extends Component {
   render() {
     return (
       <Router>
-        <div>
+        <section>
           <Menu />
           <Switch>
             {this.contents}
           </Switch>
-        </div>
+        </section>
       </Router>
     );
   }

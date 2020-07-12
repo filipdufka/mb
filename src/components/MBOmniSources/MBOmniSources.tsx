@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { P5Wrapper } from '../../utils/react-p5-wrapper';
 import omniSourceSketch from './omniSourcesSketch';
+import { LogSlider } from '../../utils/ui/LogSlider/LogSlider';
+import { VolumeSlider } from '../../utils/ui/volumeSlider/volumeSlider';
+import { defaultFreqScaleOptions } from '../../utils/logScale';
+import { getNormDBScale } from '../../utils/dbScale';
 
 const Dropdown = ({
   options
@@ -21,12 +25,24 @@ export const MBOmniSources: React.FC<{}> = (props: {}) => {
   const minFreq = 0;
   const maxFreq = 5000;
 
+  const onFreqChange = (newFreq : number) =>{
+    setFreq(newFreq);
+  }
+
+  const onVolumeChange = (newVolume : number) =>{
+    setVolume(getNormDBScale(newVolume));
+  }
+
   return (
     <div>
+
+      <LogSlider label="Frekvence (Hz):" onValueChange={onFreqChange} defaultValue={freq} scaleOptions={defaultFreqScaleOptions}/>
+
+      <VolumeSlider label="Hlasitost (dB):" onValueChange={onVolumeChange} defaultValue={0}/>
       
-      <label htmlFor="frequency">Frekvence (Hz): </label>
+      {/* <label htmlFor="frequency">Frekvence (Hz): </label>
       <input type="range" min={minFreq} max={maxFreq} value={freq} className="frequency" onChange={e => setFreq(parseFloat(e.target.value))} />
-      <input type="number" min={minFreq} max={maxFreq} value={freq} className="frequencyN" onChange={e => setFreq(parseFloat(e.target.value))} />      
+      <input type="number" min={minFreq} max={maxFreq} value={freq} className="frequencyN" onChange={e => setFreq(parseFloat(e.target.value))} />       */}
 
       <label htmlFor="numSources">Počet zdrojů: </label>
       <select
@@ -38,11 +54,6 @@ export const MBOmniSources: React.FC<{}> = (props: {}) => {
           <option value={o} key={o}>{o}</option>
         ))}
       </select>
-
-      <label htmlFor="volume">Hlasitost (dB?): </label>
-      <input type="range" step={0.001} min={0} max={6} value={volume} className="volume" onChange={e => setVolume(+e.target.value)} />
-      <input type="number" step={0.001} min={0} max={6} value={volume} className="volumeN" onChange={e => setVolume(+e.target.value)} />  
-
 
       <P5Wrapper sketch={omniSourceSketch} sketchProps={{ freq, numOfOmniSources, volume }} />
     </div>
