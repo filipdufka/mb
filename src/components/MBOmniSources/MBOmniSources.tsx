@@ -5,28 +5,12 @@ import { LogSlider } from '../../utils/ui/LogSlider/LogSlider';
 import { VolumeSlider } from '../../utils/ui/volumeSlider/volumeSlider';
 import { defaultFreqScaleOptions } from '../../utils/logScale';
 import { getNormDBScale } from '../../utils/dbScale';
-import ReactResizeDetector from 'react-resize-detector';
-
-
-const Dropdown = ({
-  options
-}) => {
-  const [selectedOption, setSelectedOption] = useState(options[1]);
-  return (
-    <span>
-      
-    </span>
-  );
-};
 
 export const MBOmniSources: React.FC<{}> = (props: {}) => {
   const options = [1, 2, 3, 4, 5];
   const [numOfOmniSources, setNumOfOmniSources] = useState<number>(options[1]);
   const [freq, setFreq] = useState<number>(81.5 * 4);
   const [volume, setVolume] = useState<number>(3);
-
-  const targetRef = useRef();
-  const [dimensions, setDimensions] = useState({ width:0, height: 0 });
 
   const onFreqChange = (newFreq : number) =>{
     setFreq(newFreq);
@@ -36,12 +20,9 @@ export const MBOmniSources: React.FC<{}> = (props: {}) => {
     setVolume(getNormDBScale(newVolume));
   }
 
-  const onResize = (width, height) => {
-    setDimensions({width, height});
-  }
 
   return (
-    <div className="inside"  ref={targetRef}>
+    <div className="inside">
       <div className="options">
       <LogSlider label="Frekvence (Hz):" onValueChange={onFreqChange} defaultValue={freq} scaleOptions={defaultFreqScaleOptions}/>
 

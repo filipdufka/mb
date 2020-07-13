@@ -1,8 +1,9 @@
 import p5, { Vector } from "p5";
 import { DraggablePoint } from "../../utils/p5/draggablePoint";
 import { circlesIntersection, getNormal } from "../../utils/p5/commonMath";
+import { P5w } from "../../utils/p5w";
 
-export default function headDistanceSketch(p: p5) {
+export default function headDistanceSketch(p: P5w<{}>) {
   let soundSource: DraggablePoint;
   let gs, headPos, headRadius, earsPos;
   let currentDrawColor;
@@ -14,17 +15,14 @@ export default function headDistanceSketch(p: p5) {
 
   p.setup = () => {
     p.createCanvas(900, 900);
-
-    headPos = p.createVector(p.width / 2, p.height / 2);
     headRadius = 50;
-    earsPos = {
-      left: p.createVector(headPos.x - headRadius, headPos.y),
-      right: p.createVector(headPos.x + headRadius, headPos.y),
-    };
+    computePositions() ;
 
     soundSource = new DraggablePoint(p.createVector(headPos.x, headPos.y / 2));
     magnify = headDiameter / (2 * headRadius);
     //p.pixelDensity(1);
+
+    p.resize = resize;
   };
 
   p.draw = () => {
@@ -255,5 +253,18 @@ export default function headDistanceSketch(p: p5) {
       angle += 2 * Math.PI;
     }
     return angle;
+  };
+
+  const computePositions = () => {
+    headPos = p.createVector(p.width / 2, p.height / 2);
+    earsPos = {
+      left: p.createVector(headPos.x - headRadius, headPos.y),
+      right: p.createVector(headPos.x + headRadius, headPos.y),
+    };
+  }
+
+  const resize = (width: number, height: number) => {
+    p.resizeCanvas(width, height);
+    computePositions();
   };
 }

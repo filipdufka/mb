@@ -6,7 +6,7 @@ import { BezierCurve } from '../../utils/p5/bezier';
 import { P5w } from '../../utils/p5w'; // eslint-disable-line no-unused-vars
 import { Vector } from 'p5'; // eslint-disable-line no-unused-vars
 
-export default function wrappingPhaseSketch (p: P5w) {
+export default function wrappingPhaseSketch (p: P5w<{}>) {
   let gs: Guides;
   let bezier: BezierCurve;
   let margin;
@@ -44,9 +44,21 @@ export default function wrappingPhaseSketch (p: P5w) {
     );
 
     bezier.getSegmentPoint(0, 0).interactable = false;
+
+    p.resize = resize;
   };
 
+  const recalculateGuides = () => {
+    gs.hs[0] = margin;
+    gs.hs[1] = p.height - margin;
+    gs.vs[0] = margin;
+    gs.vs[1] = p.width - margin;
+    bezier.points[0].pos = p.createVector(gs.vs[0], (gs.hs[0] + gs.hs[1]) / 2);
+  }
+
   p.draw = () => {
+    recalculateGuides();
+
     // lock X axis to anchor points
     bezier.getSegmentPoint(0, 3).pos.x = gs.vs[gs.vs.length - 1];
 
@@ -181,5 +193,10 @@ export default function wrappingPhaseSketch (p: P5w) {
   const showUI = (): void => {
     maxWrapsSlider.show();
     unwrapCheckbox.show();
+  };
+
+  const resize = (width: number, height: number) => {
+    //console.log(height);
+    p.resizeCanvas(width, height);
   };
 }

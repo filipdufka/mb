@@ -6,9 +6,16 @@ export const MBWrappingPhase: React.FC<{}> = (props: {}) => {
   const [test, setTest] = useState('');
 
   return (
-    <div>
-      <input type={'text'} onChange={(e) => { setTest(e.target.value); }} />
-      <P5Wrapper sketch={wrappingPhaseSketch} sketchProps={{ test: test }}/>
+    <div className="inside">
+      <div className="options">
+        <input type={'text'} onChange={(e) => { setTest(e.target.value); }} />
+
+      </div>
+      <div className="pageContent">
+        <P5Wrapper sketch={wrappingPhaseSketch} sketchProps={{ test: test }} />
+      </div>
     </div>
+
+
   );
 };

@@ -31,7 +31,8 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
     wgl = p.createGraphics(800,800,p.WEBGL);
     overlay = p.createGraphics(800,800);
 
-    p.pixelDensity(1);
+    //p.pixelDensity(1);
+    wgl.pixelDensity(1);
 
     let a = p.createVector(p.width/2, p.height/2);
     let o = 150;
