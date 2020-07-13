@@ -17,9 +17,20 @@ export const P5Wrapper: React.FC<P5WrapperProps> = (props: P5WrapperProps) => {
     setCanvas(new P5w<typeof props.sketchProps>(props.sketch, wrapper.current));
   };
 
+  const resizeWrapper = (width, height) => {
+    if(canvas){
+      setTimeout(() => {canvas.resize(width, height);}, 1000);      // FIXME to something clever
+    }
+    setDimensions({ width, height });
+  }
+
   React.useEffect(() => {
     if (!canvas && wrapper.current) {
       createCanvas();
+    }else{
+      if(canvas){        
+        canvas.updateProps(props.sketchProps);
+      }
     }
     return () => {
       if (canvas) { canvas.remove(); }
@@ -39,7 +50,7 @@ export const P5Wrapper: React.FC<P5WrapperProps> = (props: P5WrapperProps) => {
   }, [dimensions]);
 
   return <div className="react-p5-wrapper">
-    <ReactResizeDetector handleWidth handleHeight onResize={(width, height) => { setDimensions({ width, height }); }} />
+    <ReactResizeDetector handleWidth handleHeight onResize={resizeWrapper} />
     <div ref={wrapper} style={{ position: 'fixed' }}></div>
   </div>;
 };

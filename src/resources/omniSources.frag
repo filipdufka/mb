@@ -31,7 +31,7 @@ precision highp float;
     for(int i = 0; i < 5; i++){
       vec2 pos = vec2(locations[i*2], locations[i*2 + 1]);
         if(pos.x >= 0.0){
-          float dist =  distance(scale * pos / 800.0, uv);
+          float dist =  distance(scale * pos / res.y, uv);
           vec2 insideExp = cmul(cmul(-j, vec2(dist, 0)), k);
           
           vec2 phi = cdiv(cmul(vec2(volume,0.0), cexp(insideExp)),vec2(dist,0.0));

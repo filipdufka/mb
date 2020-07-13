@@ -45,7 +45,7 @@ export const MBOmniSources: React.FC<{}> = (props: {}) => {
       <div className="options">
       <LogSlider label="Frekvence (Hz):" onValueChange={onFreqChange} defaultValue={freq} scaleOptions={defaultFreqScaleOptions}/>
 
-      <VolumeSlider label="Hlasitost (dB):" onValueChange={onVolumeChange} defaultValue={1}/>
+      <VolumeSlider label="Hlasitost (dB):" onValueChange={onVolumeChange} defaultValue={volume}/>
      
       <label htmlFor="numSources">Počet zdrojů: </label>
       <select

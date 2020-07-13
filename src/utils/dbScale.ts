@@ -1,9 +1,18 @@
+import { finiteTest } from "./logScale";
+
 export const getDBScale = (normValue: number): number => {
-    return 20 * Math.log10(normValue);
+    const r = 20 * Math.log10(normValue);
+    return finiteTest(r);
 }
 
 export const getNormDBScale = (dbValue: number): number => {
-    return Math.exp(Math.log(10.) * dbValue / 20.);
+    let r = Math.exp(Math.log(10.) * dbValue / 20.); 
+    if(isFinite(r)){
+        return r;
+    }else{
+        return 0;
+    }
+    return finiteTest(r);    
 }
 
 // const getDBScale = (normValue: number): string => {

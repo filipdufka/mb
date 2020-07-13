@@ -31,6 +31,6 @@ export const VolumeSlider : React.FC<VolumeSliderProps> = (props: VolumeSliderPr
     }, [val]);
   
     return (
-      <LogSlider label={props.label} scaleOptions={so} onValueChange={setVal}/>
+      <LogSlider label={props.label} scaleOptions={so} onValueChange={setVal} defaultValue={props.defaultValue}/>
     );
   };

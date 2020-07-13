@@ -16,12 +16,21 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
   let frequency: number = 81.5 * 4;
   let targetFrequency : number = 81.5 * 4;
 
+  let overlay;
+  let wgl;
+
   p.preload = () => {
+    p.updateProps = updateProps;
+    p.resize = resize;
     theShader = p.loadShader('./resources/basic.vert', './resources/omniSources.frag');
   };
 
   p.setup = () => {
-    p.createCanvas(800, 800, p.WEBGL);
+    p.createCanvas(800, 800);
+
+    wgl = p.createGraphics(800,800,p.WEBGL);
+    overlay = p.createGraphics(800,800);
+
     p.pixelDensity(1);
 
     let a = p.createVector(p.width/2, p.height/2);
@@ -32,29 +41,27 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
     omniSourcePositions.push(new DraggablePoint(p.createVector(a.x, a.y-o)));
     omniSourcePositions.push(new DraggablePoint(p.createVector(a.x, a.y+o)));
     omniSourcePositions.push(new DraggablePoint(p.createVector(a.x, a.y)));
-
-    p.updateProps = updateProps;
-    p.resize = resize;
   };
 
   p.draw = () => {
     p.clear();
+    overlay.clear();
 
     frequency = p.lerp(frequency, targetFrequency, 0.07);
     volume = p.lerp(volume, targetVolume, 0.1);
 
-    p.shader(theShader);
-    p.rect(0, 0, p.width, p.height);
+    wgl.shader(theShader);
+    wgl.rect(0, 0, p.width, p.height);
 
-    p.stroke(120, 50, 255);
-    p.translate(-p.width / 2, -p.height / 2);
+    // overlay.stroke(120, 50, 255);
+    // overlay.translate(-p.width / 2, -p.height / 2);
     for (let s = 0; s < omniSourcePositions.length; s++) {
       const element = omniSourcePositions[s];
       if (s < numOfOmniSources) {
         omniSourcePositions[s].pos.x = Math.abs(omniSourcePositions[s].pos.x);
         element.show(p);
-        p.fill(20);
-        p.circle(element.pos.x, element.pos.y, 20);
+         overlay.fill(240);
+        overlay.circle(element.pos.x, element.pos.y, 20);
       } else {
         omniSourcePositions[s].pos.x = -Math.abs(omniSourcePositions[s].pos.x);
       }
@@ -67,6 +74,9 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
     theShader.setUniform('volume', volume);
     theShader.setUniform('frequency', frequency);
     // props.blobMoved(positions);
+
+    p.image(wgl,0,0);
+    //p.image(overlay, 0,0);
   };
 
   const updateProps = (props: OmniSourcesProps) => {
@@ -77,5 +87,7 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
 
   const resize = (width: number, height: number) => {
     p.resizeCanvas(width, height);
+    overlay.resizeCanvas(width, height);
+    wgl.resizeCanvas(width, height);
   };
 }
