@@ -43,36 +43,58 @@ precision highp float;
      float magP = sqrt(pow(phis.x,2.0) + pow(phis.y,2.0));   
      
     float decibels = 20.0 * log10(magP);
+    vec3 dBsmooth = vec3(0.6);
+    vec3 decibels3 = vec3(decibels);
     vec3 col = vec3(0.0);
     if(decibels > -6.0){
-      col = vec3(0.0,0.066,1.0);
+      float t = smoothstep(-6.0, -6.0 + dBsmooth.x, decibels);
+      col = mix(vec3(0.0), vec3(0.0,0.066,1.0),t);
+      //col = vec3(0.0,0.066,1.0);
     }	
     if(decibels > -3.0){
-      col = vec3(0.0, 0.3, 1.0);
+      float t = smoothstep(-3.0, -3.0 + dBsmooth.x, decibels);
+      col = mix(vec3(0.0,0.066,1.0), vec3(0.0, 0.3, 1.0),t);
+      //col = vec3(0.0, 0.3, 1.0);
     }	
     if(decibels > 0.0){
-      col = vec3(0.0, 1.0, 1.0);
+      float t = smoothstep(0.0, 0.0 + dBsmooth.x, decibels);
+      col = mix(vec3(0.0, 0.3, 1.0), vec3(0.0, 1.0, 1.0),t);
+      //col = vec3(0.0, 1.0, 1.0);
     }	
     if(decibels > 3.0){
-      col = vec3(0.0, 1.0, 0.5);
+      float t = smoothstep(3.0, 3.0 + dBsmooth.x, decibels);
+      col = mix(vec3(0.0, 1.0, 1.0), vec3(0.0, 1.0, 0.5),t);
+      //col = vec3(0.0, 1.0, 0.5);
     }	
     if(decibels > 6.0){
-      col = vec3(0.3, 1.0, 0.15);
+            float t = smoothstep(6.0, 6.0 + dBsmooth.x, decibels);
+      col = mix(vec3(0.0, 1.0, 0.5),  vec3(0.3, 1.0, 0.15),t);
+      //col = vec3(0.3, 1.0, 0.15);
     }	
     if(decibels > 9.0){
-      col = vec3(0.7, 0.9, 0.02);
+      float t = smoothstep(9.0, 9.0 + dBsmooth.x, decibels);
+      col = mix( vec3(0.3, 1.0, 0.15),vec3(0.7, 0.9, 0.02),t);
+      //col = vec3(0.7, 0.9, 0.02);
     }	
     if(decibels > 12.0){
-      col = vec3(1.0, 1.0, 0.0);
+            float t = smoothstep(12.0, 12.0 + dBsmooth.x, decibels);
+      col = mix(vec3(0.7, 0.9, 0.02), vec3(1.0, 1.0, 0.0),t);
+      //col = vec3(1.0, 1.0, 0.0);
     }	
     if(decibels > 15.0){
-      col = vec3(1.0, 0.5, 0.0);
+            float t = smoothstep(15.0, 15.0 + dBsmooth.x, decibels);
+      col = mix(vec3(1.0, 1.0, 0.0), vec3(1.0, 0.5, 0.0),t);
+      //col = vec3(1.0, 0.5, 0.0);
     }	
     if(decibels > 18.0){
-      col = vec3(0.93, 0.15, 0.0);
+                  float t = smoothstep(18.0, 18.0 + dBsmooth.x, decibels);
+      col = mix(vec3(1.0, 0.5, 0.0), vec3(0.93, 0.15, 0.0),t);
+      //col = vec3(0.93, 0.15, 0.0);
     }
     if(decibels > 21.0){
-      col = vec3(1.0, 0.0, 0.0);
+                  float t = smoothstep(21.0, 21.0 + dBsmooth.x, decibels);
+      col = mix(vec3(0.93, 0.15, 0.0), vec3(1.0, 0.0, 0.0),t);
+      //col = vec3(1.0, 0.0, 0.0);
     }	
 
 	gl_FragColor = vec4(col,1);    

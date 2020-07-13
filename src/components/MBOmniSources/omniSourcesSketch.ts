@@ -11,15 +11,17 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
   const omniSourcePositions: DraggablePoint[] = [];
   let numOfOmniSources: number = 2;
   let volume : number = 3;
+  let targetVolume : number = 3;
   let theShader;
   let frequency: number = 81.5 * 4;
+  let targetFrequency : number = 81.5 * 4;
 
   p.preload = () => {
     theShader = p.loadShader('./resources/basic.vert', './resources/omniSources.frag');
   };
 
   p.setup = () => {
-    p.createCanvas(1600, 800, p.WEBGL);
+    p.createCanvas(800, 800, p.WEBGL);
     p.pixelDensity(1);
 
     let a = p.createVector(p.width/2, p.height/2);
@@ -32,10 +34,14 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
     omniSourcePositions.push(new DraggablePoint(p.createVector(a.x, a.y)));
 
     p.updateProps = updateProps;
+    p.resize = resize;
   };
 
   p.draw = () => {
     p.clear();
+
+    frequency = p.lerp(frequency, targetFrequency, 0.07);
+    volume = p.lerp(volume, targetVolume, 0.1);
 
     p.shader(theShader);
     p.rect(0, 0, p.width, p.height);
@@ -64,8 +70,12 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
   };
 
   const updateProps = (props: OmniSourcesProps) => {
-    frequency = props.freq;
+    targetFrequency = props.freq;
     numOfOmniSources = props.numOfOmniSources;
-    volume = props.volume;
+    targetVolume = props.volume;
+  };
+
+  const resize = (width: number, height: number) => {
+    p.resizeCanvas(width, height);
   };
 }

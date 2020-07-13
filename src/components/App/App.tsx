@@ -19,8 +19,8 @@ export default class App extends Component {
   render() {
     return (
       <Router>
+        <Menu />
         <section>
-          <Menu />
           <Switch>
             {this.contents}
           </Switch>
