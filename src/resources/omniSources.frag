@@ -3,6 +3,8 @@ precision highp float;
   uniform vec2 res;
 
   uniform float locations[10];
+  uniform float visibility[5];
+  uniform bool visibleE;
   uniform float scale;
   uniform float volume;
   uniform float frequency;
@@ -22,22 +24,21 @@ precision highp float;
   uv = vec2(uv.x, 1.0 - uv.y);
   uv *= scale;	
 
-	float speed = 344.0;
+	float speed = 344.0; 
     
 	vec2 phis = vec2(0.0);
   vec2 k = vec2(2.0 * PI * frequency / speed, 0);  
   //A0 = -(R.^2)./(1+j*k*R).*exp(-j*k*R);
 
-    for(int i = 0; i < 5; i++){
-      vec2 pos = vec2(locations[i*2], locations[i*2 + 1]);
-        if(pos.x >= 0.0){
-          float dist =  distance(scale * pos / res.y, uv);
-          vec2 insideExp = cmul(cmul(-j, vec2(dist, 0)), k);
+    for(int i = 0; i < 5; i++){      
+      if(visibility[i] > 0.1){
+        vec2 pos = vec2(locations[i*2], locations[i*2 + 1]);        
+        float dist =  distance(scale * pos / res.y, uv);
+        vec2 insideExp = cmul(cmul(-j, vec2(dist, 0)), k);
           
-          vec2 phi = cdiv(cmul(vec2(volume,0.0), cexp(insideExp)),vec2(dist,0.0));
-          phis = phi + phis;
-        }
-      
+        vec2 phi = cdiv(cmul(vec2(volume,0.0), cexp(insideExp)),vec2(dist,0.0));
+        phis = phi + phis;
+      }      
     }
 	    
      float magP = sqrt(pow(phis.x,2.0) + pow(phis.y,2.0));   
