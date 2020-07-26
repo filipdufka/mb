@@ -31,7 +31,7 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
     //p.pixelDensity(1);
     wgl.pixelDensity(1);
 
-    let a = p.createVector(0);
+    let a = p.createVector(p.width / 2, p.height / 2);
     let o = 150;
 
     omniSourcePositions.push(new DraggablePoint(p.createVector(a.x-o, a.y)));
@@ -51,8 +51,7 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
     wgl.shader(theShader);
     wgl.rect(0, 0, p.width, p.height);
 
-    // overlay.stroke(120, 50, 255);
-    //overlay.translate(-p.width / 2, -p.height / 2);
+    // overlay.stroke(120, 50, 255);    
     for (let s = 0; s < omniSourcePositions.length; s++) {
       const element = omniSourcePositions[s];
       if (s < numOfOmniSources) {
@@ -62,7 +61,7 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
       }
     }
     const positions: number[] = [];
-    omniSourcePositions.map((os) => { positions.push(os.pos.x + p.width/2); positions.push(os.pos.y+ p.height/2); });
+    omniSourcePositions.map((os) => { positions.push(os.pos.x); positions.push(os.pos.y); });
     theShader.setUniform('locations', positions);
     theShader.setUniform('res', [p.width, p.height]);
     theShader.setUniform('scale', 30);
@@ -83,8 +82,15 @@ export default function omniSourceSketch (p: P5w<OmniSourcesProps>) {
   };
 
   const resize = (width: number, height: number) => {
+    const prevCenter = p.createVector(p.width / 2, p.height / 2);
     p.resizeCanvas(width, height);
     overlay.resizeCanvas(width, height);
     wgl.resizeCanvas(width, height);
+    const newCenter = p.createVector(p.width / 2, p.height / 2);
+
+    omniSourcePositions.forEach(element => {
+      const offset = p.createVector(element.pos.x - prevCenter.x, element.pos.y - prevCenter.y);
+      element.pos = p.createVector(newCenter.x + offset.x, newCenter.y + offset.y);
+    });
   };
 }
