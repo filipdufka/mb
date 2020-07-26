@@ -12,11 +12,11 @@ export const MBOmniSources: React.FC<{}> = (props: {}) => {
   const [freq, setFreq] = useState<number>(81.5 * 4);
   const [volume, setVolume] = useState<number>(3);
 
-  const onFreqChange = (newFreq : number) =>{
+  const onFreqChange = (newFreq: number) => {
     setFreq(newFreq);
   }
 
-  const onVolumeChange = (newVolume : number) =>{
+  const onVolumeChange = (newVolume: number) => {
     setVolume(getNormDBScale(newVolume));
   }
 
@@ -24,23 +24,23 @@ export const MBOmniSources: React.FC<{}> = (props: {}) => {
   return (
     <div className="inside">
       <div className="options">
-      <LogSlider label="Frekvence (Hz):" onValueChange={onFreqChange} defaultValue={freq} scaleOptions={defaultFreqScaleOptions}/>
+        <LogSlider label="Frekvence (Hz):" onValueChange={onFreqChange} defaultValue={freq} scaleOptions={defaultFreqScaleOptions} />
 
-      <VolumeSlider label="Hlasitost (dB):" onValueChange={onVolumeChange} defaultValue={volume}/>
-     
-      <label htmlFor="numSources">Počet zdrojů: </label>
-      <select
-        id="numSources"
-        className="numSources"
-        value={numOfOmniSources}
-        onChange={e => setNumOfOmniSources(+e.target.value)}>
-        {options.map(o => (
-          <option value={o} key={o}>{o}</option>
-        ))}
-      </select>
+        <VolumeSlider label="Hlasitost (dB):" onValueChange={onVolumeChange} defaultValue={volume} />
+
+        <label htmlFor="numSources">Počet zdrojů: </label>
+        <select
+          id="numSources"
+          className="numSources"
+          value={numOfOmniSources}
+          onChange={e => setNumOfOmniSources(+e.target.value)}>
+          {options.map(o => (
+            <option value={o} key={o}>{o}</option>
+          ))}
+        </select>
       </div>
-      <div className="pageContent">        
-        <P5Wrapper sketch={omniSourceSketch} sketchProps={{ freq, numOfOmniSources, volume }} /> 
+      <div className="pageContent">
+        <P5Wrapper sketch={omniSourceSketch} sketchProps={{ freq, numOfOmniSources, volume }} />
       </div>
     </div>
   );

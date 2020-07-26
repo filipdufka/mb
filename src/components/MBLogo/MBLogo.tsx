@@ -8,7 +8,9 @@ interface MBLogoProps {
 
 export const MBLogo: React.FC<MBLogoProps> = (props : MBLogoProps) => {
   return (
-      <P5Wrapper sketch={mblogoSketch} />
+    <div>
+      <P5Wrapper sketch={mblogoSketch} stretch={false}/>
+    </div>
   );
 };
 

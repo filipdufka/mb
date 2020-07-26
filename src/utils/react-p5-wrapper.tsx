@@ -5,6 +5,7 @@ import ReactResizeDetector from 'react-resize-detector';
 export interface P5WrapperProps {
   sketchProps?: object;
   sketch: (p: P5w<object>) => void;
+  stretch?: boolean;
 }
 
 export const P5Wrapper: React.FC<P5WrapperProps> = (props: P5WrapperProps) => {
@@ -53,6 +54,10 @@ export const P5Wrapper: React.FC<P5WrapperProps> = (props: P5WrapperProps) => {
 
   return <div className="react-p5-wrapper">
     <ReactResizeDetector handleWidth handleHeight onResize={resizeWrapper} skipOnMount={false} />
-    <div ref={wrapper} style={{ position: 'fixed' }}></div>
+    <div ref={wrapper} style={{ position: props.stretch ? 'fixed':'static' }}></div>
   </div>;
+};
+
+P5Wrapper.defaultProps = {
+  stretch: true
 };
